@@ -1,0 +1,10 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="com.thunkgames.michaelr.client" version="0.1.0">
+  <name>Michaelr Client</name>
+  <description>
+    Client for MichaelR&#39;s app.
+  </description>
+  <author email="david@thunkgames.com">
+    David Fine
+  </author>
+</widget>
