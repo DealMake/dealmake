@@ -1,1 +1,0 @@
-browserify src\app.js -o script.js
