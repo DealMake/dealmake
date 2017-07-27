@@ -5,13 +5,13 @@ module.exports = function () {
     // Properties are used for reference.
     this.properties = {
         TAB_NAME: "Notifications",
-        TAB_ICON: "resources/images/tab-notifications.png",
-        TAB_ICON_SELECTED: "resources/images/tab-notifications.png",
+        TAB_ICON: _i("resources/images/tab-notifications.png"),
+        TAB_ICON_SELECTED: _i("resources/images/tab-notifications.png"),
         TOOLBAR_SHOW: true,
         TABFOLDER_SHOW: true,
         TABFOLDER_INCLUDE: true,
         TAB_ID: "notifications",
-        HOME_ICON: "resources/images/act-home.png"
+        HOME_ICON: _i("resources/images/act-home.png")
     };
 
     // The tab itself.
@@ -95,7 +95,7 @@ module.exports = function () {
     this.unload = function () {
 
         // Unload the top page.
-        this.navigationView.pages()[this.navigationView.pages().length - 1].data.myPage.load();
+        this.navigationView.pages()[this.navigationView.pages().length - 1].data.myPage.unload();
     };
 
     // Called when the navigationview returns home.

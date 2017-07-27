@@ -13,7 +13,9 @@ module.exports = function () {
         TEXT_COLOR: "#000000",
         SETTINGS_HR_HEIGHT: 1,
         SETTINGS_HR_COLOR: "#C0C0C0",
-        SETTINGS_CELL_BACKGROUND: "#FFFFFF"
+        SETTINGS_CELL_BACKGROUND: "#FFFFFF",
+        DISABLED_CELL_BACKGROUND: "#E0E0E0",
+        DISABLED_CELL_OPACITY: 0.5
     };
 
     // The page itself.
@@ -36,7 +38,7 @@ module.exports = function () {
 
         // Setup a data object.
         this.page.data = {};
-        
+
         // Set up a reference to this.
         this.page.data.myPage = this;
 
@@ -47,7 +49,7 @@ module.exports = function () {
             left: 0,
             right: 0,
             refreshEnabled: false,
-            itemCount: 5 + 1,
+            itemCount: 10 + 1,
             createCell: function () {
 
                 // Create the cell composite.
@@ -106,26 +108,60 @@ module.exports = function () {
                         height: that.properties.SETTINGS_HR_HEIGHT
                     });
                 } else {
-                    var str;
-                    var isContent;
+                    var str, isContent, action;
+                    var disabled = false;
                     switch (index - 1) {
                         case 0:
-                            str = "Setting This";
+                            str = "Manage Account";
                             isContent = true;
                             break;
                         case 1:
-                            str = "Setting That";
+                            str = "Ventures";
                             isContent = true;
+                            if (that.tab.app.isVC) {
+                                disabled = true;
+                            }
+                            action = function () {
+                                // Open the venture management UI.
+                                var page = new that.tab.app.PageVentures();
+                                page.initiateUI(that.tab);
+                                that.tab.navigationView.append(page.page);
+                            };
                             break;
                         case 2:
                             isContent = false;
                             break;
                         case 3:
-                            str = "Setting #1";
+                            str = "About";
                             isContent = true;
                             break;
                         case 4:
-                            str = "Setting #2";
+                            str = "Terms of Service";
+                            isContent = true;
+                            action = function () {
+                                // Open the terms of service page.
+                                var page = new that.tab.app.PageToS();
+                                page.initiateUI(that.tab);
+                                that.tab.navigationView.append(page.page);
+                            };
+                            break;
+                        case 5:
+                            str = "Credits";
+                            isContent = true;
+                            break;
+                        case 6:
+                            isContent = false;
+                            break;
+                        case 7:
+                            str = "Browse";
+                            isContent = true;
+                            break;
+                        case 8:
+                            str = "Messages";
+                            isContent = true;
+                            break;
+                        case 9:
+                            str = "Notifications";
                             isContent = true;
                             break;
                     }
@@ -133,7 +169,17 @@ module.exports = function () {
                         cell.find("#main").find("#text").set({
                             text: str
                         });
+
+                        cell.on("tap", action);
                     }
+                    /*
+                    if (disabled) {
+                        cell.find("#main").set({
+                            background: that.properties.DISABLED_CELL_BACKGROUND,
+                            opacity: that.properties.DISABLED_CELL_OPACITY
+                        });
+                    }
+                    */
                 }
             }
         });
@@ -149,14 +195,10 @@ module.exports = function () {
     this.unload = function () {
 
     };
-    
+
     // Called when the page is gone home to.
     this.homeState = function () {
-        
-        // Re-add everything.
-        var cnt = this.page.data.collectionView.columnCount;
-        this.page.data.collectionView.remove(0, cnt);
-        this.page.data.collectionView.insert(0, cnt);
-    }
+        // Nothing for now.
+    };
 
 };
