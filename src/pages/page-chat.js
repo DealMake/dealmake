@@ -198,39 +198,25 @@ module.exports = function () {
         // If the target has been defined and more content is not being loaded.
         if (this.page.data.target && this.page.data.venture && !this.page.data.loadingMessages) {
 
-            var xhr = new XMLHttpRequest();
-            xhr.withCredentials = true;
-            xhr.addEventListener("readystatechange", function () {
-                if (this.readyState === 4) {
-                    var resData = JSON.parse(this.responseText);
-                    if (this.status == 200) {
-                        if (resData.length > 0) {
+            this.tab.app.apiCall("users/" + this.tab.app.user + "/messages/" + this.page.data.target + "/" + this.page.data.venture + "/poll?token=" + this.tab.app.token + "&last=" + this.page.data.lastMessageId, "GET").then(function (resData, status) {
+                if (status == 200) {
+                    if (resData.length > 0) {
 
-                            // Reverse array contents.
-                            resData.reverse();
+                        // Reverse array contents.
+                        resData.reverse();
 
-                            // Update the last message id and add the content to the collection.
-                            if (!that.page.data.firstMessageId) {
-                                that.page.data.firstMessageId = resData[0].id;
-                            }
-                            that.page.data.lastMessageId = resData[resData.length - 1].id;
-                            that.addContentToCollection(resData, 1);
-
+                        // Update the last message id and add the content to the collection.
+                        if (!that.page.data.firstMessageId) {
+                            that.page.data.firstMessageId = resData[0].id;
                         }
+                        that.page.data.lastMessageId = resData[resData.length - 1].id;
+                        that.addContentToCollection(resData, 1);
+
                     }
                 }
             });
-            xhr.open("GET", "http://deal-make.com/api/v1/users/" + this.tab.app.user + "/messages/" + this.page.data.target + "/" + this.page.data.venture + "/poll?token=" + this.tab.app.token + "&last=" + this.page.data.lastMessageId);
-            xhr.setRequestHeader("content-type", "application/json");
-            xhr.setRequestHeader("cache-control", "no-cache");
-            xhr.send();
 
-            var xhrRead = new XMLHttpRequest();
-            xhrRead.withCredentials = true;
-            xhrRead.open("POST", "http://deal-make.com/api/v1/users/" + this.tab.app.user + "/messages/" + this.page.data.target + "/" + this.page.data.venture + "/readall?token=" + this.tab.app.token);
-            xhrRead.setRequestHeader("content-type", "application/json");
-            xhrRead.setRequestHeader("cache-control", "no-cache");
-            xhrRead.send();
+            this.tab.app.apiCall("users/" + this.tab.app.user + "/messages/" + this.page.data.target + "/" + this.page.data.venture + "/readall?token=" + this.tab.app.token, "POST");
         }
     };
 
@@ -253,55 +239,41 @@ module.exports = function () {
         this.page.data.scrollView.append(this.page.data.loadMoreAA);
 
         // Perform the XHR
-        var xhr = new XMLHttpRequest();
-        xhr.withCredentials = true;
-        xhr.addEventListener("readystatechange", function () {
-            if (this.readyState === 4) {
-                var resData = JSON.parse(this.responseText);
+        this.tab.app.apiCall("users/" + this.tab.app.user + "/messages/" + this.page.data.target + "/" + this.page.data.venture + "/contents?token=" + this.tab.app.token + "&offset=" + (this.page.firstMessageId != null ? this.page.firstMessageId : -1) + "&count=" + this.properties.LOAD_SIZE, "GET").then(function (resData, status) {
+            if (status == 200) {
+                if (resData.length > 0) {
+                    // Reverse array contents.
+                    resData.reverse();
 
-                if (this.status == 200) {
-                    if (resData.length > 0) {
-                        // Reverse array contents.
-                        resData.reverse();
+                    // Update the first and last message ids.
+                    that.page.data.firstMessageId = resData[0].id;
+                    that.page.data.lastMessageId = Math.max(that.page.data.lastMessageId, resData[resData.length - 1].id);
+                    that.addContentToCollection(resData, -1);
 
-                        // Update the first and last message ids.
-                        that.page.data.firstMessageId = resData[0].id;
-                        that.page.data.lastMessageId = Math.max(that.page.data.lastMessageId, resData[resData.length - 1].id);
-                        that.addContentToCollection(resData, -1);
+                    // No longer loading messages.
+                    that.page.data.loadingMessages = false;
+                }
 
-                        // No longer loading messages.
-                        that.page.data.loadingMessages = false;
-                    }
+                // Get rid of the load more aa.
+                that.page.data.loadMoreAA.dispose();
 
-                    // Get rid of the load more aa.
-                    that.page.data.loadMoreAA.dispose();
-
-                    if (resData.length >= that.properties.LOAD_SIZE) {
-                        // Replace it with a load more button.
-                        that.page.data.loadMoreButton = new tabris.Button({
-                            top: that.properties.MESSAGE_PADDING_VERTICAL / 2,
-                            centerX: 0
-                        });
-                        that.page.data.loadMoreButton.set({
-                            id: "loadMore",
-                            text: "Load More"
-                        });
-                        that.page.data.scrollView.append(that.page.data.loadMoreButton);
-                    }
+                if (resData.length >= that.properties.LOAD_SIZE) {
+                    // Replace it with a load more button.
+                    that.page.data.loadMoreButton = new tabris.Button({
+                        top: that.properties.MESSAGE_PADDING_VERTICAL / 2,
+                        centerX: 0
+                    });
+                    that.page.data.loadMoreButton.set({
+                        id: "loadMore",
+                        text: "Load More"
+                    });
+                    that.page.data.scrollView.append(that.page.data.loadMoreButton);
                 }
             }
         });
-        xhr.open("GET", "http://deal-make.com/api/v1/users/" + this.tab.app.user + "/messages/" + this.page.data.target + "/" + this.page.data.venture + "/contents?token=" + this.tab.app.token + "&offset=" + (this.page.firstMessageId != null ? this.page.firstMessageId : -1) + "&count=" + this.properties.LOAD_SIZE);
-        xhr.setRequestHeader("content-type", "application/json");
-        xhr.setRequestHeader("cache-control", "no-cache");
-        xhr.send();
 
-        var xhrRead = new XMLHttpRequest();
-        xhrRead.withCredentials = true;
-        xhrRead.open("POST", "http://deal-make.com/api/v1/users/" + this.tab.app.user + "/messages/" + this.page.data.target + "/" + this.page.data.venture + "/readall?token=" + this.tab.app.token);
-        xhrRead.setRequestHeader("content-type", "application/json");
-        xhrRead.setRequestHeader("cache-control", "no-cache");
-        xhrRead.send();
+        // All the messages have been read.
+        this.tab.app.apiCall("users/" + this.tab.app.user + "/messages/" + this.page.data.target + "/" + this.page.data.venture + "/readall?token=" + this.tab.app.token, "POST");
     };
 
     this.setChatName = function (name) {
@@ -729,7 +701,7 @@ module.exports = function () {
     this.getRichInfoFromURL = function (url, fn) {
 
         if (!(url.endsWith(".png") || url.endsWith(".gif") || url.endsWith(".jpeg") || url.endsWith(".jpg") || url.endsWith(".svg"))) {
-            fetch("http://opengraph.io/api/1.0/site/" + encodeURIComponent(url) + "?app_id=" + this.properties.OPENGRAPH_API_KEY).then(function (response) {
+            fetch("https://opengraph.io/api/1.0/site/" + encodeURIComponent(url) + "?app_id=" + this.properties.OPENGRAPH_API_KEY).then(function (response) {
                 return response.json();
             }).then(function (json) {
                 return {
@@ -795,18 +767,13 @@ module.exports = function () {
 
     this.sendContent = function () {
         if (this.page.data.textBox.text != "") {
-            var xhr = new XMLHttpRequest();
-            xhr.withCredentials = true;
-            xhr.open("POST", "http://deal-make.com/api/v1/users/" + this.tab.app.user + "/messages/" + this.page.data.target + "/" + this.page.data.venture + "?token=" + this.tab.app.token);
-            xhr.setRequestHeader("content-type", "application/json");
-            xhr.setRequestHeader("cache-control", "no-cache");
-            xhr.send(JSON.stringify({
+            
+            // If the text box is not empty, send the message.
+            this.tab.app.apiCall("users/" + this.tab.app.user + "/messages/" + this.page.data.target + "/" + this.page.data.venture + "?token=" + this.tab.app.token, "POST", {
                 str: this.page.data.textBox.text
-            }));
-
+            });
             this.page.data.textBox.text = "";
             this.page.data.textBox.focused = false;
-
             this.pollMessages();
         }
     };

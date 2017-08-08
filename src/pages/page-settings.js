@@ -129,13 +129,26 @@ module.exports = function () {
                             };
                             break;
                         case 2:
-                            isContent = false;
+                            str = "VC Settings";
+                            isContent = true;
+                            if (!that.tab.app.isVC) {
+                                disabled = true;
+                            }
+                            action = function () {
+                                // Open the vc management UI.
+                                var page = new that.tab.app.PageVC();
+                                page.initiateUI(that.tab);
+                                that.tab.navigationView.append(page.page);
+                            };
                             break;
                         case 3:
+                            isContent = false;
+                            break;
+                        case 4:
                             str = "About";
                             isContent = true;
                             break;
-                        case 4:
+                        case 5:
                             str = "Terms of Service";
                             isContent = true;
                             action = function () {
@@ -145,22 +158,22 @@ module.exports = function () {
                                 that.tab.navigationView.append(page.page);
                             };
                             break;
-                        case 5:
+                        case 6:
                             str = "Credits";
                             isContent = true;
                             break;
-                        case 6:
+                        case 7:
                             isContent = false;
                             break;
-                        case 7:
+                        case 8:
                             str = "Browse";
                             isContent = true;
                             break;
-                        case 8:
+                        case 9:
                             str = "Messages";
                             isContent = true;
                             break;
-                        case 9:
+                        case 10:
                             str = "Notifications";
                             isContent = true;
                             break;

@@ -77,199 +77,186 @@ module.exports = function () {
         this.page.data.notifications = [];
 
         // Load the notifications.
-        var xhr = new XMLHttpRequest();
-        xhr.withCredentials = true;
-        xhr.addEventListener("readystatechange", function () {
-            if (this.readyState === 4) {
-                var resData = JSON.parse(this.responseText);
-                if (this.status == 200) {
+        this.tab.app.apiCall("users/" + this.tab.app.user + "/notifications?token=" + this.tab.app.token, "GET").then(function (resData, status) {
+            if (status == 200) {
 
-                    // Dispose of the activity indicator.
-                    that.page.data.activityIndicator.dispose();
+                // Dispose of the activity indicator.
+                that.page.data.activityIndicator.dispose();
 
-                    that.page.data.notifications = resData;
+                that.page.data.notifications = resData;
 
-                    // Create a new collection view and append it.
-                    that.page.data.collectionView = new tabris.CollectionView({
-                        top: 0,
-                        bottom: 0,
-                        left: 0,
-                        right: 0,
-                        refreshEnabled: true,
-                        itemCount: that.page.data.notifications.length + 1,
-                        createCell: function () {
+                // Create a new collection view and append it.
+                that.page.data.collectionView = new tabris.CollectionView({
+                    top: 0,
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                    refreshEnabled: true,
+                    itemCount: that.page.data.notifications.length + 1,
+                    createCell: function () {
 
-                            // Create the cell composite.
-                            var cell = new tabris.Composite({
-                                left: 0,
-                                right: 0
-                            });
+                        // Create the cell composite.
+                        var cell = new tabris.Composite({
+                            left: 0,
+                            right: 0
+                        });
 
-                            // Create the main composite.
-                            var main = new tabris.Composite({
-                                left: 0,
-                                right: 0,
-                                top: 0
-                            });
-                            main.set({
-                                id: "main"
-                            });
-                            main.appendTo(cell);
+                        // Create the main composite.
+                        var main = new tabris.Composite({
+                            left: 0,
+                            right: 0,
+                            top: 0
+                        });
+                        main.set({
+                            id: "main"
+                        });
+                        main.appendTo(cell);
 
-                            // Create the notIcon image.
-                            var notIcon = new tabris.ImageView({
-                                centerY: 0,
-                                left: that.properties.HORIZONTAL_CELL_PADDING,
-                                width: that.properties.IMAGE_SIZE,
-                                height: that.properties.IMAGE_SIZE
-                            });
-                            notIcon.set({
-                                id: "notIcon"
-                            });
-                            notIcon.appendTo(main);
+                        // Create the notIcon image.
+                        var notIcon = new tabris.ImageView({
+                            centerY: 0,
+                            left: that.properties.HORIZONTAL_CELL_PADDING,
+                            width: that.properties.IMAGE_SIZE,
+                            height: that.properties.IMAGE_SIZE
+                        });
+                        notIcon.set({
+                            id: "notIcon"
+                        });
+                        notIcon.appendTo(main);
 
-                            // Create the display name.
-                            var title = new tabris.TextView({
-                                top: that.properties.VERTICAL_CELL_PADDING,
-                                left: that.properties.HORIZONTAL_CELL_PADDING + that.properties.IMAGE_SIZE + that.properties.MIDDLE_TEXT_PADDING,
-                                right: that.properties.HORIZONTAL_CELL_PADDING,
-                                height: that.properties.NAME_TEXT_HEIGHT
-                            });
-                            title.set({
-                                id: "title",
-                                maxLines: 1,
-                                textColor: that.properties.TITLE_COLOR,
-                                font: Math.floor(that.properties.TITLE_HEIGHT / 1.2) + "px"
-                            });
-                            title.appendTo(main);
+                        // Create the display name.
+                        var title = new tabris.TextView({
+                            top: that.properties.VERTICAL_CELL_PADDING,
+                            left: that.properties.HORIZONTAL_CELL_PADDING + that.properties.IMAGE_SIZE + that.properties.MIDDLE_TEXT_PADDING,
+                            right: that.properties.HORIZONTAL_CELL_PADDING,
+                            height: that.properties.NAME_TEXT_HEIGHT
+                        });
+                        title.set({
+                            id: "title",
+                            maxLines: 1,
+                            textColor: that.properties.TITLE_COLOR,
+                            font: Math.floor(that.properties.TITLE_HEIGHT / 1.2) + "px"
+                        });
+                        title.appendTo(main);
 
-                            // Create the last message.
-                            var tag = new tabris.TextView({
-                                top: that.properties.VERTICAL_CELL_PADDING + that.properties.TITLE_HEIGHT + that.properties.MIDDLE_TEXT_PADDING,
-                                left: that.properties.HORIZONTAL_CELL_PADDING + that.properties.IMAGE_SIZE + that.properties.MIDDLE_TEXT_PADDING,
-                                right: that.properties.HORIZONTAL_CELL_PADDING
-                            });
-                            tag.set({
-                                id: "tag",
-                                textColor: that.properties.TAG_COLOR,
-                                font: that.properties.TAG_SIZE + "px"
-                            });
-                            tag.appendTo(main);
+                        // Create the last message.
+                        var tag = new tabris.TextView({
+                            top: that.properties.VERTICAL_CELL_PADDING + that.properties.TITLE_HEIGHT + that.properties.MIDDLE_TEXT_PADDING,
+                            left: that.properties.HORIZONTAL_CELL_PADDING + that.properties.IMAGE_SIZE + that.properties.MIDDLE_TEXT_PADDING,
+                            right: that.properties.HORIZONTAL_CELL_PADDING
+                        });
+                        tag.set({
+                            id: "tag",
+                            textColor: that.properties.TAG_COLOR,
+                            font: that.properties.TAG_SIZE + "px"
+                        });
+                        tag.appendTo(main);
 
-                            // Create the last message time.
-                            var time = new tabris.TextView({
-                                left: that.properties.HORIZONTAL_CELL_PADDING + that.properties.IMAGE_SIZE + that.properties.MIDDLE_TEXT_PADDING,
-                                right: that.properties.HORIZONTAL_CELL_PADDING,
-                                height: that.properties.TIME_HEIGHT,
-                                top: ["#tag", that.properties.MIDDLE_TEXT_PADDING]
-                            });
-                            time.set({
-                                id: "time",
-                                maxLines: 1,
-                                textColor: that.properties.TIME_COLOR,
-                                font: Math.floor(that.properties.TIME_HEIGHT / 1.2) + "px"
-                            });
-                            time.appendTo(main);
+                        // Create the last message time.
+                        var time = new tabris.TextView({
+                            left: that.properties.HORIZONTAL_CELL_PADDING + that.properties.IMAGE_SIZE + that.properties.MIDDLE_TEXT_PADDING,
+                            right: that.properties.HORIZONTAL_CELL_PADDING,
+                            height: that.properties.TIME_HEIGHT,
+                            top: ["#tag", that.properties.MIDDLE_TEXT_PADDING]
+                        });
+                        time.set({
+                            id: "time",
+                            maxLines: 1,
+                            textColor: that.properties.TIME_COLOR,
+                            font: Math.floor(that.properties.TIME_HEIGHT / 1.2) + "px"
+                        });
+                        time.appendTo(main);
 
-                            // Create some space
-                            main.append(new tabris.Composite({
-                                top: ["#time", 0],
-                                height: that.properties.VERTICAL_CELL_PADDING
-                            }));
+                        // Create some space
+                        main.append(new tabris.Composite({
+                            top: ["#time", 0],
+                            height: that.properties.VERTICAL_CELL_PADDING
+                        }));
 
-                            // Create the horizontal rule.
-                            var hrBottom = new tabris.Composite({
-                                height: that.properties.NOTIFICATIONS_HR_HEIGHT,
-                                left: 0,
-                                right: 0,
-                                bottom: 0
-                            });
-                            hrBottom.set({
-                                background: that.properties.NOTIFICATIONS_HR_COLOR
-                            });
-                            hrBottom.appendTo(cell);
+                        // Create the horizontal rule.
+                        var hrBottom = new tabris.Composite({
+                            height: that.properties.NOTIFICATIONS_HR_HEIGHT,
+                            left: 0,
+                            right: 0,
+                            bottom: 0
+                        });
+                        hrBottom.set({
+                            background: that.properties.NOTIFICATIONS_HR_COLOR
+                        });
+                        hrBottom.appendTo(cell);
 
-                            return cell;
-                        },
-                        updateCell: function (cell, index) {
-                            if (index <= 0) {
-                                cell.find("#main").dispose();
-                                cell.set({
-                                    height: that.properties.NOTIFICATIONS_HR_HEIGHT
-                                });
-                            } else {
+                        return cell;
+                    },
+                    updateCell: function (cell, index) {
+                        if (index <= 0) {
+                            cell.find("#main").dispose();
+                            cell.set({
+                                height: that.properties.NOTIFICATIONS_HR_HEIGHT
+                            });
+                        } else {
+                            cell.find("#main").find("#notIcon").set({
+                                image: that.page.data.notifications[index - 1].icon
+                            });
+                            if (that.page.data.notifications[index - 1].roundIcon) {
                                 cell.find("#main").find("#notIcon").set({
-                                    image: that.page.data.notifications[index - 1].icon
-                                });
-                                if (that.page.data.notifications[index - 1].roundIcon) {
-                                    cell.find("#main").find("#notIcon").set({
-                                        cornerRadius: that.properties.IMAGE_SIZE / 2
-                                    });
-                                }
-                                cell.find("#main").find("#title").set({
-                                    text: that.page.data.notifications[index - 1].name
-                                });
-                                cell.find("#main").find("#tag").set({
-                                    text: that.page.data.notifications[index - 1].info
-                                });
-                                cell.find("#main").find("#time").set({
-                                    text: that.timeAgo(that.page.data.notifications[index - 1].time)
-                                });
-                                if (that.page.data.notifications[index - 1].viewed) {
-                                    cell.find("#main").set({
-                                        background: that.properties.VIEWED_BACKGROUND
-                                    });
-                                    cell.find("#main").find("#notIcon").set({
-                                        opacity: that.properties.VIEWED_OPACITY
-                                    });
-                                    cell.find("#main").find("#title").set({
-                                        opacity: that.properties.VIEWED_OPACITY
-                                    });
-                                    cell.find("#main").find("#tag").set({
-                                        opacity: that.properties.VIEWED_OPACITY
-                                    });
-                                    cell.find("#main").find("#time").set({
-                                        opacity: that.properties.VIEWED_OPACITY
-                                    });
-                                } else {
-                                    cell.find("#main").set({
-                                        background: that.properties.UNVIEWED_BACKGROUND
-                                    });
-                                }
-
-                                cell.find("#main").on("tap", function () {
-                                    if (that.page.data.notifications[index - 1].action.type >= 0) {
-                                        that.properties.ACTION_INDEX[that.page.data.notifications[index - 1].action.type](that.page.data.notifications[index - 1].action.options);
-                                    }
+                                    cornerRadius: that.properties.IMAGE_SIZE / 2
                                 });
                             }
+                            cell.find("#main").find("#title").set({
+                                text: that.page.data.notifications[index - 1].name
+                            });
+                            cell.find("#main").find("#tag").set({
+                                text: that.page.data.notifications[index - 1].info
+                            });
+                            cell.find("#main").find("#time").set({
+                                text: that.timeAgo(that.page.data.notifications[index - 1].time)
+                            });
+                            if (that.page.data.notifications[index - 1].viewed) {
+                                cell.find("#main").set({
+                                    background: that.properties.VIEWED_BACKGROUND
+                                });
+                                cell.find("#main").find("#notIcon").set({
+                                    opacity: that.properties.VIEWED_OPACITY
+                                });
+                                cell.find("#main").find("#title").set({
+                                    opacity: that.properties.VIEWED_OPACITY
+                                });
+                                cell.find("#main").find("#tag").set({
+                                    opacity: that.properties.VIEWED_OPACITY
+                                });
+                                cell.find("#main").find("#time").set({
+                                    opacity: that.properties.VIEWED_OPACITY
+                                });
+                            } else {
+                                cell.find("#main").set({
+                                    background: that.properties.UNVIEWED_BACKGROUND
+                                });
+                            }
+
+                            cell.find("#main").on("tap", function () {
+                                if (that.page.data.notifications[index - 1].action.type >= 0) {
+                                    that.properties.ACTION_INDEX[that.page.data.notifications[index - 1].action.type](that.page.data.notifications[index - 1].action.options);
+                                }
+                            });
                         }
-                    });
+                    }
+                });
 
-                    // On refresh.
-                    that.page.data.collectionView.on("refresh", function () {
-                        that.poll();
-                    });
+                // On refresh.
+                that.page.data.collectionView.on("refresh", function () {
+                    that.poll();
+                });
 
-                    that.page.data.collectionView.appendTo(that.page);
+                that.page.data.collectionView.appendTo(that.page);
 
-                    that.page.data.notifications = resData;
-                    that.page.data.notificationsLoaded = true;
-                    that.page.data.lastNotificationId = resData[0].id;
+                that.page.data.notifications = resData;
+                that.page.data.notificationsLoaded = true;
+                that.page.data.lastNotificationId = resData[0].id;
 
-                    var xhrRead = new XMLHttpRequest();
-                    xhrRead.withCredentials = true;
-                    xhrRead.open("POST", "http://deal-make.com/api/v1/users/" + that.tab.app.user + "/notifications/readall?token=" + that.tab.app.token);
-                    xhrRead.setRequestHeader("content-type", "application/json");
-                    xhrRead.setRequestHeader("cache-control", "no-cache");
-                    xhrRead.send();
-                }
+                // Read all notifications.
+                that.tab.app.apiCall("users/" + that.tab.app.user + "/notifications/readall?token=" + that.tab.app.token, "POST");
             }
         });
-        xhr.open("GET", "http://deal-make.com/api/v1/users/" + this.tab.app.user + "/notifications?token=" + this.tab.app.token);
-        xhr.setRequestHeader("content-type", "application/json");
-        xhr.setRequestHeader("cache-control", "no-cache");
-        xhr.send();
 
         // Poll for new notifications.
         this.page.data.pollInterval = setInterval(function () {
@@ -326,32 +313,18 @@ module.exports = function () {
         var that = this;
 
         if (this.page.data.notificationsLoaded) {
-            var xhr = new XMLHttpRequest();
-            xhr.withCredentials = true;
-            xhr.addEventListener("readystatechange", function () {
-                if (this.readyState === 4) {
-                    var resData = JSON.parse(this.responseText);
-                    if (this.status == 200) {
-                        if (resData.length > 0) {
-                            that.page.data.lastNotificationId = resData[0].id;
-                            that.page.data.notifications.unshift(resData);
-                            that.page.data.collectionView.load(that.page.data.notifications.length);
+            this.tab.app.apiCall("users/" + that.tab.app.user + "/notifications/poll?token=" + that.tab.app.token + "&last=" + that.page.data.lastNotificationId, "GET").then(function (resData, status) {
+                if (status == 200) {
+                    if (resData.length > 0) {
+                        that.page.data.lastNotificationId = resData[0].id;
+                        that.page.data.notifications.unshift(resData);
+                        that.page.data.collectionView.load(that.page.data.notifications.length);
 
-                            var xhrRead = new XMLHttpRequest();
-                            xhrRead.withCredentials = true;
-                            xhrRead.open("POST", "http://deal-make.com/api/v1/users/" + that.tab.app.user + "/notifications/readall?token=" + that.tab.app.token);
-                            xhrRead.setRequestHeader("content-type", "application/json");
-                            xhrRead.setRequestHeader("cache-control", "no-cache");
-                            xhrRead.send();
-                        }
-                        that.page.data.collectionView.refreshIndicator = false;
+                        that.tab.app.apiCall("users/" + that.tab.app.user + "/notifications/readall?token=" + that.tab.app.token, "POST");
                     }
+                    that.page.data.collectionView.refreshIndicator = false;
                 }
             });
-            xhr.open("GET", "http://deal-make.com/api/v1/users/" + that.tab.app.user + "/notifications/poll?token=" + that.tab.app.token + "&last=" + that.page.data.lastNotificationId);
-            xhr.setRequestHeader("content-type", "application/json");
-            xhr.setRequestHeader("cache-control", "no-cache");
-            xhr.send();
         }
     }
 

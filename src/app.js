@@ -7,6 +7,9 @@ var App = function () {
     var that = this;
 
     this.init = function () {
+        // The acount has not been entered.
+        this.appEntered = false;
+
         // Account stuff composite;
         this.accountComposite = new tabris.Composite({
             top: 0,
@@ -23,7 +26,7 @@ var App = function () {
             bottom: 0
         });
         this.accountComposite.data.accountBackground.set({
-            image: _i("resources/images/bac-business.png"),
+            image: _i("resources/images/bac-account.png"),
             scaleMode: "fill"
         });
         this.accountComposite.data.accountBackground.appendTo(this.accountComposite);
@@ -66,12 +69,11 @@ var App = function () {
         // Add the logo.
         this.accountComposite.data.logoIV = new tabris.ImageView({
             centerX: 0,
-            centerY: -200,
-            width: 102,
-            height: 102
+            centerY: -180,
+            height: 160
         });
         this.accountComposite.data.logoIV.set({
-            image: _i("resources/images/log-dealmake.png")
+            image: _i("resources/images/log-dealmakefull.png")
         });
         this.accountComposite.data.logoIV.appendTo(this.accountComposite.data.accountForm);
 
@@ -112,24 +114,43 @@ var App = function () {
         this.accountComposite.data.signInB.set({
             text: "Sign In"
         });
+
+        // Handle presses of the sign in button.
         this.accountComposite.data.signInB.on("select", function () {
             if (!that.accountComposite.data.isSomethingAnimating && !that.accountComposite.data.isSomethingLoading && that.accountComposite.data.passwordTI.text != "" && that.accountComposite.data.loginWithTI.get.text != "") {
 
-                //Send in the login.
+                // Something is loading.
                 that.accountComposite.data.isSomethingLoading = true;
-                var xhr = new XMLHttpRequest();
-                xhr.withCredentials = true;
-                xhr.addEventListener("readystatechange", function () {
-                    if (this.readyState === 4) {
-                        var resData = JSON.parse(this.responseText);
-                        if (this.status == 200) {
-                            that.token = resData.token;
-                            that.user = resData.user;
-                            that.isVC = resData.isVC;
-                            if (!resData.emailVerified || !resData.phoneVerified) {
-                                that.accountComposite.data.isSomethingAnimating = true;
+
+                // Send the login.
+                that.apiCall("login", "POST", {
+                    loginWith: that.accountComposite.data.loginWithTI.get("text"),
+                    password: that.accountComposite.data.passwordTI.get("text")
+                }).then(function (resData, status) {
+                    if (status == 200) {
+
+                        // If the login was successful, set the token, user, and VC.
+                        that.token = resData.token;
+                        that.user = resData.user;
+                        that.isVC = resData.isVC;
+
+                        if (!resData.emailVerified || !resData.phoneVerified) {
+
+                            // If the user has not been verified, fade to that page.
+                            that.accountComposite.data.isSomethingAnimating = true;
+                            that.accountComposite.data.accountForm.animate({
+                                opacity: 0
+                            }, {
+                                delay: 0,
+                                duration: 500,
+                                easing: "linear",
+                                repeat: 0,
+                                reverse: false
+                            }).then(function () {
+                                that.buildVerification();
+
                                 that.accountComposite.data.accountForm.animate({
-                                    opacity: 0
+                                    opacity: 1
                                 }, {
                                     delay: 0,
                                     duration: 500,
@@ -137,39 +158,22 @@ var App = function () {
                                     repeat: 0,
                                     reverse: false
                                 }).then(function () {
-                                    that.buildVerification();
-
-                                    that.accountComposite.data.accountForm.animate({
-                                        opacity: 1
-                                    }, {
-                                        delay: 0,
-                                        duration: 500,
-                                        easing: "linear",
-                                        repeat: 0,
-                                        reverse: false
-                                    }).then(function () {
-                                        that.accountComposite.data.isSomethingAnimating = false;
-                                    });
+                                    that.accountComposite.data.isSomethingAnimating = false;
                                 });
-                            } else {
-                                that.enterApp();
-                            }
-                        } else {
-                            that.accountComposite.data.statusTV.set({
-                                text: "Error: '" + resData.message + "'",
-                                textColor: "#FF0000"
                             });
+                        } else {
+
+                            // If the user has been verified, enter the app.
+                            that.enterApp();
                         }
-                        that.accountComposite.data.isSomethingLoading = false;
+                    } else {
+                        that.accountComposite.data.statusTV.set({
+                            text: "Error: '" + resData.message + "'",
+                            textColor: "#FF0000"
+                        });
                     }
+                    that.accountComposite.data.isSomethingLoading = false;
                 });
-                xhr.open("POST", "http://deal-make.com/api/v1/login");
-                xhr.setRequestHeader("content-type", "application/json");
-                xhr.setRequestHeader("cache-control", "no-cache");
-                xhr.send(JSON.stringify({
-                    loginWith: that.accountComposite.data.loginWithTI.get("text"),
-                    password: that.accountComposite.data.passwordTI.get("text")
-                }));
 
                 that.accountComposite.data.statusTV.set({
                     text: "Signing in...",
@@ -350,54 +354,9 @@ var App = function () {
                     if (!that.accountComposite.data.isSomethingAnimating && !that.accountComposite.data.isSomethingLoading && that.accountComposite.data.emailTI.text != "" && that.accountComposite.data.phoneTI.text != "" && that.accountComposite.data.nameTI.text != "") {
                         if (that.accountComposite.data.eTB.checked) {
 
-                            //Send in the account details.
+                            // Send in the account details.
                             that.accountComposite.data.isSomethingLoading = true;
-                            var xhr = new XMLHttpRequest();
-                            xhr.withCredentials = true;
-                            xhr.addEventListener("readystatechange", function () {
-                                if (this.readyState === 4) {
-                                    var resData = JSON.parse(this.responseText);
-                                    if (this.status == 200) {
-                                        that.token = resData.login.json.token;
-                                        that.user = resData.login.json.user;
-                                        that.isVC = resData.isVC;
-                                        that.accountComposite.data.isSomethingAnimating = true;
-                                        that.accountComposite.data.accountForm.animate({
-                                            opacity: 0
-                                        }, {
-                                            delay: 0,
-                                            duration: 500,
-                                            easing: "linear",
-                                            repeat: 0,
-                                            reverse: false
-                                        }).then(function () {
-                                            that.buildVerification();
-
-                                            that.accountComposite.data.accountForm.animate({
-                                                opacity: 1
-                                            }, {
-                                                delay: 0,
-                                                duration: 500,
-                                                easing: "linear",
-                                                repeat: 0,
-                                                reverse: false
-                                            }).then(function () {
-                                                that.accountComposite.data.isSomethingAnimating = false;
-                                            });
-                                        });
-                                    } else {
-                                        that.accountComposite.data.statusTV.set({
-                                            text: "Error: '" + resData.message + "'",
-                                            textColor: "#FF0000"
-                                        });
-                                    }
-                                    that.accountComposite.data.isSomethingLoading = false;
-                                }
-                            });
-                            xhr.open("POST", "http://deal-make.com/api/v1/users");
-                            xhr.setRequestHeader("content-type", "application/json");
-                            xhr.setRequestHeader("cache-control", "no-cache");
-                            xhr.send(JSON.stringify({
+                            that.apiCall("users", "POST", {
                                 email: that.accountComposite.data.emailTI.text,
                                 phone: that.accountComposite.data.phoneTI.text,
                                 name: that.accountComposite.data.nameTI.text,
@@ -406,7 +365,43 @@ var App = function () {
                                 latitude: 35.227085,
                                 longitude: -80.843124,
                                 place: "Charlotte, NC"
-                            }));
+                            }).then(function (resData, status) {
+                                if (status == 200) {
+                                    that.token = resData.login.json.token;
+                                    that.user = resData.login.json.user;
+                                    that.isVC = resData.isVC;
+                                    that.accountComposite.data.isSomethingAnimating = true;
+                                    that.accountComposite.data.accountForm.animate({
+                                        opacity: 0
+                                    }, {
+                                        delay: 0,
+                                        duration: 500,
+                                        easing: "linear",
+                                        repeat: 0,
+                                        reverse: false
+                                    }).then(function () {
+                                        that.buildVerification();
+
+                                        that.accountComposite.data.accountForm.animate({
+                                            opacity: 1
+                                        }, {
+                                            delay: 0,
+                                            duration: 500,
+                                            easing: "linear",
+                                            repeat: 0,
+                                            reverse: false
+                                        }).then(function () {
+                                            that.accountComposite.data.isSomethingAnimating = false;
+                                        });
+                                    });
+                                } else {
+                                    that.accountComposite.data.statusTV.set({
+                                        text: "Error: '" + resData.message + "'",
+                                        textColor: "#FF0000"
+                                    });
+                                }
+                                that.accountComposite.data.isSomethingLoading = false;
+                            });
 
                             that.accountComposite.data.statusTV.set({
                                 text: "Creating account...",
@@ -581,52 +576,7 @@ var App = function () {
 
                         //Send in the account details.
                         that.accountComposite.data.isSomethingLoading = true;
-                        var xhr = new XMLHttpRequest();
-                        xhr.withCredentials = true;
-                        xhr.addEventListener("readystatechange", function () {
-                            if (this.readyState === 4) {
-                                var resData = JSON.parse(this.responseText);
-                                if (this.status == 200) {
-                                    that.token = resData.login.json.token;
-                                    that.user = resData.login.json.user;
-                                    that.isVC = resData.isVC;
-                                    that.accountComposite.data.isSomethingAnimating = true;
-                                    that.accountComposite.data.accountForm.animate({
-                                        opacity: 0
-                                    }, {
-                                        delay: 0,
-                                        duration: 500,
-                                        easing: "linear",
-                                        repeat: 0,
-                                        reverse: false
-                                    }).then(function () {
-                                        that.buildVerification();
-
-                                        that.accountComposite.data.accountForm.animate({
-                                            opacity: 1
-                                        }, {
-                                            delay: 0,
-                                            duration: 500,
-                                            easing: "linear",
-                                            repeat: 0,
-                                            reverse: false
-                                        }).then(function () {
-                                            that.accountComposite.data.isSomethingAnimating = false;
-                                        });
-                                    });
-                                } else {
-                                    that.accountComposite.data.statusTV.set({
-                                        text: "Error: '" + resData.message + "'",
-                                        textColor: "#FF0000"
-                                    });
-                                }
-                                that.accountComposite.data.isSomethingLoading = false;
-                            }
-                        });
-                        xhr.open("POST", "http://deal-make.com/api/v1/users");
-                        xhr.setRequestHeader("content-type", "application/json");
-                        xhr.setRequestHeader("cache-control", "no-cache");
-                        xhr.send(JSON.stringify({
+                        that.apiCall("users", "POST", {
                             email: that.accountComposite.data.savedAccountData.email,
                             phone: that.accountComposite.data.savedAccountData.phone,
                             name: that.accountComposite.data.savedAccountData.name,
@@ -637,7 +587,43 @@ var App = function () {
                             latitude: 35.227085,
                             longitude: -80.843124,
                             place: "Charlotte, NC"
-                        }));
+                        }).then(function (resData, status) {
+                            if (status == 200) {
+                                that.token = resData.login.json.token;
+                                that.user = resData.login.json.user;
+                                that.isVC = resData.isVC;
+                                that.accountComposite.data.isSomethingAnimating = true;
+                                that.accountComposite.data.accountForm.animate({
+                                    opacity: 0
+                                }, {
+                                    delay: 0,
+                                    duration: 500,
+                                    easing: "linear",
+                                    repeat: 0,
+                                    reverse: false
+                                }).then(function () {
+                                    that.buildVerification();
+
+                                    that.accountComposite.data.accountForm.animate({
+                                        opacity: 1
+                                    }, {
+                                        delay: 0,
+                                        duration: 500,
+                                        easing: "linear",
+                                        repeat: 0,
+                                        reverse: false
+                                    }).then(function () {
+                                        that.accountComposite.data.isSomethingAnimating = false;
+                                    });
+                                });
+                            } else {
+                                that.accountComposite.data.statusTV.set({
+                                    text: "Error: '" + resData.message + "'",
+                                    textColor: "#FF0000"
+                                });
+                            }
+                            that.accountComposite.data.isSomethingLoading = false;
+                        });
 
                         that.accountComposite.data.statusTV.set({
                             text: "Creating account...",
@@ -716,48 +702,41 @@ var App = function () {
         // Refreshing the status.
         var refreshStatus = function () {
 
-            var xhr = new XMLHttpRequest();
-            xhr.withCredentials = true;
-            xhr.addEventListener("readystatechange", function () {
-                if (this.readyState === 4) {
-                    var resData = JSON.parse(this.responseText);
-                    if (this.status == 200) {
-                        if (resData.emailVerified && resData.phoneVerified) {
-                            clearInterval(that.accountComposite.data.checkVerificationInterval);
-                            that.enterApp();
+            this.apiCall("users/" + that.user + "/verification/status?token=" + that.token, "GET").then(function (resData, status) {
+                if (status == 200) {
+                    if (resData.emailVerified && resData.phoneVerified) {
+                        clearInterval(that.accountComposite.data.checkVerificationInterval);
+                        that.enterApp();
+                    } else {
+                        if (!resData.emailVerified) {
+                            that.accountComposite.data.emailStatusTV.set({
+                                text: "\u2717",
+                                textColor: "#FF0000"
+                            });
                         } else {
-                            if (!resData.emailVerified) {
-                                that.accountComposite.data.emailStatusTV.set({
-                                    text: "\u2717",
-                                    textColor: "#FF0000"
-                                });
-                            } else {
-                                that.accountComposite.data.emailStatusTV.set({
-                                    text: "\u2713",
-                                    textColor: "#00FF00"
-                                });
-                            }
-                            if (!resData.phoneVerified) {
-                                that.accountComposite.data.phoneStatusTV.set({
-                                    text: "\u2717",
-                                    textColor: "#FF0000"
-                                });
-                            } else {
-                                that.accountComposite.data.phoneStatusTV.set({
-                                    text: "\u2713",
-                                    textColor: "#00FF00"
-                                });
-                            }
+                            that.accountComposite.data.emailStatusTV.set({
+                                text: "\u2713",
+                                textColor: "#00FF00"
+                            });
+                        }
+                        if (!resData.phoneVerified) {
+                            that.accountComposite.data.phoneStatusTV.set({
+                                text: "\u2717",
+                                textColor: "#FF0000"
+                            });
+                        } else {
+                            that.accountComposite.data.phoneStatusTV.set({
+                                text: "\u2713",
+                                textColor: "#00FF00"
+                            });
                         }
                     }
                 }
             });
-            xhr.open("GET", "http://deal-make.com/api/v1/users/" + that.user + "/verification/status?token=" + that.token);
-            xhr.setRequestHeader("content-type", "application/json");
-            xhr.setRequestHeader("cache-control", "no-cache");
-            xhr.send();
 
-        }
+        };
+
+        // Refresh the status on an interval.
         refreshStatus();
         this.accountComposite.data.checkVerificationInterval = setInterval(refreshStatus, 1000 * 15);
 
@@ -814,22 +793,14 @@ var App = function () {
                 });
                 that.accountComposite.data.emailResendTV.appendTo(that.accountComposite.data.accountForm);
 
+                // Ask the server to resend the email.
                 that.accountComposite.data.isSomethingLoading = true;
-                var xhr = new XMLHttpRequest();
-                xhr.withCredentials = true;
-                xhr.addEventListener("readystatechange", function () {
-                    if (this.readyState === 4) {
-                        var resData = JSON.parse(this.responseText);
-                        that.accountComposite.data.emailResendTV.set({
-                            text: resData.message
-                        });
-                        that.accountComposite.data.isSomethingLoading = false;
-                    }
+                this.apiCall("/api/:version/users/" + that.user + "/verification/email/resend?token=" + that.token, "POST").then(function (resData, status) {
+                    that.accountComposite.data.emailResendTV.set({
+                        text: resData.message
+                    });
+                    that.accountComposite.data.isSomethingLoading = false;
                 });
-                xhr.open("POST", "/api/:version/users/" + that.user + "/verification/email/resend?token=" + that.token);
-                xhr.setRequestHeader("content-type", "application/json");
-                xhr.setRequestHeader("cache-control", "no-cache");
-                xhr.send();
             }
         });
         this.accountComposite.data.emailResendB.appendTo(this.accountComposite.data.accountForm);
@@ -887,28 +858,23 @@ var App = function () {
                 });
                 that.accountComposite.data.phoneResendTV.appendTo(that.accountComposite.data.accountForm);
 
+                // Ask the server to resend the text.
                 that.accountComposite.data.isSomethingLoading = true;
-                var xhr = new XMLHttpRequest();
-                xhr.withCredentials = true;
-                xhr.addEventListener("readystatechange", function () {
-                    if (this.readyState === 4) {
-                        var resData = JSON.parse(this.responseText);
-                        that.accountComposite.data.phoneResendTV.set({
-                            text: resData.message
-                        });
-                        that.accountComposite.data.isSomethingLoading = false;
-                    }
+                this.apiCall("/api/:version/users/" + that.user + "/verification/phone/resend?token=" + that.token, "POST").then(function (resData, status) {
+                    that.accountComposite.data.phoneResendTV.set({
+                        text: resData.message
+                    });
+                    that.accountComposite.data.isSomethingLoading = false;
                 });
-                xhr.open("POST", "/api/:version/users/" + that.user + "/verification/phone/resend?token=" + that.token);
-                xhr.setRequestHeader("content-type", "application/json");
-                xhr.setRequestHeader("cache-control", "no-cache");
-                xhr.send();
             }
         });
         this.accountComposite.data.phoneResendB.appendTo(this.accountComposite.data.accountForm);
     };
 
     this.enterApp = function () {
+
+        // The app has been entered.
+        this.appEntered = true;
 
         // Dispose of the account composite.
         this.accountComposite.dispose();
@@ -973,6 +939,69 @@ var App = function () {
                 that.tabs[that.lastTabSelected].unload();
             }
             that.lastTabSelected = e.value.data.myTab.properties.TAB_ID;
+        });
+    };
+
+
+    // How API calls are made throughout the app.
+    this.apiCall = function (url, type, data) {
+        var that = this;
+
+        return new Promise(function (resolve, reject) {
+
+            var startAppEntered = that.appEntered;
+            if (that.appEntered) {
+                var startPageCID = this.tabs[this.lastTabSelected].navigationView.pages()[this.tabs[this.lastTabSelected].navigationView.pages().length - 1].cid;
+            }
+
+            var xhr = new XMLHttpRequest();
+            xhr.withCredentials = true;
+            xhr.addEventListener("readystatechange", function () {
+                if (this.readyState === 4) {
+                    var resData = JSON.parse(this.responseText);
+
+                    // Make sure the page is the same one as when it was called.
+                    if ((!startAppEntered && !that.appEntered) || (startAppEntered && that.tabs[that.lastTabSelected].navigationView.pages()[that.tabs[that.lastTabSelected].navigationView.pages().length - 1].cid == startPageCID)) {
+                        resolve(resData, this.status);
+                    }
+                }
+            });
+            xhr.open(type, "/api/v1/" + url);
+            xhr.setRequestHeader("cache-control", "no-cache");
+            if (data) {
+                xhr.setRequestHeader("content-type", "application/json");
+                xhr.send(JSON.stringify(data));
+            }
+        });
+    };
+
+    // How errors are handled throughout the app.
+    this.handError = function (err) {
+        var that = this;
+
+        return new Promise(function (resolve, reject) {
+            if (err) {
+                var errorDialog = new tabris.AlertDialog({
+                    title: "Error",
+                    message: err.message,
+                    buttons: {
+                        ok: "Send Report",
+                        neutral: "Don't Report"
+                    }
+                });
+                errorDialog.on({
+                    closeOk: function () {
+                        that.apiCall("error", "POST", {
+                            stack: err.stack,
+                            message: err.message
+                        });
+                    }
+                });
+                errorDialog.open();
+                reject(err);
+            } else {
+                resolve();
+            }
         });
     };
 

@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.thunkgames.michaelr.client" version="0.1.0">
+<widget id="com.deal-make.dealmake" version="0.1.0">
     <name>Michaelr Client</name>
     <description>
         Client for MichaelR&#39;s app.
@@ -7,4 +7,5 @@
     <author email="david@thunkgames.com">
         David Fine
     </author>
+    <content src="src/package.json"/>
 </widget>

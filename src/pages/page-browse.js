@@ -36,6 +36,7 @@ module.exports = function () {
         USED_CARD_FADE_TIME: 1,
         ALL_DONE_COLOR: "#404040",
         ALL_DONE_TEXT: "That's it for now.",
+        LOADING_MORE_TEXT: "Loading more cards...",
         ALL_DONE_SIZE: 24,
         VERDICT_DISTANCE: 120,
         VERDICT_SPEED: 1000,
@@ -66,12 +67,45 @@ module.exports = function () {
         // Reference to this.
         this.page.data.myPage = this;
 
+        // Background.
+        this.page.data.browseBackground = new tabris.ImageView({
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0
+        });
+        this.page.data.browseBackground.set({
+            image: _i("resources/images/bac-browse.png"),
+            scaleMode: "fill"
+        });
+        this.page.data.browseBackground.appendTo(this.page);
+
+        // Logo.
+        this.page.data.bwLogo = new tabris.ImageView({
+            centerY: -160,
+            centerX: 0,
+            width: 102,
+            height: 102
+        });
+        this.page.data.bwLogo.set({
+            image: _i("resources/images/log-dealmakebw.png")
+        });
+        this.page.data.bwLogo.appendTo(this.page);
+
         // Card data.
         this.page.data.discardedCards = [];
         this.page.data.topCard = null;
         this.page.data.nextCard = null;
         this.page.data.queuedCards = [];
 
+        // Card loading info.
+        this.page.data.lastCardLoaded = -1;
+        this.page.data.moreCards = true;
+        this.page.data.loadingCards = true;
+        this.page.data.nextCardText = null;
+        this.page.data.topCardText = null;
+
+        /*
         // Fill the queued cards with dummy data.
         this.page.data.queuedCards.push({
             id: 1,
@@ -149,6 +183,7 @@ module.exports = function () {
             place: "Charlotte, NC",
             composite: null
         });
+        */
 
         // Create and append the composite that will hold the next card.
         this.page.data.nextCardComposite = new tabris.Composite({
@@ -260,6 +295,15 @@ module.exports = function () {
             panHorizontal: this.page.data.onPanHorizontal,
             tap: this.page.data.onTap
         });
+
+        // Add an initial activity indicator.
+        this.page.data.initAA = new tabris.ActivityIndicator({
+            centerX: 0,
+            centerY: 0
+        });
+        this.page.data.initAA.appendTo(this.page);
+
+        this.getMoreCards();
     };
 
     // Called when the page is switched to.
@@ -302,7 +346,7 @@ module.exports = function () {
         // Create the composite.
         var comp = new tabris.Composite({
             centerX: 0,
-            centerY: 0,
+            centerY: 64,
             width: this.properties.CARD_WIDTH,
             height: this.properties.CARD_HEIGHT,
             cornerRadius: this.properties.CARD_CORNER_RADIUS
@@ -355,17 +399,19 @@ module.exports = function () {
 
             } else {
 
+
+
                 // Create an all done message and append it to the next card composite.
-                var allDone = new tabris.TextView({
+                this.page.data.nextCardText = new tabris.TextView({
                     centerX: 0,
-                    centerY: 0
+                    centerY: 64
                 });
-                allDone.set({
+                this.page.data.nextCardText.set({
                     text: this.properties.ALL_DONE_TEXT,
                     textColor: this.properties.ALL_DONE_COLOR,
                     font: this.properties.ALL_DONE_SIZE + "px"
                 });
-                this.page.data.nextCardComposite.append(allDone);
+                this.page.data.nextCardComposite.append(this.page.data.nextCardText);
 
                 // Set nextcard to null.
                 this.page.data.nextCard = null;
@@ -375,6 +421,9 @@ module.exports = function () {
 
             // If the topcard has not been set to null yet and there is no next card, set it to null.
             this.page.data.topCard = null;
+
+            this.page.data.topCardText = this.page.data.nextCardText;
+            this.page.data.nextCardText = null;
         }
 
     };
@@ -550,7 +599,7 @@ module.exports = function () {
             tag.appendTo(frontComp);
 
         } else {
-            
+
             var imgSpacing = ((this.properties.CARD_HEIGHT - ((this.properties.FRONT_INNER_MARGIN * 2) + this.properties.FRONT_NAME_HEIGHT + this.properties.FRONT_TAG_PADDING)) - (this.properties.FRONT_IMAGE_SIZE * 2)) / 3;
 
             // Create the profile image and append it to the front composite.
@@ -679,11 +728,9 @@ module.exports = function () {
     this.verdict = function (approved, vx, vy) {
 
         // Handle approval.
-        if (approved) {
-
-        } else {
-
-        }
+        this.tab.app.apiCall("users/" + this.tab.app.user + "/verdict/" + this.page.data.topCard.id + "?token=" + this.tab.app.token, "POST", {
+            approved: approved
+        });
 
         // Detach the topcard from the parent.
         this.page.data.topCard.composite.detach();
@@ -726,6 +773,37 @@ module.exports = function () {
 
         // Shift the next card up.
         this.shiftCards();
+    };
+
+    this.getMoreCards = function () {
+        this.tab.app.apiCall("users/" + this.tab.app.user + "/browse?token=" + this.tab.app.token + "&count=15&last=" + this.page.data.lastCardLoaded, "GET").then(function (resData, status) {
+            if (status == 200) {
+
+                if (resData.length < 15) {
+                    that.page.data.moreCards = false;
+
+                    if (that.page.data.topCardText != null) {
+                        that.page.data.topCardText.set({
+                            text: that.properties.ALL_DONE_TEXT
+                        });
+                    }
+                }
+
+                that.page.data.lastCardLoaded = resData[resData.length - 1].id;
+
+                for (var i = 0; i < resData.length; i++) {
+                    that.page.data.queuedCards.push(resData[i]);
+                }
+
+                // Dispose of the activity indicator.
+                if (that.page.data.lastCardLoaded == -1) {
+                    that.page.data.initAA.dispose();
+
+                    that.createNextCard();
+                    that.shiftCards();
+                }
+            }
+        });
     };
 
 };
