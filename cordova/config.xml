@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.deal-make.dealmake" version="0.1.0">
+<widget ios-CFBundleIdentifier="com.deal-make.dealmake" version="0.1.0">
     <name>DealMake</name>
     <description>
-        DealMake.
+        DealMake
     </description>
     <author email="david@thunkgames.com">
         David Fine
