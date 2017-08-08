@@ -1,11 +1,15 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.dealmake.dealmake" version="0.1.0">
+<widget id="com.deal-make.dealmake" version="0.1.0">
     <name>DealMake</name>
     <description>
-        DealMake
+        DealMake.
     </description>
     <author email="david@thunkgames.com">
         David Fine
     </author>
     <content src="src/package.json"/>
+    
+    <plugin name="tabris-plugin-camera" spec="https://github.com/eclipsesource/tabris-plugin-camera.git" />
+    <plugin name="cordova-plugin-geolocation" spec="https://github.com/apache/cordova-plugin-geolocation.git" />
+    <preference name="EnableDeveloperConsole" value="true" />
 </widget>
