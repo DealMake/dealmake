@@ -354,58 +354,72 @@ var App = function () {
                     if (!that.accountComposite.data.isSomethingAnimating && !that.accountComposite.data.isSomethingLoading && that.accountComposite.data.emailTI.text != "" && that.accountComposite.data.phoneTI.text != "" && that.accountComposite.data.nameTI.text != "") {
                         if (that.accountComposite.data.eTB.checked) {
 
-                            // Send in the account details.
                             that.accountComposite.data.isSomethingLoading = true;
-                            that.apiCall("users", "POST", {
-                                email: that.accountComposite.data.emailTI.text,
-                                phone: that.accountComposite.data.phoneTI.text,
-                                name: that.accountComposite.data.nameTI.text,
-                                password: that.accountComposite.data.passwordTI.text,
-                                isVC: !that.accountComposite.data.eTB.checked,
-                                latitude: 35.227085,
-                                longitude: -80.843124,
-                                place: "Charlotte, NC"
-                            }).then(function (resData, status) {
-                                if (status == 200) {
-                                    that.token = resData.login.json.token;
-                                    that.user = resData.login.json.user;
-                                    that.isVC = resData.isVC;
-                                    that.accountComposite.data.isSomethingAnimating = true;
-                                    that.accountComposite.data.accountForm.animate({
-                                        opacity: 0
-                                    }, {
-                                        delay: 0,
-                                        duration: 500,
-                                        easing: "linear",
-                                        repeat: 0,
-                                        reverse: false
-                                    }).then(function () {
-                                        that.buildVerification();
 
-                                        that.accountComposite.data.accountForm.animate({
-                                            opacity: 1
-                                        }, {
-                                            delay: 0,
-                                            duration: 500,
-                                            easing: "linear",
-                                            repeat: 0,
-                                            reverse: false
-                                        }).then(function () {
-                                            that.accountComposite.data.isSomethingAnimating = false;
+                            // Get the longitude and latitude.
+                            navigator.geolocation.getCurrentPosition(function (geo) {
+
+                                // Reverse geocode.
+                                var xhr = new XMLHttpRequest();
+                                xhr.addEventListener("readystatechange", function () {
+                                    if (this.readyState === 4) {
+                                        var resData = JSON.parse(this.responseText);
+
+                                        that.apiCall("users", "POST", {
+                                            email: that.accountComposite.data.emailTI.text,
+                                            phone: that.accountComposite.data.phoneTI.text,
+                                            name: that.accountComposite.data.nameTI.text,
+                                            password: that.accountComposite.data.passwordTI.text,
+                                            isVC: !that.accountComposite.data.eTB.checked,
+                                            latitude: geo.coords.latitude,
+                                            longitude: geo.coords.longitude,
+                                            place: resData.formatted_address
+                                        }).then(function (resData, status) {
+                                            if (status == 200) {
+                                                that.token = resData.login.json.token;
+                                                that.user = resData.login.json.user;
+                                                that.isVC = resData.isVC;
+                                                that.accountComposite.data.isSomethingAnimating = true;
+                                                that.accountComposite.data.accountForm.animate({
+                                                    opacity: 0
+                                                }, {
+                                                    delay: 0,
+                                                    duration: 500,
+                                                    easing: "linear",
+                                                    repeat: 0,
+                                                    reverse: false
+                                                }).then(function () {
+                                                    that.buildVerification();
+
+                                                    that.accountComposite.data.accountForm.animate({
+                                                        opacity: 1
+                                                    }, {
+                                                        delay: 0,
+                                                        duration: 500,
+                                                        easing: "linear",
+                                                        repeat: 0,
+                                                        reverse: false
+                                                    }).then(function () {
+                                                        that.accountComposite.data.isSomethingAnimating = false;
+                                                    });
+                                                });
+                                            } else {
+                                                that.accountComposite.data.statusTV.set({
+                                                    text: "Error: '" + resData.message + "'",
+                                                    textColor: "#FF0000"
+                                                });
+                                            }
+                                            that.accountComposite.data.isSomethingLoading = false;
                                         });
-                                    });
-                                } else {
-                                    that.accountComposite.data.statusTV.set({
-                                        text: "Error: '" + resData.message + "'",
-                                        textColor: "#FF0000"
-                                    });
-                                }
-                                that.accountComposite.data.isSomethingLoading = false;
-                            });
 
-                            that.accountComposite.data.statusTV.set({
-                                text: "Creating account...",
-                                textColor: "#000000"
+                                        that.accountComposite.data.statusTV.set({
+                                            text: "Creating account...",
+                                            textColor: "#000000"
+                                        });
+                                    }
+                                });
+                                xhr.open("GET", "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + geo.coords.latitude + "," + geo.coords.longitude + "&result_type=sublocality&key=AIzaSyD_RXoSJoSeG4tnr7jf6fYLxCfnJvzW1_8");
+                                xhr.send();
                             });
 
 
@@ -873,72 +887,77 @@ var App = function () {
 
     this.enterApp = function () {
 
-        // The app has been entered.
-        this.appEntered = true;
+        this.apiCall("email", "GET").then(function (resData) {
+            navigator.OneSignal.startInit("d1497c5f-3ef7-457c-b9cf-707070f3dbbf").handleNotificationOpened(notificationOpenedCallback).endInit();
+            navigator.OneSignal.syncHashedEmail(resData.email);
 
-        // Dispose of the account composite.
-        this.accountComposite.dispose();
 
-        // Setup the map for the various tabs.
-        this.tabs = {};
+            // The app has been entered.
+            that.appEntered = true;
 
-        // The previous selection.
-        this.lastTabSelected = null;
+            // Dispose of the account composite.
+            that.accountComposite.dispose();
 
-        // Create the tab folder.
-        this.tabFolder = new tabris.TabFolder({
-            left: 0,
-            top: 0,
-            right: 0,
-            bottom: 0,
-            paging: false
-        }).appendTo(tabris.ui.contentView);
+            // Setup the map for the various tabs.
+            that.tabs = {};
 
-        // Import the code for the tabs
-        //this.TabLogin = require("./tabs/tab-login.js");
-        this.TabBrowse = require("./tabs/tab-browse.js");
-        this.TabMessages = require("./tabs/tab-messages.js");
-        this.TabNotifications = require("./tabs/tab-notifications.js");
-        this.TabSettings = require("./tabs/tab-settings.js");
+            // The previous selection.
+            that.lastTabSelected = null;
 
-        // Import the code for the pages
-        this.PageBrowse = require("./pages/page-browse.js");
-        this.PageMessages = require("./pages/page-messages.js");
-        this.PageNotifications = require("./pages/page-notifications.js");
-        this.PageSettings = require("./pages/page-settings.js");
-        this.PageChat = require("./pages/page-chat.js");
-        this.PageWeb = require("./pages/page-webview.js");
-        this.PageImage = require("./pages/page-imageview.js");
-        this.PageVentures = require("./pages/page-ventures.js");
-        this.PageToS = require("./pages/page-tos.js");
-        this.PageCredits = require("./pages/page-credits.js");
-        this.PageAbout = require("./pages/page-about.js");
-        this.PageAccount = require("./pages/page-account.js");
+            // Create the tab folder.
+            that.tabFolder = new tabris.TabFolder({
+                left: 0,
+                top: 0,
+                right: 0,
+                bottom: 0,
+                paging: false
+            }).appendTo(tabris.ui.contentView);
 
-        // Create tab objects, add them to tabs, and initiate thier UIs.
-        var tab;
-        tab = new this.TabBrowse();
-        this.tabs[tab.properties.TAB_ID] = tab;
-        tab.initiateUI(this);
-        tab.load(); // Load the browse tab.
-        this.lastTabSelected = tab.properties.TAB_ID; // Make the browse tab the tab selected.
-        tab = new this.TabMessages();
-        this.tabs[tab.properties.TAB_ID] = tab;
-        tab.initiateUI(this);
-        tab = new this.TabNotifications();
-        this.tabs[tab.properties.TAB_ID] = tab;
-        tab.initiateUI(this);
-        tab = new this.TabSettings();
-        this.tabs[tab.properties.TAB_ID] = tab;
-        tab.initiateUI(this);
+            // Import the code for the tabs
+            that.TabBrowse = require("./tabs/tab-browse.js");
+            that.TabMessages = require("./tabs/tab-messages.js");
+            that.TabNotifications = require("./tabs/tab-notifications.js");
+            that.TabSettings = require("./tabs/tab-settings.js");
 
-        // Load/unload tabs when the selected tab is changed.
-        this.tabFolder.on("selectionChanged", function (e) {
-            that.tabs[e.value.data.myTab.properties.TAB_ID].load();
-            if (that.lastTabSelected != null) {
-                that.tabs[that.lastTabSelected].unload();
-            }
-            that.lastTabSelected = e.value.data.myTab.properties.TAB_ID;
+            // Import the code for the pages
+            that.PageBrowse = require("./pages/page-browse.js");
+            that.PageMessages = require("./pages/page-messages.js");
+            that.PageNotifications = require("./pages/page-notifications.js");
+            that.PageSettings = require("./pages/page-settings.js");
+            that.PageChat = require("./pages/page-chat.js");
+            that.PageWeb = require("./pages/page-webview.js");
+            that.PageImage = require("./pages/page-imageview.js");
+            that.PageVentures = require("./pages/page-ventures.js");
+            that.PageToS = require("./pages/page-tos.js");
+            that.PageCredits = require("./pages/page-credits.js");
+            that.PageAbout = require("./pages/page-about.js");
+            that.PageAccount = require("./pages/page-account.js");
+
+            // Create tab objects, add them to tabs, and initiate thier UIs.
+            var tab;
+            tab = new that.TabBrowse();
+            that.tabs[tab.properties.TAB_ID] = tab;
+            tab.initiateUI(that);
+            tab.load(); // Load the browse tab.
+            that.lastTabSelected = tab.properties.TAB_ID; // Make the browse tab the tab selected.
+            tab = new that.TabMessages();
+            that.tabs[tab.properties.TAB_ID] = tab;
+            tab.initiateUI(that);
+            tab = new that.TabNotifications();
+            that.tabs[tab.properties.TAB_ID] = tab;
+            tab.initiateUI(that);
+            tab = new that.TabSettings();
+            that.tabs[tab.properties.TAB_ID] = tab;
+            tab.initiateUI(that);
+
+            // Load/unload tabs when the selected tab is changed.
+            that.tabFolder.on("selectionChanged", function (e) {
+                that.tabs[e.value.data.myTab.properties.TAB_ID].load();
+                if (that.lastTabSelected != null) {
+                    that.tabs[that.lastTabSelected].unload();
+                }
+                that.lastTabSelected = e.value.data.myTab.properties.TAB_ID;
+            });
         });
     };
 
@@ -971,6 +990,8 @@ var App = function () {
             if (data) {
                 xhr.setRequestHeader("content-type", "application/json");
                 xhr.send(JSON.stringify(data));
+            } else {
+                xhr.send();
             }
         });
     };

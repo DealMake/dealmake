@@ -58,6 +58,10 @@ module.exports = function () {
     this.setTarget = function (target) {
         this.target = target;
     }
+    
+    this.setDefaultInfo = function (defaults) {
+        
+    };
 
 
 };
