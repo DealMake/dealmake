@@ -16,9 +16,9 @@
     <?plugin name="cordova-plugin-geolocation" spec="https://github.com/apache/cordova-plugin-geolocation.git" /?>
     <?plugin name="cordova-plugin-splashscreen" spec="https://github.com/apache/cordova-plugin-splashscreen.git" /?>
     
-    <preference name="EnableDeveloperConsole" value="true" />
+    <?preference name="EnableDeveloperConsole" value="true" /?>
     
     <?splash src="resources/images/spl-splash.png" /?>
     
-    <icon src="resources/images/ico-dealmake.png" />
+    <?icon src="resources/images/ico-dealmake.png" /?>
 </widget>
