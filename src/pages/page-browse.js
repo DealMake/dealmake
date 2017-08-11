@@ -723,7 +723,7 @@ module.exports = function () {
         }));
 
         return backScroll;
-    }
+    };
 
     this.verdict = function (approved, vx, vy) {
 
