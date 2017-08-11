@@ -18,7 +18,7 @@
     
     <preference name="EnableDeveloperConsole" value="true" />
     
-    <splash src="../resources/images/spl-splash.png" />
+    <?splash src="../resources/images/spl-splash.png" /?>
     
-    <icon src="../resources/images/ico-dealmake.png" />
+    <?icon src="../resources/images/ico-dealmake.png" /?>
 </widget>
