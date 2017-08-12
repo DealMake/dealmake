@@ -18,8 +18,8 @@
     <plugin name="onesignal-cordova-plugin" spec="https://github.com/OneSignal/OneSignal-Cordova-SDK.git" />
     <plugin name="cordova-plugin-purchase" spec="https://github.com/j3k0/cordova-plugin-purchase.git" />
     
-    <icon src="ico-dealmake.png" />
-    <splash src="spl-splash.png" />
+    <icon src="www/app/ico-dealmake.png" />
+    <splash src="www/app/spl-splash.png" />
     
     <preference name="EnableDeveloperConsole" value="true" />
 </widget>
