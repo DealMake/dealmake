@@ -61,6 +61,7 @@ var App = function () {
             this.accountComposite.data.savedAccountData.isVC = false;
             this.accountComposite.data.savedAccountData.tag = "";
             this.accountComposite.data.savedAccountData.back = "";
+            this.accountComposite.data.savedAccountData.profile = "data:image/svg+xml;utf8;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pgo8IS0tIEdlbmVyYXRvcjogQWRvYmUgSWxsdXN0cmF0b3IgMTkuMS4wLCBTVkcgRXhwb3J0IFBsdWctSW4gLiBTVkcgVmVyc2lvbjogNi4wMCBCdWlsZCAwKSAgLS0+CjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgdmVyc2lvbj0iMS4xIiBpZD0iQ2FwYV8xIiB4PSIwcHgiIHk9IjBweCIgdmlld0JveD0iMCAwIDQ4Mi45IDQ4Mi45IiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCA0ODIuOSA0ODIuOTsiIHhtbDpzcGFjZT0icHJlc2VydmUiIHdpZHRoPSI2NHB4IiBoZWlnaHQ9IjY0cHgiPgo8Zz4KCTxnPgoJCTxwYXRoIGQ9Ik0yMzkuNywyNjAuMmMwLjUsMCwxLDAsMS42LDBjMC4yLDAsMC40LDAsMC42LDBjMC4zLDAsMC43LDAsMSwwYzI5LjMtMC41LDUzLTEwLjgsNzAuNS0zMC41ICAgIGMzOC41LTQzLjQsMzIuMS0xMTcuOCwzMS40LTEyNC45Yy0yLjUtNTMuMy0yNy43LTc4LjgtNDguNS05MC43QzI4MC44LDUuMiwyNjIuNywwLjQsMjQyLjUsMGgtMC43Yy0wLjEsMC0wLjMsMC0wLjQsMGgtMC42ICAgIGMtMTEuMSwwLTMyLjksMS44LTUzLjgsMTMuN2MtMjEsMTEuOS00Ni42LDM3LjQtNDkuMSw5MS4xYy0wLjcsNy4xLTcuMSw4MS41LDMxLjQsMTI0LjlDMTg2LjcsMjQ5LjQsMjEwLjQsMjU5LjcsMjM5LjcsMjYwLjJ6ICAgICBNMTY0LjYsMTA3LjNjMC0wLjMsMC4xLTAuNiwwLjEtMC44YzMuMy03MS43LDU0LjItNzkuNCw3Ni03OS40aDAuNGMwLjIsMCwwLjUsMCwwLjgsMGMyNywwLjYsNzIuOSwxMS42LDc2LDc5LjQgICAgYzAsMC4zLDAsMC42LDAuMSwwLjhjMC4xLDAuNyw3LjEsNjguNy0yNC43LDEwNC41Yy0xMi42LDE0LjItMjkuNCwyMS4yLTUxLjUsMjEuNGMtMC4yLDAtMC4zLDAtMC41LDBsMCwwYy0wLjIsMC0wLjMsMC0wLjUsMCAgICBjLTIyLTAuMi0zOC45LTcuMi01MS40LTIxLjRDMTU3LjcsMTc2LjIsMTY0LjUsMTA3LjksMTY0LjYsMTA3LjN6IiBmaWxsPSIjMDAwMDAwIi8+CgkJPHBhdGggZD0iTTQ0Ni44LDM4My42YzAtMC4xLDAtMC4yLDAtMC4zYzAtMC44LTAuMS0xLjYtMC4xLTIuNWMtMC42LTE5LjgtMS45LTY2LjEtNDUuMy04MC45Yy0wLjMtMC4xLTAuNy0wLjItMS0wLjMgICAgYy00NS4xLTExLjUtODIuNi0zNy41LTgzLTM3LjhjLTYuMS00LjMtMTQuNS0yLjgtMTguOCwzLjNjLTQuMyw2LjEtMi44LDE0LjUsMy4zLDE4LjhjMS43LDEuMiw0MS41LDI4LjksOTEuMyw0MS43ICAgIGMyMy4zLDguMywyNS45LDMzLjIsMjYuNiw1NmMwLDAuOSwwLDEuNywwLjEsMi41YzAuMSw5LTAuNSwyMi45LTIuMSwzMC45Yy0xNi4yLDkuMi03OS43LDQxLTE3Ni4zLDQxICAgIGMtOTYuMiwwLTE2MC4xLTMxLjktMTc2LjQtNDEuMWMtMS42LTgtMi4zLTIxLjktMi4xLTMwLjljMC0wLjgsMC4xLTEuNiwwLjEtMi41YzAuNy0yMi44LDMuMy00Ny43LDI2LjYtNTYgICAgYzQ5LjgtMTIuOCw4OS42LTQwLjYsOTEuMy00MS43YzYuMS00LjMsNy42LTEyLjcsMy4zLTE4LjhjLTQuMy02LjEtMTIuNy03LjYtMTguOC0zLjNjLTAuNCwwLjMtMzcuNywyNi4zLTgzLDM3LjggICAgYy0wLjQsMC4xLTAuNywwLjItMSwwLjNjLTQzLjQsMTQuOS00NC43LDYxLjItNDUuMyw4MC45YzAsMC45LDAsMS43LTAuMSwyLjVjMCwwLjEsMCwwLjIsMCwwLjNjLTAuMSw1LjItMC4yLDMxLjksNS4xLDQ1LjMgICAgYzEsMi42LDIuOCw0LjgsNS4yLDYuM2MzLDIsNzQuOSw0Ny44LDE5NS4yLDQ3LjhzMTkyLjItNDUuOSwxOTUuMi00Ny44YzIuMy0xLjUsNC4yLTMuNyw1LjItNi4zICAgIEM0NDcsNDE1LjUsNDQ2LjksMzg4LjgsNDQ2LjgsMzgzLjZ6IiBmaWxsPSIjMDAwMDAwIi8+Cgk8L2c+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPC9zdmc+Cg==";
         }
 
         // Dispose the existing account form content.
@@ -352,87 +353,27 @@ var App = function () {
                 });
                 this.accountComposite.data.nextB.on("select", function () {
                     if (!that.accountComposite.data.isSomethingAnimating && !that.accountComposite.data.isSomethingLoading && that.accountComposite.data.emailTI.text != "" && that.accountComposite.data.phoneTI.text != "" && that.accountComposite.data.nameTI.text != "") {
-                        if (that.accountComposite.data.eTB.checked) {
 
-                            that.accountComposite.data.isSomethingLoading = true;
+                        that.accountComposite.data.savedAccountData.name = that.accountComposite.data.nameTI.text;
+                        that.accountComposite.data.savedAccountData.email = that.accountComposite.data.emailTI.text;
+                        that.accountComposite.data.savedAccountData.phone = that.accountComposite.data.phoneTI.text;
+                        that.accountComposite.data.savedAccountData.password = that.accountComposite.data.passwordTI.text;
+                        that.accountComposite.data.savedAccountData.isVC = !that.accountComposite.data.eTB.checked;
 
-                            // Get the longitude and latitude.
-                            navigator.geolocation.getCurrentPosition(function (geo) {
+                        that.accountComposite.data.isSomethingAnimating = true;
+                        that.accountComposite.data.accountForm.animate({
+                            opacity: 0
+                        }, {
+                            delay: 0,
+                            duration: 500,
+                            easing: "linear",
+                            repeat: 0,
+                            reverse: false
+                        }).then(function () {
+                            that.buildCreateAccount(1);
 
-                                // Reverse geocode.
-                                var xhr = new XMLHttpRequest();
-                                xhr.addEventListener("readystatechange", function () {
-                                    if (this.readyState === 4) {
-                                        var resData = JSON.parse(this.responseText);
-
-                                        that.apiCall("users", "POST", {
-                                            email: that.accountComposite.data.emailTI.text,
-                                            phone: that.accountComposite.data.phoneTI.text,
-                                            name: that.accountComposite.data.nameTI.text,
-                                            password: that.accountComposite.data.passwordTI.text,
-                                            isVC: !that.accountComposite.data.eTB.checked,
-                                            latitude: geo.coords.latitude,
-                                            longitude: geo.coords.longitude,
-                                            place: resData.formatted_address
-                                        }).then(function (resData, status) {
-                                            if (status == 200) {
-                                                that.token = resData.login.json.token;
-                                                that.user = resData.login.json.user;
-                                                that.isVC = resData.isVC;
-                                                that.accountComposite.data.isSomethingAnimating = true;
-                                                that.accountComposite.data.accountForm.animate({
-                                                    opacity: 0
-                                                }, {
-                                                    delay: 0,
-                                                    duration: 500,
-                                                    easing: "linear",
-                                                    repeat: 0,
-                                                    reverse: false
-                                                }).then(function () {
-                                                    that.buildVerification();
-
-                                                    that.accountComposite.data.accountForm.animate({
-                                                        opacity: 1
-                                                    }, {
-                                                        delay: 0,
-                                                        duration: 500,
-                                                        easing: "linear",
-                                                        repeat: 0,
-                                                        reverse: false
-                                                    }).then(function () {
-                                                        that.accountComposite.data.isSomethingAnimating = false;
-                                                    });
-                                                });
-                                            } else {
-                                                that.accountComposite.data.statusTV.set({
-                                                    text: "Error: '" + resData.message + "'",
-                                                    textColor: "#FF0000"
-                                                });
-                                            }
-                                            that.accountComposite.data.isSomethingLoading = false;
-                                        });
-
-                                        that.accountComposite.data.statusTV.set({
-                                            text: "Creating account...",
-                                            textColor: "#000000"
-                                        });
-                                    }
-                                });
-                                xhr.open("GET", "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + geo.coords.latitude + "," + geo.coords.longitude + "&result_type=sublocality&key=AIzaSyD_RXoSJoSeG4tnr7jf6fYLxCfnJvzW1_8");
-                                xhr.send();
-                            });
-
-
-                        } else {
-                            that.accountComposite.data.savedAccountData.name = that.accountComposite.data.nameTI.text;
-                            that.accountComposite.data.savedAccountData.email = that.accountComposite.data.emailTI.text;
-                            that.accountComposite.data.savedAccountData.phone = that.accountComposite.data.phoneTI.text;
-                            that.accountComposite.data.savedAccountData.password = that.accountComposite.data.passwordTI.text;
-                            that.accountComposite.data.savedAccountData.isVC = !that.accountComposite.data.eTB.checked;
-
-                            that.accountComposite.data.isSomethingAnimating = true;
                             that.accountComposite.data.accountForm.animate({
-                                opacity: 0
+                                opacity: 1
                             }, {
                                 delay: 0,
                                 duration: 500,
@@ -440,21 +381,9 @@ var App = function () {
                                 repeat: 0,
                                 reverse: false
                             }).then(function () {
-                                that.buildCreateAccount(1);
-
-                                that.accountComposite.data.accountForm.animate({
-                                    opacity: 1
-                                }, {
-                                    delay: 0,
-                                    duration: 500,
-                                    easing: "linear",
-                                    repeat: 0,
-                                    reverse: false
-                                }).then(function () {
-                                    that.accountComposite.data.isSomethingAnimating = false;
-                                });
+                                that.accountComposite.data.isSomethingAnimating = false;
                             });
-                        }
+                        });
                     }
                 });
                 this.accountComposite.data.nextB.appendTo(this.accountComposite.data.accountForm);
@@ -521,6 +450,218 @@ var App = function () {
                 break;
 
             case 1:
+                // Add the profile label.
+                this.accountComposite.data.profileTV = new tabris.TextView({
+                    centerX: 0,
+                    centerY: -96,
+                    width: 192,
+                    height: 32
+                });
+                this.accountComposite.data.profileTV.set({
+                    text: "Profile:",
+                    font: Math.floor(24 / 1.2) + "px"
+                });
+                this.accountComposite.data.profileTV.appendTo(this.accountComposite.data.accountForm);
+
+                // Add the profile imageview.
+                this.accountComposite.data.profileIV = new tabris.ImageView({
+                    centerX: 0,
+                    centerY: 0,
+                    width: 160,
+                    height: 160
+                });
+                this.accountComposite.data.profileIV.set({
+                    image: this.accountComposite.data.savedAccountData.profile
+                });
+                this.accountComposite.data.profileIV.appendTo(this.accountComposite.data.accountForm);
+
+                // Add the choose button.
+                this.accountComposite.data.chooseB = new tabris.Button({
+                    centerX: 0,
+                    centerY: 96,
+                    width: 192,
+                    height: 32
+                });
+                this.accountComposite.data.chooseB.set({
+                    text: "Choose Photo"
+                });
+                this.accountComposite.data.chooseB.on("select", function () {
+                    if (!that.accountComposite.data.isSomethingAnimating && !that.accountComposite.data.isSomethingLoading) {
+                        navigator.camera.getPicture(function (img) {
+                            that.accountComposite.data.savedAccountData.profile = img;
+                            that.accountComposite.data.profileIV.set({
+                                image: that.accountComposite.data.savedAccountData.profile
+                            });
+                        }, function (message) {
+                            that.handError(new Error(message));
+                        }, {
+                            quality: 50,
+                            targetWidth: 64,
+                            targetHeight: 64,
+                            sourceType: navigator.Camera.PictureSourceType.PHOTOLIBRARY,
+                            destinationType: navigator.Camera.DestinationType.DATA_URL
+                        });
+                    }
+                });
+                this.accountComposite.data.chooseB.appendTo(this.accountComposite.data.accountForm);
+
+                // Add the back button.
+                this.accountComposite.data.backB = new tabris.Button({
+                    centerX: 0,
+                    centerY: 192,
+                    width: 192,
+                    height: 32
+                });
+                this.accountComposite.data.backB.set({
+                    text: "Back"
+                });
+                this.accountComposite.data.backB.on("select", function () {
+                    if (!that.accountComposite.data.isSomethingAnimating && !that.accountComposite.data.isSomethingLoading) {
+                        that.accountComposite.data.isSomethingAnimating = true;
+                        that.accountComposite.data.accountForm.animate({
+                            opacity: 0
+                        }, {
+                            delay: 0,
+                            duration: 500,
+                            easing: "linear",
+                            repeat: 0,
+                            reverse: false
+                        }).then(function () {
+
+                            that.buildCreateAccount(0);
+
+                            that.accountComposite.data.accountForm.animate({
+                                opacity: 1
+                            }, {
+                                delay: 0,
+                                duration: 500,
+                                easing: "linear",
+                                repeat: 0,
+                                reverse: false
+                            }).then(function () {
+                                that.accountComposite.data.isSomethingAnimating = false;
+                            });
+                        });
+                    }
+                });
+                this.accountComposite.data.backB.appendTo(this.accountComposite.data.accountForm);
+
+                // Add the next button.
+                this.accountComposite.data.nextB = new tabris.Button({
+                    centerX: 0,
+                    centerY: 120,
+                    width: 192,
+                    height: 32
+                });
+                this.accountComposite.data.nextB.set({
+                    text: "Next"
+                });
+                this.accountComposite.data.nextB.on("select", function () {
+                    if (!that.accountComposite.data.isSomethingAnimating && !that.accountComposite.data.isSomethingLoading) {
+                        if (that.accountComposite.data.savedAccountData.isVC) {
+
+                            that.accountComposite.data.isSomethingLoading = true;
+
+                            // Get the longitude and latitude.
+                            navigator.geolocation.getCurrentPosition(function (geo) {
+
+                                // Reverse geocode.
+                                var xhr = new XMLHttpRequest();
+                                xhr.addEventListener("readystatechange", function () {
+                                    if (this.readyState === 4) {
+                                        var resData = JSON.parse(this.responseText);
+
+                                        that.apiCall("users", "POST", {
+                                            email: that.accountComposite.data.savedAccountData.email,
+                                            phone: that.accountComposite.data.savedAccountData.phone,
+                                            name: that.accountComposite.data.savedAccountData.name,
+                                            password: that.accountComposite.data.savedAccountData.password,
+                                            isVC: that.accountComposite.data.savedAccountData.isVC,
+                                            latitude: geo.coords.latitude,
+                                            longitude: geo.coords.longitude,
+                                            place: resData.formatted_address
+                                        }).then(function (resData, status) {
+                                            if (status == 200) {
+                                                that.token = resData.login.json.token;
+                                                that.user = resData.login.json.user;
+                                                that.isVC = resData.isVC;
+                                                that.accountComposite.data.isSomethingAnimating = true;
+                                                that.accountComposite.data.accountForm.animate({
+                                                    opacity: 0
+                                                }, {
+                                                    delay: 0,
+                                                    duration: 500,
+                                                    easing: "linear",
+                                                    repeat: 0,
+                                                    reverse: false
+                                                }).then(function () {
+                                                    that.buildVerification();
+
+                                                    that.accountComposite.data.accountForm.animate({
+                                                        opacity: 1
+                                                    }, {
+                                                        delay: 0,
+                                                        duration: 500,
+                                                        easing: "linear",
+                                                        repeat: 0,
+                                                        reverse: false
+                                                    }).then(function () {
+                                                        that.accountComposite.data.isSomethingAnimating = false;
+                                                    });
+                                                });
+                                            } else {
+                                                that.accountComposite.data.statusTV.set({
+                                                    text: "Error: '" + resData.message + "'",
+                                                    textColor: "#FF0000"
+                                                });
+                                            }
+                                            that.accountComposite.data.isSomethingLoading = false;
+                                        });
+
+                                        that.accountComposite.data.statusTV.set({
+                                            text: "Creating account...",
+                                            textColor: "#000000"
+                                        });
+                                    }
+                                });
+                                xhr.open("GET", "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + geo.coords.latitude + "," + geo.coords.longitude + "&result_type=sublocality&key=AIzaSyD_RXoSJoSeG4tnr7jf6fYLxCfnJvzW1_8");
+                                xhr.send();
+                            });
+
+
+                        } else {
+                            that.accountComposite.data.isSomethingAnimating = true;
+                            that.accountComposite.data.accountForm.animate({
+                                opacity: 0
+                            }, {
+                                delay: 0,
+                                duration: 500,
+                                easing: "linear",
+                                repeat: 0,
+                                reverse: false
+                            }).then(function () {
+                                that.buildCreateAccount(2);
+
+                                that.accountComposite.data.accountForm.animate({
+                                    opacity: 1
+                                }, {
+                                    delay: 0,
+                                    duration: 500,
+                                    easing: "linear",
+                                    repeat: 0,
+                                    reverse: false
+                                }).then(function () {
+                                    that.accountComposite.data.isSomethingAnimating = false;
+                                });
+                            });
+                        }
+                    }
+                });
+                this.accountComposite.data.nextB.appendTo(this.accountComposite.data.accountForm);
+
+                break;
+
+            case 2:
                 // Add the tag label.
                 this.accountComposite.data.tagTV = new tabris.TextView({
                     centerX: 0,
@@ -588,60 +729,74 @@ var App = function () {
                 this.accountComposite.data.nextB.on("select", function () {
                     if (!that.accountComposite.data.isSomethingAnimating && !that.accountComposite.data.isSomethingLoading && that.accountComposite.data.tagTI.text != "" && that.accountComposite.data.backTI.text != "") {
 
-                        //Send in the account details.
                         that.accountComposite.data.isSomethingLoading = true;
-                        that.apiCall("users", "POST", {
-                            email: that.accountComposite.data.savedAccountData.email,
-                            phone: that.accountComposite.data.savedAccountData.phone,
-                            name: that.accountComposite.data.savedAccountData.name,
-                            password: that.accountComposite.data.savedAccountData.password,
-                            isVC: that.accountComposite.data.savedAccountData.isVC,
-                            tag: that.accountComposite.data.tagTI.text,
-                            back: that.accountComposite.data.backTI.text,
-                            latitude: 35.227085,
-                            longitude: -80.843124,
-                            place: "Charlotte, NC"
-                        }).then(function (resData, status) {
-                            if (status == 200) {
-                                that.token = resData.login.json.token;
-                                that.user = resData.login.json.user;
-                                that.isVC = resData.isVC;
-                                that.accountComposite.data.isSomethingAnimating = true;
-                                that.accountComposite.data.accountForm.animate({
-                                    opacity: 0
-                                }, {
-                                    delay: 0,
-                                    duration: 500,
-                                    easing: "linear",
-                                    repeat: 0,
-                                    reverse: false
-                                }).then(function () {
-                                    that.buildVerification();
 
-                                    that.accountComposite.data.accountForm.animate({
-                                        opacity: 1
-                                    }, {
-                                        delay: 0,
-                                        duration: 500,
-                                        easing: "linear",
-                                        repeat: 0,
-                                        reverse: false
-                                    }).then(function () {
-                                        that.accountComposite.data.isSomethingAnimating = false;
+                        // Get the longitude and latitude.
+                        navigator.geolocation.getCurrentPosition(function (geo) {
+
+                            // Reverse geocode.
+                            var xhr = new XMLHttpRequest();
+                            xhr.addEventListener("readystatechange", function () {
+                                if (this.readyState === 4) {
+                                    var resData = JSON.parse(this.responseText);
+
+                                    that.apiCall("users", "POST", {
+                                        email: that.accountComposite.data.savedAccountData.email,
+                                        phone: that.accountComposite.data.savedAccountData.phone,
+                                        name: that.accountComposite.data.savedAccountData.name,
+                                        password: that.accountComposite.data.savedAccountData.password,
+                                        isVC: that.accountComposite.data.savedAccountData.isVC,
+                                        tag: that.accountComposite.data.tagTI,
+                                        back: that.accountComposite.data.backTI,
+                                        latitude: geo.coords.latitude,
+                                        longitude: geo.coords.longitude,
+                                        place: resData.formatted_address
+                                    }).then(function (resData, status) {
+                                        if (status == 200) {
+                                            that.token = resData.login.json.token;
+                                            that.user = resData.login.json.user;
+                                            that.isVC = resData.isVC;
+                                            that.accountComposite.data.isSomethingAnimating = true;
+                                            that.accountComposite.data.accountForm.animate({
+                                                opacity: 0
+                                            }, {
+                                                delay: 0,
+                                                duration: 500,
+                                                easing: "linear",
+                                                repeat: 0,
+                                                reverse: false
+                                            }).then(function () {
+                                                that.buildVerification();
+
+                                                that.accountComposite.data.accountForm.animate({
+                                                    opacity: 1
+                                                }, {
+                                                    delay: 0,
+                                                    duration: 500,
+                                                    easing: "linear",
+                                                    repeat: 0,
+                                                    reverse: false
+                                                }).then(function () {
+                                                    that.accountComposite.data.isSomethingAnimating = false;
+                                                });
+                                            });
+                                        } else {
+                                            that.accountComposite.data.statusTV.set({
+                                                text: "Error: '" + resData.message + "'",
+                                                textColor: "#FF0000"
+                                            });
+                                        }
+                                        that.accountComposite.data.isSomethingLoading = false;
                                     });
-                                });
-                            } else {
-                                that.accountComposite.data.statusTV.set({
-                                    text: "Error: '" + resData.message + "'",
-                                    textColor: "#FF0000"
-                                });
-                            }
-                            that.accountComposite.data.isSomethingLoading = false;
-                        });
 
-                        that.accountComposite.data.statusTV.set({
-                            text: "Creating account...",
-                            textColor: "#000000"
+                                    that.accountComposite.data.statusTV.set({
+                                        text: "Creating account...",
+                                        textColor: "#000000"
+                                    });
+                                }
+                            });
+                            xhr.open("GET", "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + geo.coords.latitude + "," + geo.coords.longitude + "&result_type=sublocality&key=AIzaSyD_RXoSJoSeG4tnr7jf6fYLxCfnJvzW1_8");
+                            xhr.send();
                         });
                     }
                 });
@@ -686,7 +841,7 @@ var App = function () {
 
                             that.accountComposite.data.savedAccountData.tag = that.accountComposite.data.tagTI.text;
                             that.accountComposite.data.savedAccountData.back = that.accountComposite.data.backTI.text;
-                            that.buildCreateAccount(0);
+                            that.buildCreateAccount(1);
 
                             that.accountComposite.data.accountForm.animate({
                                 opacity: 1
