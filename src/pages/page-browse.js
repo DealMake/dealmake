@@ -731,6 +731,9 @@ module.exports = function () {
         this.tab.app.apiCall("users/" + this.tab.app.user + "/verdict/" + this.page.data.topCard.id + "?token=" + this.tab.app.token, "POST", {
             approved: approved
         });
+        if (this.page.data.moreCards && this.page.data.queuedCards.length < 5) {
+            this.page.getMoreCards();
+        }
 
         // Detach the topcard from the parent.
         this.page.data.topCard.composite.detach();
@@ -779,20 +782,27 @@ module.exports = function () {
         this.tab.app.apiCall("users/" + this.tab.app.user + "/browse?token=" + this.tab.app.token + "&count=15&last=" + this.page.data.lastCardLoaded, "GET").then(function (resData, status) {
             if (status == 200) {
 
-                if (resData.length < 15) {
-                    that.page.data.moreCards = false;
-
-                    if (that.page.data.topCardText != null) {
-                        that.page.data.topCardText.set({
-                            text: that.properties.ALL_DONE_TEXT
-                        });
-                    }
-                }
-
                 that.page.data.lastCardLoaded = resData[resData.length - 1].id;
 
                 for (var i = 0; i < resData.length; i++) {
                     that.page.data.queuedCards.push(resData[i]);
+                }
+
+                if (resData.length < 15) {
+                    that.page.data.moreCards = false;
+
+                    if (that.page.data.topCardText != null) {
+                        that.page.data.topCardText.dispose();
+                        that.page.data.topCardText = null;
+
+                        that.createNextCard();
+                        that.shiftCards();
+                    } else if (that.page.data.nextCardText != null) {
+                        that.page.data.topCardText.dispose();
+                        that.page.data.topCardText = null;
+
+                        that.createNextCard();
+                    }
                 }
 
                 // Dispose of the activity indicator.

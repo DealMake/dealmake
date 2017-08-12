@@ -10,16 +10,14 @@
         David Fine
     </author>
     
-    <content src="src/package.json"/>
-    
     <plugin name="tabris-plugin-camera" spec="https://github.com/eclipsesource/tabris-plugin-camera.git" />
     <plugin name="cordova-plugin-geolocation" spec="https://github.com/apache/cordova-plugin-geolocation.git" />
     <plugin name="cordova-plugin-splashscreen" spec="https://github.com/apache/cordova-plugin-splashscreen.git" />
     <plugin name="onesignal-cordova-plugin" spec="https://github.com/OneSignal/OneSignal-Cordova-SDK.git" />
     <plugin name="cordova-plugin-purchase" spec="https://github.com/j3k0/cordova-plugin-purchase.git" />
     
-    <icon src="www/app/icon.png" />
-    <splash src="www/app/splash.png" />
+    <icon src="icon.png" />
+    <splash src="splash.png" />
     
     <preference name="EnableDeveloperConsole" value="true" />
 </widget>
