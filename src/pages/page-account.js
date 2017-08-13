@@ -122,8 +122,8 @@ module.exports = function () {
                     quality: 50,
                     targetWidth: 64,
                     targetHeight: 64,
-                    sourceType: navigator.Camera.PictureSourceType.PHOTOLIBRARY,
-                    destinationType: navigator.Camera.DestinationType.DATA_URL
+                    sourceType: 0,
+                    destinationType: 0
                 });
             }
         });
