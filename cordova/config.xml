@@ -16,7 +16,5 @@
     <plugin name="onesignal-cordova-plugin" spec="https://github.com/OneSignal/OneSignal-Cordova-SDK.git" />
     <plugin name="cordova-plugin-purchase" spec="https://github.com/j3k0/cordova-plugin-purchase.git" />
     
-    <splash src="splash.png" />
-    
     <preference name="EnableDeveloperConsole" value="true" />
 </widget>

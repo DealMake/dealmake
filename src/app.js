@@ -1029,7 +1029,7 @@ var App = function () {
 
                 // Ask the server to resend the text.
                 that.accountComposite.data.isSomethingLoading = true;
-                this.apiCall("/api/:version/users/" + that.user + "/verification/phone/resend?token=" + that.token, "POST").then(function (resData, status) {
+                this.apiCall("users/" + that.user + "/verification/phone/resend?token=" + that.token, "POST").then(function (resData, status) {
                     that.accountComposite.data.phoneResendTV.set({
                         text: resData.message
                     });
@@ -1042,7 +1042,7 @@ var App = function () {
 
     this.enterApp = function () {
 
-        this.apiCall("email", "GET").then(function (resData) {
+        this.apiCall("users/" + that.user + "/email?token=" + that.token, "GET").then(function (resData) {
             navigator.OneSignal.startInit("d1497c5f-3ef7-457c-b9cf-707070f3dbbf").handleNotificationOpened(notificationOpenedCallback).endInit();
             navigator.OneSignal.syncHashedEmail(resData.email);
 
