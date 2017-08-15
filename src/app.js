@@ -486,14 +486,20 @@ var App = function () {
                     text: "Choose Photo"
                 });
                 this.accountComposite.data.chooseB.on("select", function () {
+                    console.log("Button selected...");
                     if (!that.accountComposite.data.isSomethingAnimating && !that.accountComposite.data.isSomethingLoading) {
+                        console.log("Called get picture...");
                         navigator.camera.getPicture(function (img) {
+                            console.log("YES!");
+                            
                             that.accountComposite.data.savedAccountData.profile = img;
                             that.accountComposite.data.profileIV.set({
                                 image: that.accountComposite.data.savedAccountData.profile
                             });
                             console.log(that.accountComposite.data.savedAccountData.profile);
                         }, function (message) {
+                            console.log("NO!");
+                            
                             that.handError(new Error(message));
                         }, {
                             quality: 50,
@@ -1088,6 +1094,7 @@ var App = function () {
             that.PageCredits = require("./pages/page-credits.js");
             that.PageAbout = require("./pages/page-about.js");
             that.PageAccount = require("./pages/page-account.js");
+            that.PageEditVenture = require("./pages/page-editventure.js");
 
             // Create tab objects, add them to tabs, and initiate thier UIs.
             var tab;

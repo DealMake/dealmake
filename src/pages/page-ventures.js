@@ -241,7 +241,13 @@ module.exports = function () {
 
                             // Listen for taps on the edit button.
                             cell.find("#main").find("#edit").on("tap", function () {
-
+                                // Create the venture edit page.
+                                var page = new that.tab.app.PageEditVenture();
+                                page.initiateUI(that.tab);
+                                page.setTarget(index - 1);
+                                page.setTitle(that.page.data.ventures[index - 1].name);
+                                page.setInfo(that.page.data.ventures[index - 1]);
+                                that.tab.navigationView.append(page.page);
                             });
 
                             // Listen for taps on the delete button.
