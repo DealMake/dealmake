@@ -492,6 +492,7 @@ var App = function () {
                             that.accountComposite.data.profileIV.set({
                                 image: that.accountComposite.data.savedAccountData.profile
                             });
+                            console.log(that.accountComposite.data.savedAccountData.profile);
                         }, function (message) {
                             that.handError(new Error(message));
                         }, {

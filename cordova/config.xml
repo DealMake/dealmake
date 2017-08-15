@@ -13,7 +13,7 @@
     <plugin name="tabris-plugin-camera" spec="https://github.com/eclipsesource/tabris-plugin-camera.git" />
     <plugin name="cordova-plugin-geolocation" spec="https://github.com/apache/cordova-plugin-geolocation.git" />
     <plugin name="cordova-plugin-splashscreen" spec="https://github.com/apache/cordova-plugin-splashscreen.git" />
-    <plugin name="onesignal-cordova-plugin" spec="https://github.com/OneSignal/OneSignal-Cordova-SDK.git" />
+    <plugin name="onesignal-cordova-plugin" version="2.0.11" />
     
     <preference name="EnableDeveloperConsole" value="true" />
 </widget>
