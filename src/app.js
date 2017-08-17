@@ -1123,9 +1123,14 @@ var App = function () {
     this.enterApp = function () {
 
         this.apiCall("users/" + that.user + "/email?token=" + that.token, "GET").then(function (resData) {
-            navigator.OneSignal.startInit("d1497c5f-3ef7-457c-b9cf-707070f3dbbf").handleNotificationOpened(notificationOpenedCallback).endInit();
-            navigator.OneSignal.syncHashedEmail(resData.email);
-
+            
+            // Initialize one signal.
+            navigator.OneSignal.promptForPushNotificationsWithUserResponse(function (accepted) {
+                if (accepted) {
+                    navigator.OneSignal.startInit("d1497c5f-3ef7-457c-b9cf-707070f3dbbf").handleNotificationOpened(notificationOpenedCallback).endInit();
+                    navigator.OneSignal.syncHashedEmail(resData.email);
+                }
+            });
 
             // The app has been entered.
             that.appEntered = true;
