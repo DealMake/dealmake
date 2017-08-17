@@ -603,6 +603,8 @@ var App = function () {
                                 xhr.addEventListener("readystatechange", function () {
                                     if (this.readyState === 4) {
                                         var resData = JSON.parse(this.responseText);
+                                        
+                                        console.log(resData);
 
                                         that.apiCall("users", "POST", {
                                             email: that.accountComposite.data.savedAccountData.email,
@@ -660,6 +662,7 @@ var App = function () {
                                     }
                                 });
                                 xhr.open("GET", "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + geo.coords.latitude + "," + geo.coords.longitude + "&result_type=sublocality&key=AIzaSyD_RXoSJoSeG4tnr7jf6fYLxCfnJvzW1_8");
+                                console.log("https://maps.googleapis.com/maps/api/geocode/json?latlng=" + geo.coords.latitude + "," + geo.coords.longitude + "&result_type=sublocality&key=AIzaSyD_RXoSJoSeG4tnr7jf6fYLxCfnJvzW1_8");
                                 xhr.send();
                             });
 
