@@ -614,7 +614,7 @@ var App = function () {
                                             isVC: that.accountComposite.data.savedAccountData.isVC,
                                             latitude: geo.coords.latitude,
                                             longitude: geo.coords.longitude,
-                                            place: resData.formatted_address
+                                            place: resData[0].formatted_address
                                         }).then(function (resData, status) {
                                             if (status == 200) {
                                                 that.token = resData.login.json.token;
@@ -661,8 +661,8 @@ var App = function () {
                                         });
                                     }
                                 });
-                                xhr.open("GET", "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + geo.coords.latitude + "," + geo.coords.longitude + "&result_type=sublocality&key=AIzaSyD_RXoSJoSeG4tnr7jf6fYLxCfnJvzW1_8");
-                                console.log("https://maps.googleapis.com/maps/api/geocode/json?latlng=" + geo.coords.latitude + "," + geo.coords.longitude + "&result_type=sublocality&key=AIzaSyD_RXoSJoSeG4tnr7jf6fYLxCfnJvzW1_8");
+                                xhr.open("GET", "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + geo.coords.latitude + "," + geo.coords.longitude + "&result_type=political&key=AIzaSyD_RXoSJoSeG4tnr7jf6fYLxCfnJvzW1_8");
+                                console.log("https://maps.googleapis.com/maps/api/geocode/json?latlng=" + geo.coords.latitude + "," + geo.coords.longitude + "&result_type=political&key=AIzaSyD_RXoSJoSeG4tnr7jf6fYLxCfnJvzW1_8");
                                 xhr.send();
                             }, function (err) {
                                 console.log("ERROR");
@@ -791,7 +791,7 @@ var App = function () {
                                         back: that.accountComposite.data.backTI,
                                         latitude: geo.coords.latitude,
                                         longitude: geo.coords.longitude,
-                                        place: resData.formatted_address
+                                        place: resData[0].formatted_address
                                     }).then(function (resData, status) {
                                         if (status == 200) {
                                             that.token = resData.login.json.token;
@@ -838,8 +838,8 @@ var App = function () {
                                     });
                                 }
                             });
-                            xhr.open("GET", "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + geo.coords.latitude + "," + geo.coords.longitude + "&result_type=sublocality&key=AIzaSyD_RXoSJoSeG4tnr7jf6fYLxCfnJvzW1_8");
-                            console.log("https://maps.googleapis.com/maps/api/geocode/json?latlng=" + geo.coords.latitude + "," + geo.coords.longitude + "&result_type=sublocality&key=AIzaSyD_RXoSJoSeG4tnr7jf6fYLxCfnJvzW1_8");
+                            xhr.open("GET", "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + geo.coords.latitude + "," + geo.coords.longitude + "&result_type=political&key=AIzaSyD_RXoSJoSeG4tnr7jf6fYLxCfnJvzW1_8");
+                            console.log("https://maps.googleapis.com/maps/api/geocode/json?latlng=" + geo.coords.latitude + "," + geo.coords.longitude + "&result_type=political&key=AIzaSyD_RXoSJoSeG4tnr7jf6fYLxCfnJvzW1_8");
                             xhr.send();
                         }, function (err) {
                             console.log("ERROR");

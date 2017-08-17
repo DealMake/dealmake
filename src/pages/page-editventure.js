@@ -278,7 +278,7 @@ module.exports = function () {
                                         genre: that.page.data.genreP.selectionIndex,
                                         latitude: geo.coords.latitude,
                                         longitude: geo.coords.longitude,
-                                        place: resData.formatted_address
+                                        place: resData[0].formatted_address
                                     }).then(function (resData, status) {
                                         if (status == 200) {
                                             that.page.dispose();
@@ -286,7 +286,7 @@ module.exports = function () {
                                     });
                                 }
                             });
-                            xhr.open("GET", "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + geo.coords.latitude + "," + geo.coords.longitude + "&result_type=sublocality&key=AIzaSyD_RXoSJoSeG4tnr7jf6fYLxCfnJvzW1_8");
+                            xhr.open("GET", "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + geo.coords.latitude + "," + geo.coords.longitude + "&result_type=political&key=AIzaSyD_RXoSJoSeG4tnr7jf6fYLxCfnJvzW1_8");
                             xhr.send();
                         });
                     }
