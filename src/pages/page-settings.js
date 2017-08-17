@@ -136,7 +136,7 @@ module.exports = function () {
                             }
                             action = function () {
                                 // Open the vc management UI.
-                                var page = new that.tab.app.PageVC();
+                                var page = new that.tab.app.PageEditVC();
                                 page.initiateUI(that.tab);
                                 that.tab.navigationView.append(page.page);
                             };

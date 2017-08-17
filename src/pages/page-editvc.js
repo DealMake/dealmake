@@ -5,8 +5,8 @@ module.exports = function () {
 
     // Properties are used for reference.
     this.properties = {
-        PAGE_NAME: "Account",
-        PAGE_ID: "account",
+        PAGE_NAME: "Edit VC Info",
+        PAGE_ID: "editvc",
         PAGE_BACKGROUND: "#000000"
     };
 
@@ -43,7 +43,7 @@ module.exports = function () {
         this.page.data.aa.appendTo(this.page);
 
         // Get the information.
-        this.tab.apiCall("users/" + that.user + "?token=" + that.token, "GET").then(function (resData, status) {
+        this.tab.apiCall("users/" + that.user + "/vc?token=" + that.token, "GET").then(function (resData, status) {
             if (status == 200) {
                 that.page.data.aa.dispose();
 
@@ -68,66 +68,55 @@ module.exports = function () {
     this.setInfo = function (info) {
         var that = this;
 
-        // Create a name label.
-        this.page.data.nameTV = new tabris.TextView({
-            centerX: -32,
-            centerY: -96
-        });
-        this.page.data.nameTV.set({
-            text: "Name: ",
-            font: Math.floor(22 / 1.3) + "px"
-        });
-        this.page.data.nameTV.appendTo(this.page);
-
-        // Create a name text input.
-        this.page.data.nameTI = new tabris.TextInput({
-            centerX: 32,
-            centerY: -96
-        });
-        this.page.data.nameTI.set({
-            text: info.name
-        });
-        this.page.data.nameTI.appendTo(this.page);
-
-        // Create a profile label.
-        this.page.data.profileTV = new tabris.TextView({
+        // Add the tag label.
+        this.page.data.tagTV = new tabris.TextView({
             centerX: -32,
             centerY: -64
         });
-        this.page.data.profileTV.set({
+        this.page.data.tagTV.set({
             text: "Profile: ",
             font: Math.floor(22 / 1.3) + "px"
         });
-        this.page.data.profileTV.appendTo(this.page);
+        this.page.data.tagTV.appendTo(this.page);
 
-        // Create a profile preview.
-        this.page.data.profileIV = new tabris.ImageView({
-            centerX: 32,
-            centerY: -32,
-            width: 64,
+        // Add the tag box.
+        this.page.data.tagTI = new tabris.TextInput({
+            centerX: 80,
+            centerY: -64,
+            width: 160,
             height: 64
         });
-        this.page.data.profileIV.set({
-            image: info.profile
+        this.page.data.tagTI.set({
+            message: "A sentence for your VC card.",
+            type: "multiline",
+            text: info.tag
         });
-        this.page.data.profileIV.on({
-            select: function () {
-                navigator.camera.getPicture(function (img) {
-                    that.page.data.profileIV.set({
-                        image: "data:image/jpg;base64," + img
-                    });
-                }, function (message) {
-                    that.page.tab.app.handError(new Error(message));
-                }, {
-                    quality: 50,
-                    targetWidth: 64,
-                    targetHeight: 64,
-                    sourceType: 0,
-                    destinationType: 0
-                });
-            }
+        this.page.data.tagTI.appendTo(this.page);
+
+        // Add the back label.
+        this.page.data.backTV = new tabris.TextView({
+            centerX: -32,
+            centerY: 0
         });
-        this.page.data.profileIV.appendTo(this.page);
+        this.page.data.backTV.set({
+            text: "Profile: ",
+            font: Math.floor(22 / 1.3) + "px"
+        });
+        this.page.data.backTV.appendTo(this.page);
+
+        // Add the back box.
+        this.page.data.tagTI = new tabris.TextInput({
+            centerX: 80,
+            centerY: 0,
+            width: 160,
+            height: 64
+        });
+        this.page.data.tagTI.set({
+            message: "The back of your VC's card.",
+            type: "multiline",
+            text: info.back
+        });
+        this.page.data.tagTI.appendTo(this.page);
 
         // Create the cancel button.
         this.page.data.cancelB = new tabris.Button({
@@ -155,9 +144,9 @@ module.exports = function () {
         this.page.data.saveB.on({
             select: function () {
                 if (that.page.data.nameTI.text != "") {
-                    that.page.tab.app.apiCall("users/" + that.page.tab.app.user + "/update?token=" + that.page.tab.app.token, "POST", {
-                        name: that.page.data.nameTI.text,
-                        profile: that.page.data.profileIV.image
+                    that.page.tab.app.apiCall("users/" + that.page.tab.app.user + "/vc/update?token=" + that.page.tab.app.token, "POST", {
+                        tag: that.page.data.tagTI.text,
+                        back: that.page.data.backTI.image
                     }).then(function (resData, status) {
                         if (status == 200) {
                             that.page.dispose();

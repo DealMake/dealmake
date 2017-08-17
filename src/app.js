@@ -134,6 +134,7 @@ var App = function () {
                         that.token = resData.token;
                         that.user = resData.user;
                         that.isVC = resData.isVC;
+                        that.ventureCount = resData.ventureCount;
 
                         if (!resData.emailVerified || !resData.phoneVerified) {
 
@@ -164,8 +165,40 @@ var App = function () {
                             });
                         } else {
 
-                            // If the user has been verified, enter the app.
-                            that.enterApp();
+                            if (that.isVC && that.ventureCount == 0) {
+                                new tabris.AlertDialog({
+                                    title: "Add a Venture",
+                                    message: "You haven't added any ventures. Would you like to add one?",
+                                    buttons: {
+                                        ok: "Add",
+                                        cancel: "Continue",
+                                    }
+                                }).on({
+                                    closeOk: function () {
+                                        that.enterApp();
+
+                                        // Create the venture edit page.
+                                        var page = new that.tab.app.PageEditVenture();
+                                        page.initiateUI(that.tab);
+                                        page.setTarget(-1);
+                                        page.setTitle("New Venture");
+                                        page.setInfo({
+                                            name: "Venture",
+                                            tag: "My venture.",
+                                            back: "Some information about the venture.",
+                                            genre: 15,
+                                            logo: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAQAAAAAYLlVAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QAAKqNIzIAAAAJcEhZcwAADdcAAA3XAUIom3gAAAAHdElNRQfhCBEACS1dBP6AAAAEi0lEQVRo3sWZa2wUVRTHfwuVbltpXQq0aUKAtlQr2Kg8FKIxJGp9ECVGEh8JqQkmRpQKBkhUgmgIhqiRGL+oBDH0S0lEv2B8JEQxoiLEYmrptmm1ChTaWmrLLotljx96dpzZx+zO7Oz2TDaze8495/+/987ce85dmGSZmpV3Ec+yiDZksui3IAg7Jwu+gSiCEKJycgi0Inq9PRnw9Vw1CISoyD+BFgNeEN7MN/wCxhGEk/yFIFxidn4J7NOeP8xz+m13PuHn8y+C0IaPQs4gCGPMyh+B97XXawB4Xn+9kS/4OVxBENqZAoBfx2CUmfkh8J72+AlDs0E1u/IBX8VlBCFo2kf8nNUxKM89gXe0t00WbbNqc74vVBBCEHoosOiLOIcg/MOM3BLYrT19OsHyglpezyV8OWMIQh/TEmyxMRghkDsCO7WX65NaN6p1R67gA4wgCGfxJ7UX0Y8gXOS6zINmlpIVUM1ytrAUgO18l7TVOFEaAT+1TKOYMOH0oX0pLVXUGVc11xj6C8wnlMKnmF7LrjhMF93GZygdgTITZB3XpgDZarvvbeKtlLZhuk10BmPqUtbzIUc5b0kwkl8htun6n3pEN/F3BpGEYY6zl3ofX3CvTcAofxCkkyBBgvRlmICXU8sC/dTaLk2nfPQn5HMDJshuIhlB2skMCx3rbtELm41B6Wcttzl5hVxJgDs0jROusApgu0Fhb5oZ9kL8HFa0CKtjyq0GhQNZFmvppIgvFenyRO9j0mxQaDW9815LCUcUJcx98cZntNASPk2y1Xgh0zlqvM53J2vQZNQ6h1Os9tlIGcc0+hgrUzV6XNNt4WuKPYUP8JNGHuVOu4aPaMYrfMt0z+DLOalRR1iRrvGDmnQKxyjzBH4Wp4zld1kmDvdo3if87EGGV0m7RhticaZOdzGqTm1ZFlxVnNZIg9zsxHE5F9WxPYvzjzl0aZTz3OTUeQlD6hx0WW4E6NEI57jRTYAGLmiADa4INKn3Ga53O4QLNcR+V9671LvBrpH97jem905XBNr1bruw2xNYGBfKmfyqd9vHL5cETjPuDYEwPa4IROjyhkAHUVcEYpPgmoCPesDtBPxPoMJuNbUjMI8STwjYjoEdgewewbwQuJ+DHKIpZSLbqyuJ431gQj7WBCp5AbuCb4xEtoNHU7T6AUH40R2BEwjC8SSWRXyWUOudSMxzgQ9sO2ErUzQt+ShOP4/9poN60UPrWBoXn+/FThBrnBOoUdfNJt1s9hAxAR7hdmo4YCH0ObeaPFaqdrVzAg+p6wP6u5QdRp40MeSNpik5ZLJEOcgNapmpum3OCbykrnOBQjYyYILoZE3CrC7jK8vE7GMugJ6dtTon0KJZfAFP0WcK/Sfr4g4pzQP+vallhHep1FqwwzmBXxCEAX4zhRzkxbQ10yr1nLgu8buOiMNaayrhuNdslNcozcjXx2MEE17TW5wRqLM4R9jj8D+hAtZZJk5Y64xAo+F41XicnEohzaajr1edOVfrFHziLqE2pISXGUaIZl4VxWQpr7AkK/CYBHjSzUqYJ/kPXxhmngf75WIAAAAldEVYdGRhdGU6Y3JlYXRlADIwMTctMDgtMTdUMDA6MDk6NDUrMDI6MDDsMI0gAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDE3LTA4LTE3VDAwOjA5OjQ1KzAyOjAwnW01nAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAAASUVORK5CYII="
+                                        });
+                                        that.tab.navigationView.append(page.page);
+                                    },
+                                    closeCancel: function () {
+                                        that.enterApp();
+                                    }
+                                }).open();
+                            } else {
+                                // If the user has been verified, enter the app.
+                                that.enterApp();
+                            }
                         }
                     } else {
                         that.accountComposite.data.statusTV.set({
@@ -486,20 +519,13 @@ var App = function () {
                     text: "Choose Photo"
                 });
                 this.accountComposite.data.chooseB.on("select", function () {
-                    console.log("Button selected...");
                     if (!that.accountComposite.data.isSomethingAnimating && !that.accountComposite.data.isSomethingLoading) {
-                        console.log("Called get picture...");
                         navigator.camera.getPicture(function (img) {
-                            console.log("YES!");
-                            
-                            that.accountComposite.data.savedAccountData.profile = img;
+                            that.accountComposite.data.savedAccountData.profile = "data:image/jpg;base64," + img;
                             that.accountComposite.data.profileIV.set({
                                 image: that.accountComposite.data.savedAccountData.profile
                             });
-                            console.log(that.accountComposite.data.savedAccountData.profile);
                         }, function (message) {
-                            console.log("NO!");
-                            
                             that.handError(new Error(message));
                         }, {
                             quality: 50,
@@ -592,6 +618,8 @@ var App = function () {
                                                 that.token = resData.login.json.token;
                                                 that.user = resData.login.json.user;
                                                 that.isVC = resData.isVC;
+                                                that.ventureCount = resData.ventureCount;
+
                                                 that.accountComposite.data.isSomethingAnimating = true;
                                                 that.accountComposite.data.accountForm.animate({
                                                     opacity: 0
@@ -763,6 +791,8 @@ var App = function () {
                                             that.token = resData.login.json.token;
                                             that.user = resData.login.json.user;
                                             that.isVC = resData.isVC;
+                                            that.ventureCount = resData.ventureCount;
+
                                             that.accountComposite.data.isSomethingAnimating = true;
                                             that.accountComposite.data.accountForm.animate({
                                                 opacity: 0
@@ -882,7 +912,40 @@ var App = function () {
                 if (status == 200) {
                     if (resData.emailVerified && resData.phoneVerified) {
                         clearInterval(that.accountComposite.data.checkVerificationInterval);
-                        that.enterApp();
+                        if (that.isVC && that.ventureCount == 0) {
+                            new tabris.AlertDialog({
+                                title: "Add a Venture",
+                                message: "You haven't added any ventures. Would you like to add one?",
+                                buttons: {
+                                    ok: "Add",
+                                    cancel: "Continue",
+                                }
+                            }).on({
+                                closeOk: function () {
+                                    that.enterApp();
+
+                                    // Create the venture edit page.
+                                    var page = new that.tab.app.PageEditVenture();
+                                    page.initiateUI(that.tab);
+                                    page.setTarget(-1);
+                                    page.setTitle("New Venture");
+                                    page.setInfo({
+                                        name: "Venture",
+                                        tag: "My venture.",
+                                        back: "Some information about the venture.",
+                                        genre: 15,
+                                        logo: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAQAAAAAYLlVAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QAAKqNIzIAAAAJcEhZcwAADdcAAA3XAUIom3gAAAAHdElNRQfhCBEACS1dBP6AAAAEi0lEQVRo3sWZa2wUVRTHfwuVbltpXQq0aUKAtlQr2Kg8FKIxJGp9ECVGEh8JqQkmRpQKBkhUgmgIhqiRGL+oBDH0S0lEv2B8JEQxoiLEYmrptmm1ChTaWmrLLotljx96dpzZx+zO7Oz2TDaze8495/+/987ce85dmGSZmpV3Ec+yiDZksui3IAg7Jwu+gSiCEKJycgi0Inq9PRnw9Vw1CISoyD+BFgNeEN7MN/wCxhGEk/yFIFxidn4J7NOeP8xz+m13PuHn8y+C0IaPQs4gCGPMyh+B97XXawB4Xn+9kS/4OVxBENqZAoBfx2CUmfkh8J72+AlDs0E1u/IBX8VlBCFo2kf8nNUxKM89gXe0t00WbbNqc74vVBBCEHoosOiLOIcg/MOM3BLYrT19OsHyglpezyV8OWMIQh/TEmyxMRghkDsCO7WX65NaN6p1R67gA4wgCGfxJ7UX0Y8gXOS6zINmlpIVUM1ytrAUgO18l7TVOFEaAT+1TKOYMOH0oX0pLVXUGVc11xj6C8wnlMKnmF7LrjhMF93GZygdgTITZB3XpgDZarvvbeKtlLZhuk10BmPqUtbzIUc5b0kwkl8htun6n3pEN/F3BpGEYY6zl3ofX3CvTcAofxCkkyBBgvRlmICXU8sC/dTaLk2nfPQn5HMDJshuIhlB2skMCx3rbtELm41B6Wcttzl5hVxJgDs0jROusApgu0Fhb5oZ9kL8HFa0CKtjyq0GhQNZFmvppIgvFenyRO9j0mxQaDW9815LCUcUJcx98cZntNASPk2y1Xgh0zlqvM53J2vQZNQ6h1Os9tlIGcc0+hgrUzV6XNNt4WuKPYUP8JNGHuVOu4aPaMYrfMt0z+DLOalRR1iRrvGDmnQKxyjzBH4Wp4zld1kmDvdo3if87EGGV0m7RhticaZOdzGqTm1ZFlxVnNZIg9zsxHE5F9WxPYvzjzl0aZTz3OTUeQlD6hx0WW4E6NEI57jRTYAGLmiADa4INKn3Ga53O4QLNcR+V9671LvBrpH97jem905XBNr1bruw2xNYGBfKmfyqd9vHL5cETjPuDYEwPa4IROjyhkAHUVcEYpPgmoCPesDtBPxPoMJuNbUjMI8STwjYjoEdgewewbwQuJ+DHKIpZSLbqyuJ431gQj7WBCp5AbuCb4xEtoNHU7T6AUH40R2BEwjC8SSWRXyWUOudSMxzgQ9sO2ErUzQt+ShOP4/9poN60UPrWBoXn+/FThBrnBOoUdfNJt1s9hAxAR7hdmo4YCH0ObeaPFaqdrVzAg+p6wP6u5QdRp40MeSNpik5ZLJEOcgNapmpum3OCbykrnOBQjYyYILoZE3CrC7jK8vE7GMugJ6dtTon0KJZfAFP0WcK/Sfr4g4pzQP+vallhHep1FqwwzmBXxCEAX4zhRzkxbQ10yr1nLgu8buOiMNaayrhuNdslNcozcjXx2MEE17TW5wRqLM4R9jj8D+hAtZZJk5Y64xAo+F41XicnEohzaajr1edOVfrFHziLqE2pISXGUaIZl4VxWQpr7AkK/CYBHjSzUqYJ/kPXxhmngf75WIAAAAldEVYdGRhdGU6Y3JlYXRlADIwMTctMDgtMTdUMDA6MDk6NDUrMDI6MDDsMI0gAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDE3LTA4LTE3VDAwOjA5OjQ1KzAyOjAwnW01nAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAAASUVORK5CYII="
+                                    });
+                                    that.tab.navigationView.append(page.page);
+                                },
+                                closeCancel: function () {
+                                    that.enterApp();
+                                }
+                            }).open();
+                        } else {
+                            // If the user has been verified, enter the app.
+                            that.enterApp();
+                        }
                     } else {
                         if (!resData.emailVerified) {
                             that.accountComposite.data.emailStatusTV.set({
@@ -1095,6 +1158,7 @@ var App = function () {
             that.PageAbout = require("./pages/page-about.js");
             that.PageAccount = require("./pages/page-account.js");
             that.PageEditVenture = require("./pages/page-editventure.js");
+            that.PageEditVC = require("./pages/page-editvc.js");
 
             // Create tab objects, add them to tabs, and initiate thier UIs.
             var tab;
