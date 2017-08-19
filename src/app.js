@@ -591,7 +591,7 @@ var App = function () {
                 });
                 this.accountComposite.data.nextB.on("select", function () {
                     if (!that.accountComposite.data.isSomethingAnimating && !that.accountComposite.data.isSomethingLoading) {
-                        if (that.accountComposite.data.savedAccountData.isVC) {
+                        if (!that.accountComposite.data.savedAccountData.isVC) {
 
                             that.accountComposite.data.isSomethingLoading = true;
 
