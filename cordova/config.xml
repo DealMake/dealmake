@@ -15,5 +15,5 @@
     <plugin name="cordova-plugin-splashscreen" spec="https://github.com/apache/cordova-plugin-splashscreen.git" />
     <plugin name="onesignal-cordova-plugin" version="2.0.11" />
     
-    <preference name="EnableDeveloperConsole" value="false" />
+    <preference name="EnableDeveloperConsole" value="true" />
 </widget>
