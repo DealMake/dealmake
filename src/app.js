@@ -614,7 +614,7 @@ var App = function () {
                                             isVC: that.accountComposite.data.savedAccountData.isVC,
                                             latitude: geo.coords.latitude,
                                             longitude: geo.coords.longitude,
-                                            place: resData[0].formatted_address
+                                            place: resData.results[0].formatted_address
                                         }).then(function (resData, status) {
                                             if (status == 200) {
                                                 that.token = resData.login.json.token;
@@ -791,7 +791,7 @@ var App = function () {
                                         back: that.accountComposite.data.backTI,
                                         latitude: geo.coords.latitude,
                                         longitude: geo.coords.longitude,
-                                        place: resData[0].formatted_address
+                                        place: resData.results[0].formatted_address
                                     }).then(function (resData, status) {
                                         if (status == 200) {
                                             that.token = resData.login.json.token;

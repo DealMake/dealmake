@@ -278,7 +278,7 @@ module.exports = function () {
                                         genre: that.page.data.genreP.selectionIndex,
                                         latitude: geo.coords.latitude,
                                         longitude: geo.coords.longitude,
-                                        place: resData[0].formatted_address
+                                        place: resData.results[0].formatted_address
                                     }).then(function (resData, status) {
                                         if (status == 200) {
                                             that.page.dispose();
