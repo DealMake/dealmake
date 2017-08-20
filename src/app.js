@@ -1211,36 +1211,30 @@ var App = function () {
         var that = this;
 
         return new Promise(function (resolve, reject) {
+            var startAppEntered = that.appEntered;
+            if (that.appEntered) {
+                var startPageCID = this.tabs[this.lastTabSelected].navigationView.pages()[this.tabs[this.lastTabSelected].navigationView.pages().length - 1].cid;
+            }
 
-            try {
-                var startAppEntered = that.appEntered;
-                if (that.appEntered) {
-                    var startPageCID = this.tabs[this.lastTabSelected].navigationView.pages()[this.tabs[this.lastTabSelected].navigationView.pages().length - 1].cid;
-                }
+            var xhr = new XMLHttpRequest();
+            xhr.withCredentials = true;
+            xhr.addEventListener("readystatechange", function () {
+                if (this.readyState === 4) {
+                    var resData = JSON.parse(this.responseText);
 
-                var xhr = new XMLHttpRequest();
-                xhr.withCredentials = true;
-                xhr.addEventListener("readystatechange", function () {
-                    if (this.readyState === 4) {
-                        var resData = JSON.parse(this.responseText);
-
-                        // Make sure the page is the same one as when it was called.
-                        if ((!startAppEntered && !that.appEntered) || (startAppEntered && that.tabs[that.lastTabSelected].navigationView.pages()[that.tabs[that.lastTabSelected].navigationView.pages().length - 1].cid == startPageCID)) {
-                            resolve(resData, this.status);
-                        }
+                    // Make sure the page is the same one as when it was called.
+                    if ((!startAppEntered && !that.appEntered) || (startAppEntered && that.tabs[that.lastTabSelected].navigationView.pages()[that.tabs[that.lastTabSelected].navigationView.pages().length - 1].cid == startPageCID)) {
+                        resolve(resData, this.status);
                     }
-                });
-                xhr.open(type, "/api/v1/" + url);
-                xhr.setRequestHeader("cache-control", "no-cache");
-                if (data) {
-                    xhr.setRequestHeader("content-type", "application/json");
-                    xhr.send(JSON.stringify(data));
-                } else {
-                    xhr.send();
                 }
-            } catch (e) {
-                console.log("Error on: " + url);
-                throw e;
+            });
+            xhr.open(type, "/api/v1/" + url);
+            xhr.setRequestHeader("cache-control", "no-cache");
+            if (data) {
+                xhr.setRequestHeader("content-type", "application/json");
+                xhr.send(JSON.stringify(data));
+            } else {
+                xhr.send();
             }
         });
     };
