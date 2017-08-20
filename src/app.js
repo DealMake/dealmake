@@ -132,7 +132,7 @@ var App = function () {
                     loginWith: that.accountComposite.data.loginWithTI.get("text"),
                     password: that.accountComposite.data.passwordTI.get("text")
                 }).then(function (resData, status) {
-                    
+                    console.log("Resdata:", resData);
                     console.log("Login status:", status);
                     if (status == 200) {
 
