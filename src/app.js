@@ -1225,6 +1225,7 @@ var App = function () {
                     console.log("/api/v1/" + url);
                     console.log(type);
                     console.log(data);
+                    console.log(this);
                     console.log(this.responseText);
                     var resData = JSON.parse(this.responseText);
 
