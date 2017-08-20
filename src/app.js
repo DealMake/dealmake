@@ -132,6 +132,8 @@ var App = function () {
                     loginWith: that.accountComposite.data.loginWithTI.get("text"),
                     password: that.accountComposite.data.passwordTI.get("text")
                 }).then(function (resData, status) {
+                    
+                    console.log("Login status:", status);
                     if (status == 200) {
 
                         // If the login was successful, set the token, user, and VC.
