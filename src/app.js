@@ -134,7 +134,7 @@ var App = function () {
                         that.token = resData.token;
                         that.user = resData.user;
                         that.isVC = resData.isVC;
-                        that.ventureCount = resData.ventureCount;
+                        that.ventureCount = resData.login.ventureCount;
 
                         if (!resData.emailVerified || !resData.phoneVerified) {
 
@@ -620,7 +620,7 @@ var App = function () {
                                                 that.token = resData.login.json.token;
                                                 that.user = resData.login.json.user;
                                                 that.isVC = resData.isVC;
-                                                that.ventureCount = resData.ventureCount;
+                                                that.ventureCount = resData.login.ventureCount;
 
                                                 that.accountComposite.data.isSomethingAnimating = true;
                                                 that.accountComposite.data.accountForm.animate({
@@ -797,7 +797,7 @@ var App = function () {
                                             that.token = resData.login.json.token;
                                             that.user = resData.login.json.user;
                                             that.isVC = resData.isVC;
-                                            that.ventureCount = resData.ventureCount;
+                                            that.ventureCount = resData.login.ventureCount;
 
                                             that.accountComposite.data.isSomethingAnimating = true;
                                             that.accountComposite.data.accountForm.animate({
