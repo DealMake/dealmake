@@ -46,6 +46,10 @@ var App = function () {
 
         // Build the sign in.
         this.buildSignIn();
+        
+        this.apiCall("", "GET").then(function (resData, status) {
+            console.log(resData, status);
+        });
     };
 
     this.buildSignIn = function () {
@@ -1222,7 +1226,7 @@ var App = function () {
             xhr.withCredentials = true;
             xhr.addEventListener("readystatechange", function () {
                 if (this.readyState === 4) {
-                    console.log("/api/v1/" + url);
+                    console.log("https://deal-make.com/api/v1/" + url);
                     console.log(type);
                     console.log(data);
                     console.log(this);
