@@ -1052,7 +1052,7 @@ var App = function () {
 
                 // Ask the server to resend the email.
                 that.accountComposite.data.isSomethingLoading = true;
-                this.apiCall("/api/:version/users/" + that.user + "/verification/email/resend?token=" + that.token, "POST").then(function (resData, status) {
+                this.apiCall("users/" + that.user + "/verification/email/resend?token=" + that.token, "POST").then(function (resData, status) {
                     that.accountComposite.data.emailResendTV.set({
                         text: resData.message
                     });
