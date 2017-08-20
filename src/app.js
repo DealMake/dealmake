@@ -614,6 +614,7 @@ var App = function () {
                                             isVC: that.accountComposite.data.savedAccountData.isVC,
                                             latitude: geo.coords.latitude,
                                             longitude: geo.coords.longitude,
+                                            profile: that.accountComposite.data.savedAccountData.profile,
                                             place: resData.results[0].formatted_address
                                         }).then(function (resData, status) {
                                             if (status == 200) {
@@ -787,10 +788,11 @@ var App = function () {
                                         name: that.accountComposite.data.savedAccountData.name,
                                         password: that.accountComposite.data.savedAccountData.password,
                                         isVC: that.accountComposite.data.savedAccountData.isVC,
-                                        tag: that.accountComposite.data.tagTI,
-                                        back: that.accountComposite.data.backTI,
+                                        tag: that.accountComposite.data.tagTI.text,
+                                        back: that.accountComposite.data.backTI.text,
                                         latitude: geo.coords.latitude,
                                         longitude: geo.coords.longitude,
+                                        profile: that.accountComposite.data.savedAccountData.profile,
                                         place: resData.results[0].formatted_address
                                     }).then(function (resData, status) {
                                         if (status == 200) {
