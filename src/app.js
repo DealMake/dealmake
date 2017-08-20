@@ -1229,9 +1229,7 @@ var App = function () {
             xhr.addEventListener("readystatechange", function () {
                 if (this.readyState === 4) {
                     console.log("https://deal-make.com/api/v1/" + url);
-                    console.log(type);
-                    console.log(data);
-                    console.log(this);
+                    console.log(this.status);
                     console.log(this.responseText);
                     var resData = JSON.parse(this.responseText);
 
