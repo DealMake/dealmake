@@ -46,8 +46,8 @@ var App = function () {
 
         // Build the sign in.
         this.buildSignIn();
-        
-        this.apiCall("", "GET").then(function (resData, status) {
+
+        this.apiCall("", "POST", {}).then(function (resData, status) {
             console.log(resData, status);
         });
     };
@@ -1241,7 +1241,7 @@ var App = function () {
             });
             xhr.open(type, "https://deal-make.com/api/v1/" + url);
             xhr.setRequestHeader("cache-control", "no-cache");
-            if (data) {
+            if (data && type == "POST") {
                 xhr.setRequestHeader("content-type", "application/json");
                 xhr.send(JSON.stringify(data));
             } else {
