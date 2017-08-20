@@ -1222,6 +1222,9 @@ var App = function () {
             xhr.withCredentials = true;
             xhr.addEventListener("readystatechange", function () {
                 if (this.readyState === 4) {
+                    console.log("/api/v1/" + url);
+                    console.log(type);
+                    console.log(data);
                     console.log(this.responseText);
                     var resData = JSON.parse(this.responseText);
 
