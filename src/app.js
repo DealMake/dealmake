@@ -1240,6 +1240,7 @@ var App = function () {
                 }
             } catch (e) {
                 console.log("Error on: " + url);
+                throw e;
             }
         });
     };
