@@ -1235,7 +1235,7 @@ var App = function () {
                     }
                 }
             });
-            xhr.open(type, "/api/v1/" + url);
+            xhr.open(type, "https://deal-make.com/api/v1/" + url);
             xhr.setRequestHeader("cache-control", "no-cache");
             if (data) {
                 xhr.setRequestHeader("content-type", "application/json");
