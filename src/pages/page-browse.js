@@ -221,8 +221,8 @@ module.exports = function () {
         console.log("GH4");
         
         // Create the topcard and nextcard.
-        this.createNextCard();
-        this.shiftCards();
+        // this.createNextCard();
+        // this.shiftCards();
 
         // Listen for horizontal panning.
         this.page.data.onPanHorizontal = function (event) {
