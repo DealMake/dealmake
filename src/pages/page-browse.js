@@ -683,7 +683,7 @@ module.exports = function () {
             font: Math.floor(this.properties.FRONT_TITLE_HEIGHT / 1.2) + "px",
             maxLines: 1,
             alignment: "center",
-            text: card.type == "e" ? card.title : card.name
+            text: card.type == "e" ? card.title : card.profileName
         });
         title.appendTo(frontComp);
 
