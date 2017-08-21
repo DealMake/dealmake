@@ -109,7 +109,6 @@ module.exports = function () {
         this.page.data.nextCardText = null;
         this.page.data.topCardText = null;
 
-
         // Fill the queued cards with dummy data.
         this.page.data.topCard = {
             id: 1,
@@ -125,10 +124,15 @@ module.exports = function () {
             place: "Charlotte, NC",
             composite: null
         };
+        console.log("2.1");
         this.page.data.topCard.composite = this.createCardComposite();
-        this.page.data.topCard.composite.data.type = "next";
+        console.log("2.2");
+        this.page.data.topCard.composite.data.type = "top";
+        console.log("2.3");
         this.buildFront(this.page.data.topCard);
+        console.log("2.4");
         this.page.data.topCard.composite.appendTo(this.page.topCardComposite);
+        console.log("2.5");
 
         /*, {
             id: 2,
