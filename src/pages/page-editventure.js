@@ -77,7 +77,7 @@ module.exports = function () {
 
     this.setTarget = function (target) {
         this.target = target;
-    }
+    };
 
     this.setInfo = function (info) {
         var that = this;
@@ -243,7 +243,7 @@ module.exports = function () {
             bottom: 16
         });
         this.page.data.saveB.set({
-            text: this.target == -1: "Create": "Save"
+            text: this.target == -1 ? "Create": "Save"
         });
         this.page.data.saveB.on({
             select: function () {

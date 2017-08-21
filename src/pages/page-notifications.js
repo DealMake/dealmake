@@ -326,6 +326,6 @@ module.exports = function () {
                 }
             });
         }
-    }
+    };
 
 };
