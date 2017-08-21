@@ -780,8 +780,9 @@ module.exports = function () {
 
     this.getMoreCards = function () {
         this.tab.app.apiCall("users/" + this.tab.app.user + "/browse?token=" + this.tab.app.token + "&count=15&last=" + this.page.data.lastCardLoaded, "GET").then(function (res) {
+            console.log(res);
             if (res.status == 200) {
-
+                
                 that.page.data.lastCardLoaded = res.data[res.data.length - 1].id;
 
                 for (var i = 0; i < res.data.length; i++) {
