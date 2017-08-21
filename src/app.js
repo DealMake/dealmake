@@ -128,7 +128,7 @@ var App = function () {
                     loginWith: that.accountComposite.data.loginWithTI.get("text"),
                     password: that.accountComposite.data.passwordTI.get("text")
                 }).then(function (res) {
-                    
+
                     console.log(res);
 
                     if (res.status == 200) {
@@ -1218,6 +1218,10 @@ var App = function () {
                     var resData = JSON.parse(this.responseText);
 
                     // Make sure the page is the same one as when it was called.
+                    console.log("App entered, then VS now:", startAppEntered, that.appEntered);
+                    if (that.appEntered) {
+                        console.log("Current page cId:", startPageCID, that.tabs[that.lastTabSelected].navigationView.pages()[that.tabs[that.lastTabSelected].navigationView.pages().length - 1].cid);
+                    }
                     if ((!startAppEntered && !that.appEntered) || (startAppEntered && that.tabs[that.lastTabSelected].navigationView.pages()[that.tabs[that.lastTabSelected].navigationView.pages().length - 1].cid == startPageCID)) {
                         resolve({
                             data: resData,
