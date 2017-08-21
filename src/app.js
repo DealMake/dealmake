@@ -1210,7 +1210,7 @@ var App = function () {
         return new Promise(function (resolve, reject) {
             var startAppEntered = that.appEntered;
             if (that.appEntered) {
-                var startPageCID = this.tabs[this.lastTabSelected].navigationView.pages()[this.tabs[this.lastTabSelected].navigationView.pages().length - 1].cid;
+                var startPageCID = that.tabs[that.lastTabSelected].navigationView.pages()[that.tabs[that.lastTabSelected].navigationView.pages().length - 1].cid;
             }
             
             console.log("C1");
