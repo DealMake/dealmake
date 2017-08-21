@@ -68,10 +68,10 @@ module.exports = function () {
         this.page.data.ventures = [];
 
         // Get the user's ventures.
-        this.tab.app.apiGet("users/" + this.tab.app.user + "/ventures?token=" + this.tab.app.token, "GET").then(function (resData, status) {
-            if (status == 200) {
+        this.tab.app.apiGet("users/" + this.tab.app.user + "/ventures?token=" + this.tab.app.token, "GET").then(function (res) {
+            if (res.status == 200) {
 
-                that.page.data.ventures = resData;
+                that.page.data.ventures = res.data;
 
                 // Get rid of the activity indicator.
                 that.page.data.activityIndicator.dispose();
@@ -261,8 +261,8 @@ module.exports = function () {
                                         cancel: "Keep"
                                     }
                                 })).on("closeOk", function () {
-                                    that.tab.app.apiCall("users/" + that.tab.app.user + "/ventures/" + that.page.data.ventures[index - 1].ind + "/delete?token=" + that.tab.app.token, "POST").then(function (resData, status) {
-                                        if (status == 200) {
+                                    that.tab.app.apiCall("users/" + that.tab.app.user + "/ventures/" + that.page.data.ventures[index - 1].ind + "/delete?token=" + that.tab.app.token, "POST").then(function (res) {
+                                        if (res.status == 200) {
                                             that.refreshVentures();
                                         }
                                     });
@@ -304,9 +304,9 @@ module.exports = function () {
     */
     this.refreshVentures = function () {
         // Get the user's ventures.
-        this.tab.app.apiCall("users/" + this.tab.app.user + "/ventures?token=" + this.tab.app.token, "GET").then(function (resData, status) {
-            if (status == 200) {
-                that.page.data.ventures = resData;
+        this.tab.app.apiCall("users/" + this.tab.app.user + "/ventures?token=" + this.tab.app.token, "GET").then(function (res) {
+            if (res.status == 200) {
+                that.page.data.ventures = res.data;
 
                 that.page.data.collectionView.remove(0, that.page.data.collectionView.itemCount);
                 that.page.data.collectionView.load(that.page.data.ventures.length + 2);

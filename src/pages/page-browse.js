@@ -779,16 +779,16 @@ module.exports = function () {
     };
 
     this.getMoreCards = function () {
-        this.tab.app.apiCall("users/" + this.tab.app.user + "/browse?token=" + this.tab.app.token + "&count=15&last=" + this.page.data.lastCardLoaded, "GET").then(function (resData, status) {
-            if (status == 200) {
+        this.tab.app.apiCall("users/" + this.tab.app.user + "/browse?token=" + this.tab.app.token + "&count=15&last=" + this.page.data.lastCardLoaded, "GET").then(function (res) {
+            if (res.status == 200) {
 
-                that.page.data.lastCardLoaded = resData[resData.length - 1].id;
+                that.page.data.lastCardLoaded = res.data[res.data.length - 1].id;
 
-                for (var i = 0; i < resData.length; i++) {
-                    that.page.data.queuedCards.push(resData[i]);
+                for (var i = 0; i < res.data.length; i++) {
+                    that.page.data.queuedCards.push(res.data[i]);
                 }
 
-                if (resData.length < 15) {
+                if (res.data.length < 15) {
                     that.page.data.moreCards = false;
 
                     if (that.page.data.topCardText != null) {

@@ -114,22 +114,22 @@ module.exports = function () {
     this.refreshMessages = function () {
         var that = this;
 
-        this.tab.app.apiCall("users/" + that.tab.app.user + "/messageindex?token=" + that.tab.app.token, "GET").then(function (resData, status) {
-            if (status == 200) {
+        this.tab.app.apiCall("users/" + that.tab.app.user + "/messageindex?token=" + that.tab.app.token, "GET").then(function (res) {
+            if (res.status == 200) {
                 that.page.data.conversations = [];
 
-                for (var i = 0; i < resData.messages.length; i++) {
+                for (var i = 0; i < res.data.messages.length; i++) {
                     that.page.data.conversations.push({
-                        id: resData.messages[i].id,
-                        name: resData.users[resData.messages[i].user].name,
-                        target: resData.messages[i].user,
-                        venture: resData.ventures[resData.messages[i].venture].name,
-                        ventureId: resData.messages[i].venture,
-                        lastMessage: resData.messages[i].lastMessage,
-                        unreadMessages: resData.messages[i].unreadMessages,
-                        lastMessageTime: resData.messages[i].lastMessageTime,
+                        id: res.data.messages[i].id,
+                        name: res.data.users[res.data.messages[i].user].name,
+                        target: res.data.messages[i].user,
+                        venture: res.data.ventures[res.data.messages[i].venture].name,
+                        ventureId: res.data.messages[i].venture,
+                        lastMessage: res.data.messages[i].lastMessage,
+                        unreadMessages: res.data.messages[i].unreadMessages,
+                        lastMessageTime: res.data.messages[i].lastMessageTime,
                         profile: {
-                            src: resData.users[resData.messages[i].user].profile
+                            src: res.data.users[res.data.messages[i].user].profile
                         }
                     });
                 }

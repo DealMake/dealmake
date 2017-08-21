@@ -255,8 +255,8 @@ module.exports = function () {
                             tag: that.page.data.tagTV.text,
                             back: that.page.data.backTV.text,
                             genre: that.page.data.genreP.selectionIndex
-                        }).then(function (resData, status) {
-                            if (status == 200) {
+                        }).then(function (res) {
+                            if (res.status == 200) {
                                 that.page.dispose();
                             }
                         });
@@ -279,8 +279,8 @@ module.exports = function () {
                                         latitude: geo.coords.latitude,
                                         longitude: geo.coords.longitude,
                                         place: resData.results[0].formatted_address
-                                    }).then(function (resData, status) {
-                                        if (status == 200) {
+                                    }).then(function (res) {
+                                        if (res.status == 200) {
                                             that.page.dispose();
                                         }
                                     });

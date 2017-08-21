@@ -46,10 +46,6 @@ var App = function () {
 
         // Build the sign in.
         this.buildSignIn();
-
-        this.apiCall("", "POST", {}).then(function (resData, status) {
-            console.log(resData, status);
-        });
     };
 
     this.buildSignIn = function () {
@@ -131,18 +127,17 @@ var App = function () {
                 that.apiCall("login", "POST", {
                     loginWith: that.accountComposite.data.loginWithTI.get("text"),
                     password: that.accountComposite.data.passwordTI.get("text")
-                }).then(function (resData, status) {
-                    console.log("Resdata:", resData);
-                    console.log("Login status:", status);
-                    if (status == 200) {
+                }).then(function (res) {
+
+                    if (res.status == 200) {
 
                         // If the login was successful, set the token, user, and VC.
-                        that.token = resData.token;
-                        that.user = resData.user;
-                        that.isVC = resData.isVC;
-                        that.ventureCount = resData.login.ventureCount;
+                        that.token = res.data.token;
+                        that.user = res.data.user;
+                        that.isVC = res.data.isVC;
+                        that.ventureCount = res.data.login.ventureCount;
 
-                        if (!resData.emailVerified || !resData.phoneVerified) {
+                        if (!res.data.emailVerified || !res.data.phoneVerified) {
 
                             // If the user has not been verified, fade to that page.
                             that.accountComposite.data.isSomethingAnimating = true;
@@ -208,7 +203,7 @@ var App = function () {
                         }
                     } else {
                         that.accountComposite.data.statusTV.set({
-                            text: "Error: '" + resData.message + "'",
+                            text: "Error: '" + res.data.message + "'",
                             textColor: "#FF0000"
                         });
                     }
@@ -610,8 +605,6 @@ var App = function () {
                                     if (this.readyState === 4) {
                                         var resData = JSON.parse(this.responseText);
 
-                                        console.log(resData);
-
                                         that.apiCall("users", "POST", {
                                             email: that.accountComposite.data.savedAccountData.email,
                                             phone: that.accountComposite.data.savedAccountData.phone,
@@ -622,12 +615,12 @@ var App = function () {
                                             longitude: geo.coords.longitude,
                                             profile: that.accountComposite.data.savedAccountData.profile,
                                             place: resData.results[0].formatted_address
-                                        }).then(function (resData, status) {
-                                            if (status == 200) {
-                                                that.token = resData.login.json.token;
-                                                that.user = resData.login.json.user;
-                                                that.isVC = resData.isVC;
-                                                that.ventureCount = resData.login.ventureCount;
+                                        }).then(function (res) {
+                                            if (res.status == 200) {
+                                                that.token = res.data.login.json.token;
+                                                that.user = res.data.login.json.user;
+                                                that.isVC = res.data.isVC;
+                                                that.ventureCount = res.data.login.ventureCount;
 
                                                 that.accountComposite.data.isSomethingAnimating = true;
                                                 that.accountComposite.data.accountForm.animate({
@@ -655,7 +648,7 @@ var App = function () {
                                                 });
                                             } else {
                                                 that.accountComposite.data.statusTV.set({
-                                                    text: "Error: '" + resData.message + "'",
+                                                    text: "Error: '" + res.data.message + "'",
                                                     textColor: "#FF0000"
                                                 });
                                             }
@@ -669,11 +662,7 @@ var App = function () {
                                     }
                                 });
                                 xhr.open("GET", "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + geo.coords.latitude + "," + geo.coords.longitude + "&result_type=political&key=AIzaSyD_RXoSJoSeG4tnr7jf6fYLxCfnJvzW1_8");
-                                console.log("https://maps.googleapis.com/maps/api/geocode/json?latlng=" + geo.coords.latitude + "," + geo.coords.longitude + "&result_type=political&key=AIzaSyD_RXoSJoSeG4tnr7jf6fYLxCfnJvzW1_8");
                                 xhr.send();
-                            }, function (err) {
-                                console.log("ERROR");
-                                console.log(err);
                             });
 
 
@@ -800,12 +789,12 @@ var App = function () {
                                         longitude: geo.coords.longitude,
                                         profile: that.accountComposite.data.savedAccountData.profile,
                                         place: resData.results[0].formatted_address
-                                    }).then(function (resData, status) {
-                                        if (status == 200) {
-                                            that.token = resData.login.json.token;
-                                            that.user = resData.login.json.user;
-                                            that.isVC = resData.isVC;
-                                            that.ventureCount = resData.login.ventureCount;
+                                    }).then(function (res) {
+                                        if (res.status == 200) {
+                                            that.token = res.data.login.json.token;
+                                            that.user = res.data.login.json.user;
+                                            that.isVC = res.data.isVC;
+                                            that.ventureCount = res.data.login.ventureCount;
 
                                             that.accountComposite.data.isSomethingAnimating = true;
                                             that.accountComposite.data.accountForm.animate({
@@ -833,7 +822,7 @@ var App = function () {
                                             });
                                         } else {
                                             that.accountComposite.data.statusTV.set({
-                                                text: "Error: '" + resData.message + "'",
+                                                text: "Error: '" + res.data.message + "'",
                                                 textColor: "#FF0000"
                                             });
                                         }
@@ -847,11 +836,7 @@ var App = function () {
                                 }
                             });
                             xhr.open("GET", "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + geo.coords.latitude + "," + geo.coords.longitude + "&result_type=political&key=AIzaSyD_RXoSJoSeG4tnr7jf6fYLxCfnJvzW1_8");
-                            console.log("https://maps.googleapis.com/maps/api/geocode/json?latlng=" + geo.coords.latitude + "," + geo.coords.longitude + "&result_type=political&key=AIzaSyD_RXoSJoSeG4tnr7jf6fYLxCfnJvzW1_8");
                             xhr.send();
-                        }, function (err) {
-                            console.log("ERROR");
-                            console.log(err);
                         });
                     }
                 });
@@ -920,17 +905,15 @@ var App = function () {
     this.buildVerification = function () {
         var that = this;
 
-        console.log("GOT HERE!");
-
         // Dispose the existing account form content.
         this.accountComposite.data.accountForm.find().dispose();
 
         // Refreshing the status.
         var refreshStatus = function () {
 
-            this.apiCall("users/" + that.user + "/verification/status?token=" + that.token, "GET").then(function (resData, status) {
-                if (status == 200) {
-                    if (resData.emailVerified && resData.phoneVerified) {
+            this.apiCall("users/" + that.user + "/verification/status?token=" + that.token, "GET").then(function (res) {
+                if (res.status == 200) {
+                    if (res.data.emailVerified && res.data.phoneVerified) {
                         clearInterval(that.accountComposite.data.checkVerificationInterval);
                         if (that.isVC && that.ventureCount == 0) {
                             new tabris.AlertDialog({
@@ -967,7 +950,7 @@ var App = function () {
                             that.enterApp();
                         }
                     } else {
-                        if (!resData.emailVerified) {
+                        if (!res.data.emailVerified) {
                             that.accountComposite.data.emailStatusTV.set({
                                 text: "\u2717",
                                 textColor: "#FF0000"
@@ -978,7 +961,7 @@ var App = function () {
                                 textColor: "#00FF00"
                             });
                         }
-                        if (!resData.phoneVerified) {
+                        if (!res.data.phoneVerified) {
                             that.accountComposite.data.phoneStatusTV.set({
                                 text: "\u2717",
                                 textColor: "#FF0000"
@@ -1054,9 +1037,9 @@ var App = function () {
 
                 // Ask the server to resend the email.
                 that.accountComposite.data.isSomethingLoading = true;
-                this.apiCall("users/" + that.user + "/verification/email/resend?token=" + that.token, "POST").then(function (resData, status) {
+                this.apiCall("users/" + that.user + "/verification/email/resend?token=" + that.token, "POST").then(function (res) {
                     that.accountComposite.data.emailResendTV.set({
-                        text: resData.message
+                        text: res.data.message
                     });
                     that.accountComposite.data.isSomethingLoading = false;
                 });
@@ -1119,9 +1102,9 @@ var App = function () {
 
                 // Ask the server to resend the text.
                 that.accountComposite.data.isSomethingLoading = true;
-                this.apiCall("users/" + that.user + "/verification/phone/resend?token=" + that.token, "POST").then(function (resData, status) {
+                this.apiCall("users/" + that.user + "/verification/phone/resend?token=" + that.token, "POST").then(function (res) {
                     that.accountComposite.data.phoneResendTV.set({
-                        text: resData.message
+                        text: res.data.message
                     });
                     that.accountComposite.data.isSomethingLoading = false;
                 });
@@ -1132,13 +1115,13 @@ var App = function () {
 
     this.enterApp = function () {
 
-        this.apiCall("users/" + that.user + "/email?token=" + that.token, "GET").then(function (resData) {
+        this.apiCall("users/" + that.user + "/email?token=" + that.token, "GET").then(function (res) {
 
             // Initialize one signal.
             navigator.OneSignal.promptForPushNotificationsWithUserResponse(function (accepted) {
                 if (accepted) {
                     navigator.OneSignal.startInit("d1497c5f-3ef7-457c-b9cf-707070f3dbbf").handleNotificationOpened(notificationOpenedCallback).endInit();
-                    navigator.OneSignal.syncHashedEmail(resData.email);
+                    navigator.OneSignal.syncHashedEmail(res.data.email);
                 }
             });
 
@@ -1228,14 +1211,14 @@ var App = function () {
             xhr.withCredentials = true;
             xhr.addEventListener("readystatechange", function () {
                 if (this.readyState === 4) {
-                    console.log("https://deal-make.com/api/v1/" + url);
-                    console.log(this.status);
-                    console.log(this.responseText);
                     var resData = JSON.parse(this.responseText);
 
                     // Make sure the page is the same one as when it was called.
                     if ((!startAppEntered && !that.appEntered) || (startAppEntered && that.tabs[that.lastTabSelected].navigationView.pages()[that.tabs[that.lastTabSelected].navigationView.pages().length - 1].cid == startPageCID)) {
-                        resolve(resData, this.status);
+                        resolve({
+                            data: resData,
+                            status: this.status
+                        });
                     }
                 }
             });

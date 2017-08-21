@@ -77,13 +77,13 @@ module.exports = function () {
         this.page.data.notifications = [];
 
         // Load the notifications.
-        this.tab.app.apiCall("users/" + this.tab.app.user + "/notifications?token=" + this.tab.app.token, "GET").then(function (resData, status) {
-            if (status == 200) {
+        this.tab.app.apiCall("users/" + this.tab.app.user + "/notifications?token=" + this.tab.app.token, "GET").then(function (res) {
+            if (res.status == 200) {
 
                 // Dispose of the activity indicator.
                 that.page.data.activityIndicator.dispose();
 
-                that.page.data.notifications = resData;
+                that.page.data.notifications = res.data;
 
                 // Create a new collection view and append it.
                 that.page.data.collectionView = new tabris.CollectionView({
@@ -249,9 +249,9 @@ module.exports = function () {
 
                 that.page.data.collectionView.appendTo(that.page);
 
-                that.page.data.notifications = resData;
+                that.page.data.notifications = res.data;
                 that.page.data.notificationsLoaded = true;
-                that.page.data.lastNotificationId = resData[0].id;
+                that.page.data.lastNotificationId = res.data[0].id;
 
                 // Read all notifications.
                 that.tab.app.apiCall("users/" + that.tab.app.user + "/notifications/readall?token=" + that.tab.app.token, "POST");
@@ -313,11 +313,11 @@ module.exports = function () {
         var that = this;
 
         if (this.page.data.notificationsLoaded) {
-            this.tab.app.apiCall("users/" + that.tab.app.user + "/notifications/poll?token=" + that.tab.app.token + "&last=" + that.page.data.lastNotificationId, "GET").then(function (resData, status) {
-                if (status == 200) {
-                    if (resData.length > 0) {
-                        that.page.data.lastNotificationId = resData[0].id;
-                        that.page.data.notifications.unshift(resData);
+            this.tab.app.apiCall("users/" + that.tab.app.user + "/notifications/poll?token=" + that.tab.app.token + "&last=" + that.page.data.lastNotificationId, "GET").then(function (res) {
+                if (res.status == 200) {
+                    if (res.status.length > 0) {
+                        that.page.data.lastNotificationId = res.status[0].id;
+                        that.page.data.notifications.unshift(res.status);
                         that.page.data.collectionView.load(that.page.data.notifications.length);
 
                         that.tab.app.apiCall("users/" + that.tab.app.user + "/notifications/readall?token=" + that.tab.app.token, "POST");
