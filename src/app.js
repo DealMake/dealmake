@@ -1201,7 +1201,7 @@ var App = function () {
     };
 
 
-    // How API calls are made throughout the app.
+    // How API calls are made throughout the app
     this.apiCall = function (url, type, data) {
         var that = this;
 
