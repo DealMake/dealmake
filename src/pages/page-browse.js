@@ -125,7 +125,8 @@ module.exports = function () {
             composite: null
         };
         console.log("2.1");
-        this.page.data.topCard.composite = this.createCardComposite();
+        this.page.topCardComposite = this.createCardComposite();
+        this.page.data.topCard.composite = this.page.topCardComposite;
         console.log("2.2");
         this.page.data.topCard.composite.data.type = "top";
         console.log("2.3");
