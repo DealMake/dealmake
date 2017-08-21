@@ -128,6 +128,8 @@ var App = function () {
                     loginWith: that.accountComposite.data.loginWithTI.get("text"),
                     password: that.accountComposite.data.passwordTI.get("text")
                 }).then(function (res) {
+                    
+                    console.log(res);
 
                     if (res.status == 200) {
 
