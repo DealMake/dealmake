@@ -230,7 +230,7 @@ module.exports = function () {
         console.log("2.3");
         this.buildFront(this.page.data.topCard);
         console.log("2.4");
-        this.page.data.topCard.composite.appendTo(this.page.topCardComposite);
+        this.page.data.topCard.composite.appendTo(this.page.data.topCardComposite);
         console.log("2.5");
 
         // Listen for horizontal panning.
