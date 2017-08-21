@@ -137,7 +137,7 @@ var App = function () {
                         that.token = res.data.token;
                         that.user = res.data.user;
                         that.isVC = res.data.isVC;
-                        that.ventureCount = res.data.login.ventureCount;
+                        that.ventureCount = res.data.ventureCount;
 
                         if (!res.data.emailVerified || !res.data.phoneVerified) {
 
