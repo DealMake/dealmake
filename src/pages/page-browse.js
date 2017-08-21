@@ -66,6 +66,8 @@ module.exports = function () {
 
         // Reference to this.
         this.page.data.myPage = this;
+        
+        console.log("GH1");
 
         // Background.
         this.page.data.browseBackground = new tabris.ImageView({
@@ -92,6 +94,8 @@ module.exports = function () {
         });
         this.page.data.bwLogo.appendTo(this.page);
 
+        console.log("GH2");
+        
         // Card data.
         this.page.data.discardedCards = [];
         this.page.data.topCard = null;
@@ -184,6 +188,8 @@ module.exports = function () {
             composite: null
         });
         */
+        
+        console.log("GH3");
 
         // Create and append the composite that will hold the next card.
         this.page.data.nextCardComposite = new tabris.Composite({
@@ -212,6 +218,8 @@ module.exports = function () {
         });
         this.page.data.discardedCardComposite.appendTo(this.page);
 
+        console.log("GH4");
+        
         // Create the topcard and nextcard.
         this.createNextCard();
         this.shiftCards();
@@ -289,6 +297,8 @@ module.exports = function () {
                 that.flipTopCard();
             }
         };
+        
+        console.log("GH6");
 
         // Add event listeners.
         this.page.on({
@@ -304,6 +314,8 @@ module.exports = function () {
         this.page.data.initAA.appendTo(this.page);
 
         this.getMoreCards();
+        
+        console.log("GH7");
     };
 
     // Called when the page is switched to.
@@ -779,6 +791,7 @@ module.exports = function () {
     };
 
     this.getMoreCards = function () {
+        console.log("GOT MORE CARDS!");
         this.tab.app.apiCall("users/" + this.tab.app.user + "/browse?token=" + this.tab.app.token + "&count=15&last=" + this.page.data.lastCardLoaded, "GET").then(function (res) {
             console.log(res);
             if (res.status == 200) {
