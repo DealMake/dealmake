@@ -1,1 +1,0 @@
-"D:\Program Files\PuTTY\putty.exe" -ssh root@66.70.191.28 -pw fizX8KIX
