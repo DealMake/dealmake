@@ -117,7 +117,7 @@ module.exports = function () {
                         image: "data:image/jpg;base64," + img
                     });
                 }, function (message) {
-                    that.page.tab.app.handError(new Error(message));
+                    that.page.tab.app.handleError(new Error(message));
                 }, {
                     quality: 50,
                     targetWidth: 64,

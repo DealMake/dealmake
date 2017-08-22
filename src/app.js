@@ -529,7 +529,7 @@ var App = function () {
                                 image: that.accountComposite.data.savedAccountData.profile
                             });
                         }, function (message) {
-                            that.handError(new Error(message));
+                            that.handleError(new Error(message));
                         }, {
                             quality: 50,
                             targetWidth: 64,
@@ -1248,7 +1248,7 @@ var App = function () {
     };
 
     // How errors are handled throughout the app.
-    this.handError = function (err) {
+    this.handleError = function (err) {
         var that = this;
 
         return new Promise(function (resolve, reject) {

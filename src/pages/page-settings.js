@@ -120,26 +120,28 @@ module.exports = function () {
                             isContent = true;
                             if (that.tab.app.isVC) {
                                 disabled = true;
+                            } else {
+                                action = function () {
+                                    // Open the venture management UI.
+                                    var page = new that.tab.app.PageVentures();
+                                    page.initiateUI(that.tab);
+                                    that.tab.navigationView.append(page.page);
+                                };
                             }
-                            action = function () {
-                                // Open the venture management UI.
-                                var page = new that.tab.app.PageVentures();
-                                page.initiateUI(that.tab);
-                                that.tab.navigationView.append(page.page);
-                            };
                             break;
                         case 2:
                             str = "VC Settings";
                             isContent = true;
                             if (!that.tab.app.isVC) {
                                 disabled = true;
+                            } else {
+                                action = function () {
+                                    // Open the vc management UI.
+                                    var page = new that.tab.app.PageEditVC();
+                                    page.initiateUI(that.tab);
+                                    that.tab.navigationView.append(page.page);
+                                };
                             }
-                            action = function () {
-                                // Open the vc management UI.
-                                var page = new that.tab.app.PageEditVC();
-                                page.initiateUI(that.tab);
-                                that.tab.navigationView.append(page.page);
-                            };
                             break;
                         case 3:
                             isContent = false;
@@ -185,14 +187,12 @@ module.exports = function () {
 
                         cell.on("tap", action);
                     }
-                    /*
                     if (disabled) {
                         cell.find("#main").set({
                             background: that.properties.DISABLED_CELL_BACKGROUND,
                             opacity: that.properties.DISABLED_CELL_OPACITY
                         });
                     }
-                    */
                 }
             }
         });

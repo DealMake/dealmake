@@ -68,7 +68,7 @@ module.exports = function () {
         this.page.data.ventures = [];
 
         // Get the user's ventures.
-        this.tab.app.apiGet("users/" + this.tab.app.user + "/ventures?token=" + this.tab.app.token, "GET").then(function (res) {
+        this.tab.app.apiCall("users/" + this.tab.app.user + "/ventures?token=" + this.tab.app.token, "GET").then(function (res) {
             if (res.status == 200) {
 
                 that.page.data.ventures = res.data;
