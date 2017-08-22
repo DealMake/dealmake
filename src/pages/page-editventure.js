@@ -84,8 +84,8 @@ module.exports = function () {
 
         // Create a name label.
         this.page.data.nameTV = new tabris.TextView({
-            centerX: -32,
-            centerY: -160
+            centerX: -64,
+            centerY: -192
         });
         this.page.data.nameTV.set({
             text: "Name: ",
@@ -96,7 +96,7 @@ module.exports = function () {
         // Create a name text input.
         this.page.data.nameTI = new tabris.TextInput({
             centerX: 80,
-            centerY: -160,
+            centerY: -192,
             width: 160,
             height: 32
         });
@@ -107,7 +107,7 @@ module.exports = function () {
 
         // Create a profile label.
         this.page.data.logoTV = new tabris.TextView({
-            centerX: -32,
+            centerX: -64,
             centerY: -128
         });
         this.page.data.logoTV.set({
@@ -118,7 +118,7 @@ module.exports = function () {
 
         // Create a profile preview.
         this.page.data.logoIV = new tabris.ImageView({
-            centerX: 32,
+            centerX: 0,
             centerY: -128,
             width: 64,
             height: 64
@@ -147,19 +147,19 @@ module.exports = function () {
 
         // Add the tag label.
         this.page.data.tagTV = new tabris.TextView({
-            centerX: -32,
-            centerY: -64
+            centerX: -64,
+            centerY: -48
         });
         this.page.data.tagTV.set({
-            text: "Profile: ",
+            text: "Tag: ",
             font: Math.floor(22 / 1.3) + "px"
         });
         this.page.data.tagTV.appendTo(this.page);
 
         // Add the tag box.
         this.page.data.tagTI = new tabris.TextInput({
-            centerX: 80,
-            centerY: -64,
+            centerX: 48,
+            centerY: -48,
             width: 160,
             height: 64
         });
@@ -172,19 +172,19 @@ module.exports = function () {
 
         // Add the back label.
         this.page.data.backTV = new tabris.TextView({
-            centerX: -32,
-            centerY: 0
+            centerX: -64,
+            centerY: 16
         });
         this.page.data.backTV.set({
-            text: "Profile: ",
+            text: "Back: ",
             font: Math.floor(22 / 1.3) + "px"
         });
         this.page.data.backTV.appendTo(this.page);
 
         // Add the back box.
         this.page.data.tagTI = new tabris.TextInput({
-            centerX: 80,
-            centerY: 0,
+            centerX: 48,
+            centerY: 16,
             width: 160,
             height: 64
         });
@@ -195,10 +195,10 @@ module.exports = function () {
         });
         this.page.data.tagTI.appendTo(this.page);
 
-        // Add the genre label.
+        // Add the picker label.
         this.page.data.genreTV = new tabris.TextView({
-            centerX: -32,
-            centerY: 32
+            centerX: -64,
+            centerY: 48
         });
         this.page.data.genreTV.set({
             text: "Genre: ",
@@ -208,15 +208,15 @@ module.exports = function () {
 
         // Create a picker.
         this.page.data.genreP = new tabris.Picker({
-            centerX: 32,
-            centerY: 32,
+            centerX: 0,
+            centerY: 48,
             height: 32,
             width: 64
         });
         this.page.data.genreP.set({
-            itemCount: GENRES.length,
+            itemCount: this.properties.GENRES.length,
             itemText: function (index) {
-                return GENRES[index];
+                return this.properties.GENRES[index];
             },
             selectionIndex: info.genre
         });
