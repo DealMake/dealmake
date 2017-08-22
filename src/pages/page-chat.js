@@ -117,6 +117,7 @@ module.exports = function () {
             background: this.properties.NEW_MESSAGE_ZONE_COLOR
         });
 
+        /*
         // Create an imageview for the camera.
         this.page.data.cameraIcon = new tabris.ImageView({
             left: this.properties.NEW_MESSAGE_ZONE_PADDING,
@@ -127,10 +128,11 @@ module.exports = function () {
             id: "cameraIcon",
             image: this.properties.NEW_MESSAGE_CAMERA_IMAGE
         });
+        */
 
         // Create an imageview for the send.
         this.page.data.sendIcon = new tabris.ImageView({
-            left: ["#cameraIcon", this.properties.NEW_MESSAGE_ZONE_PADDING],
+            left: this.properties.NEW_MESSAGE_ZONE_PADDING,
             top: this.properties.NEW_MESSAGE_ZONE_PADDING,
             bottom: this.properties.NEW_MESSAGE_ZONE_PADDING
         });

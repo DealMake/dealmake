@@ -72,6 +72,7 @@ module.exports = function () {
             if (res.status == 200) {
 
                 that.page.data.ventures = res.data;
+                console.log(res.data);
 
                 // Get rid of the activity indicator.
                 that.page.data.activityIndicator.dispose();

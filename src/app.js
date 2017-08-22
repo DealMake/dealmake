@@ -1210,6 +1210,18 @@ var App = function () {
         return new Promise(function (resolve, reject) {
             var startAppEntered = that.appEntered;
             if (that.appEntered) {
+                console.log("Debug1:");
+                console.log(that.tabs);
+                console.log("Debug2:");
+                console.log(that.lastTabSelected);
+                console.log("Debug3:");
+                console.log(that.tabs[that.lastTabSelected]);
+                console.log("Debug4:");
+                console.log(that.tabs[that.lastTabSelected].navigationView);
+                console.log("Debug5:");
+                console.log(that.tabs[that.lastTabSelected].navigationView.pages());
+                console.log("Debug6:");
+                console.log(that.tabs[that.lastTabSelected].navigationView.pages()[that.tabs[that.lastTabSelected].navigationView.pages().length - 1].cid);
                 var startPageCID = that.tabs[that.lastTabSelected].navigationView.pages()[that.tabs[that.lastTabSelected].navigationView.pages().length - 1].cid;
             }
 
