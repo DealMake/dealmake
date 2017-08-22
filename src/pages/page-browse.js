@@ -718,8 +718,6 @@ module.exports = function () {
             console.log(res);
             if (res.status == 200) {
 
-                that.page.data.lastCardLoaded = res.data[res.data.length - 1].id;
-
                 for (var i = 0; i < res.data.length; i++) {
                     that.page.data.queuedCards.push(res.data[i]);
                 }
@@ -747,6 +745,10 @@ module.exports = function () {
 
                     that.createNextCard();
                     that.shiftCards();
+                }
+
+                if (res.data.length > 0) {
+                    that.page.data.lastCardLoaded = res.data[res.data.length - 1].id;
                 }
             }
         });
