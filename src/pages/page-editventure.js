@@ -95,7 +95,7 @@ module.exports = function () {
 
         // Create a name text input.
         this.page.data.nameTI = new tabris.TextInput({
-            centerX: 80,
+            centerX: 48,
             centerY: -192,
             width: 160,
             height: 32
@@ -173,7 +173,7 @@ module.exports = function () {
         // Add the back label.
         this.page.data.backTV = new tabris.TextView({
             centerX: -64,
-            centerY: 16
+            centerY: 24
         });
         this.page.data.backTV.set({
             text: "Back: ",
@@ -182,23 +182,23 @@ module.exports = function () {
         this.page.data.backTV.appendTo(this.page);
 
         // Add the back box.
-        this.page.data.tagTI = new tabris.TextInput({
+        this.page.data.backTI = new tabris.TextInput({
             centerX: 48,
-            centerY: 16,
+            centerY: 24,
             width: 160,
             height: 64
         });
-        this.page.data.tagTI.set({
+        this.page.data.backTI.set({
             message: "The back of your venture's card.",
             type: "multiline",
             text: info.back
         });
-        this.page.data.tagTI.appendTo(this.page);
+        this.page.data.backTI.appendTo(this.page);
 
         // Add the picker label.
         this.page.data.genreTV = new tabris.TextView({
             centerX: -64,
-            centerY: 48
+            centerY: 82
         });
         this.page.data.genreTV.set({
             text: "Genre: ",
@@ -209,14 +209,14 @@ module.exports = function () {
         // Create a picker.
         this.page.data.genreP = new tabris.Picker({
             centerX: 0,
-            centerY: 48,
+            centerY: 82,
             height: 32,
             width: 64
         });
         this.page.data.genreP.set({
-            itemCount: this.properties.GENRES.length,
+            itemCount: that.properties.GENRES.length,
             itemText: function (index) {
-                return this.properties.GENRES[index];
+                return that.properties.GENRES[index];
             },
             selectionIndex: info.genre
         });
