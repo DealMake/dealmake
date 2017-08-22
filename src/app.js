@@ -1204,7 +1204,7 @@ var App = function () {
     // How API calls are made throughout the app
     this.apiCall = function (url, type, data) {
         var that = this;
-        
+
         console.log("Going to call: " + url);
 
         return new Promise(function (resolve, reject) {
@@ -1212,7 +1212,7 @@ var App = function () {
             if (that.appEntered) {
                 var startPageCID = that.tabs[that.lastTabSelected].navigationView.pages()[that.tabs[that.lastTabSelected].navigationView.pages().length - 1].cid;
             }
-            
+
             console.log("C1");
 
             var xhr = new XMLHttpRequest();
@@ -1226,12 +1226,12 @@ var App = function () {
                     if (that.appEntered) {
                         console.log("Current page cId:", startPageCID, that.tabs[that.lastTabSelected].navigationView.pages()[that.tabs[that.lastTabSelected].navigationView.pages().length - 1].cid);
                     }
-                    if ((!startAppEntered && !that.appEntered) || (startAppEntered && that.tabs[that.lastTabSelected].navigationView.pages()[that.tabs[that.lastTabSelected].navigationView.pages().length - 1].cid == startPageCID)) {
-                        resolve({
-                            data: resData,
-                            status: this.status
-                        });
-                    }
+                    // if ((!startAppEntered && !that.appEntered) || (startAppEntered && that.tabs[that.lastTabSelected].navigationView.pages()[that.tabs[that.lastTabSelected].navigationView.pages().length - 1].cid == startPageCID)) {
+                    resolve({
+                        data: resData,
+                        status: this.status
+                    });
+                    // }
                 }
             });
             xhr.open(type, "https://deal-make.com/api/v1/" + url);
@@ -1242,7 +1242,7 @@ var App = function () {
             } else {
                 xhr.send();
             }
-            
+
             console.log("C2");
         });
     };
