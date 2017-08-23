@@ -105,13 +105,13 @@ module.exports = function () {
         });
         this.page.data.nameTI.appendTo(this.page);
 
-        // Create a profile label.
+        // Create a logo label.
         this.page.data.logoTV = new tabris.TextView({
             centerX: -64,
             centerY: -128
         });
         this.page.data.logoTV.set({
-            text: "Profile: ",
+            text: "Logo: ",
             font: Math.floor(22 / 1.3) + "px"
         });
         this.page.data.logoTV.appendTo(this.page);
@@ -208,10 +208,10 @@ module.exports = function () {
 
         // Create a picker.
         this.page.data.genreP = new tabris.Picker({
-            centerX: 0,
+            centerX: 48,
             centerY: 82,
             height: 32,
-            width: 64
+            width: 160
         });
         this.page.data.genreP.set({
             itemCount: that.properties.GENRES.length,
