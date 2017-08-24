@@ -62,13 +62,16 @@ module.exports = function () {
         // Set up a reference to this.
         this.page.data.myPage = this;
 
-        // Create a new collection view and append it.
+        // Create a new scroll view and append it.
         this.page.data.scrollView = new tabris.ScrollView({
             top: 0,
             bottom: this.properties.NEW_MESSAGE_ZONE_HEIGHT,
             left: 0,
             right: 0
         });
+        this.page.data.scrollView.appendTo(this.page);
+        
+        // Create the load more button and append it to the scroll view.
         this.page.data.loadMoreButton = new tabris.Button({
             top: this.properties.MESSAGE_PADDING_VERTICAL / 2,
             centerX: 0
@@ -77,7 +80,7 @@ module.exports = function () {
             id: "loadMore",
             text: "Load More"
         });
-        this.page.data.scrollView.append(this.page.data.loadMoreButton);
+        this.page.data.loadMoreButton.appendTo(this.page.data.scrollView);
 
         // Poll for new messages.
         this.page.data.pollInterval = setInterval(function () {
@@ -162,7 +165,6 @@ module.exports = function () {
         });
 
         // Append the new message zone content to the new message zone.
-        this.page.data.newMessageZone.append(this.page.data.cameraIcon);
         this.page.data.newMessageZone.append(this.page.data.sendIcon);
         this.page.data.newMessageZone.append(this.page.data.textBox);
 
