@@ -803,7 +803,7 @@ var App = function () {
                                             that.token = res.data.login.json.token;
                                             that.user = res.data.login.json.user;
                                             that.isVC = res.data.isVC;
-                                            that.ventureCount = res.data.login.ventureCount;
+                                            that.ventureCount = null;
                                             
                                             console.log("about to animate something");
 
