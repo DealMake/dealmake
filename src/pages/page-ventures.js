@@ -152,25 +152,12 @@ module.exports = function () {
                         });
                         tag.appendTo(main);
 
-                        // Create the edit button.
-                        var editB = new tabris.ImageView({
-                            centerY: -((that.properties.BUTTON_SIZE + that.properties.BUTTON_VERTICAL_PADDING) / 2),
-                            right: that.properties.HORIZONTAL_CELL_PADDING,
-                            width: that.properties.BUTTON_SIZE,
-                            height: that.properties.BUTTON_SIZE
-                        });
-                        editB.set({
-                            image: that.properties.BUTTON_EDIT_IMAGE,
-                            id: "edit"
-                        });
-                        editB.appendTo(main);
-
                         // Create the delete button.
                         var deleteB = new tabris.ImageView({
-                            centerY: ((that.properties.BUTTON_SIZE + that.properties.BUTTON_VERTICAL_PADDING) / 2),
+                            centerY: 0,
                             right: that.properties.HORIZONTAL_CELL_PADDING,
-                            width: that.properties.BUTTON_SIZE,
-                            height: that.properties.BUTTON_SIZE
+                            width: that.properties.BUTTON_SIZE * 1.5,
+                            height: that.properties.BUTTON_SIZE * 1.5
                         });
                         deleteB.set({
                             image: that.properties.BUTTON_DELETE_IMAGE,
@@ -266,8 +253,8 @@ module.exports = function () {
                                 text: that.page.data.ventures[index - 1].tag
                             });
 
-                            // Listen for taps on the edit button.
-                            cell.find("#main").find("#edit").on("tap", function () {
+                            // Editing.
+                            cell.data.currentListener = function () {
                                 // Create the venture edit page.
                                 var page = new that.tab.app.PageEditVenture();
                                 page.initiateUI(that.tab);
@@ -275,6 +262,9 @@ module.exports = function () {
                                 page.setTitle(that.page.data.ventures[index - 1].name);
                                 page.setInfo(that.page.data.ventures[index - 1]);
                                 that.tab.navigationView.append(page.page);
+                            };
+                            cell.on({
+                                tap: cell.data.currentListener
                             });
 
                             // Listen for taps on the delete button.
