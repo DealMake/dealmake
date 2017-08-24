@@ -150,7 +150,7 @@ module.exports = function () {
             image: info.logo
         });
         this.page.data.logoIV.on({
-            select: function () {
+            tap: function () {
                 navigator.camera.getPicture(function (img) {
                     that.page.data.logoIV.set({
                         image: "data:image/jpg;base64," + img
@@ -335,7 +335,7 @@ module.exports = function () {
                     if (that.target != -1) {
                         that.tab.app.apiCall("users/" + that.tab.app.user + "/ventures?token=" + that.tab.app.token, "POST", {
                             name: that.page.data.nameTI.text,
-                            logo: that.page.data.logoIV.image,
+                            logo: that.page.data.logoIV.image.src,
                             tag: that.page.data.tagTV.text,
                             back: that.page.data.backTV.text,
                             genre: that.page.data.genreP.selectionIndex
@@ -354,9 +354,9 @@ module.exports = function () {
                                 if (this.readyState === 4) {
                                     var resData = JSON.parse(this.responseText);
 
-                                    that.apiCall("users", "POST", {
+                                    that.tab.app.apiCall("users", "POST", {
                                         name: that.page.data.nameTI.text,
-                                        logo: that.page.data.logoIV.image,
+                                        logo: that.page.data.logoIV.image.src,
                                         tag: that.page.data.tagTV.text,
                                         back: that.page.data.backTV.text,
                                         genre: that.page.data.genreP.selectionIndex,
@@ -384,9 +384,12 @@ module.exports = function () {
     this.snapToInput = function (input) {
         this.snappedInput = input;
         for (var i = 0; i < this.inputs.length; i++) {
-            inputs[i].transform = {
+            this.inputs[i].transform = {
                 translationY: input.data.snapAmount
             };
+            if (i < this.inputs.indexOf(input) || (i == this.inputs.indexOf(input) - 1 && Math.floor(i / 2) == i / 2)) {
+                this.inputs[i].opacity = 0;
+            }
         }
         this.page.data.cancelB.transform = {
             translationX: 9999
@@ -409,6 +412,9 @@ module.exports = function () {
             inputs[i].transform = {
                 translationY: 0
             };
+            if (i < this.inputs.indexOf(input) || (i == this.inputs.indexOf(input) - 1 && Math.floor(i / 2) == i / 2)) {
+                this.inputs[i].opacity = 1;
+            }
         }
         this.page.data.cancelB.transform = {
             translationX: 0

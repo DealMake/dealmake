@@ -112,7 +112,7 @@ module.exports = function () {
             image: info.profile
         });
         this.page.data.profileIV.on({
-            select: function () {
+            tap: function () {
                 navigator.camera.getPicture(function (img) {
                     that.page.data.profileIV.set({
                         image: "data:image/jpg;base64," + img
@@ -158,7 +158,7 @@ module.exports = function () {
                 if (that.page.data.nameTI.text != "") {
                     that.tab.app.apiCall("users/" + that.tab.app.user + "/update?token=" + that.tab.app.token, "POST", {
                         name: that.page.data.nameTI.text,
-                        profile: that.page.data.profileIV.image
+                        profile: that.page.data.profileIV.image.src
                     }).then(function (res) {
                         if (res.status == 200) {
                             that.page.dispose();
