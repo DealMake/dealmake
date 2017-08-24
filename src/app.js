@@ -642,8 +642,8 @@ var App = function () {
                                             if (res.status == 200) {
                                                 console.log("status of 200 on account creation");
 
-                                                that.token = res.data.login.json.token;
-                                                that.user = res.data.login.json.user;
+                                                that.token = res.data.login.token;
+                                                that.user = res.data.login.user;
                                                 that.isVC = res.data.isVC;
                                                 that.ventureCount = res.data.login.ventureCount;
 
@@ -827,8 +827,8 @@ var App = function () {
                                         if (res.status == 200) {
                                             console.log("status of 200 on account creation");
 
-                                            that.token = res.data.login.json.token;
-                                            that.user = res.data.login.json.user;
+                                            that.token = res.data.login.token;
+                                            that.user = res.data.login.user;
                                             that.isVC = res.data.isVC;
                                             that.ventureCount = null;
 
