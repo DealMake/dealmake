@@ -136,7 +136,7 @@ var App = function () {
                         // If the login was successful, set the token, user, and VC.
                         that.token = res.data.token;
                         that.user = res.data.user;
-                        that.isVC = res.data.login.isVC;
+                        that.isVC = res.data.isVC;
                         that.ventureCount = res.data.ventureCount;
 
                         if (!res.data.emailVerified || !res.data.phoneVerified) {
@@ -832,7 +832,7 @@ var App = function () {
 
                                             that.token = res.data.login.token;
                                             that.user = res.data.login.user;
-                                            that.isVC = res.data.isVC;
+                                            that.isVC = res.data.login.isVC;
                                             that.ventureCount = null;
 
                                             console.log("about to animate something");
