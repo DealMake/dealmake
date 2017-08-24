@@ -71,8 +71,8 @@ module.exports = function () {
 
         // Create a name label.
         this.page.data.nameTV = new tabris.TextView({
-            centerX: -32,
-            centerY: -96
+            centerX: -64,
+            centerY: -64
         });
         this.page.data.nameTV.set({
             text: "Name: ",
@@ -82,8 +82,9 @@ module.exports = function () {
 
         // Create a name text input.
         this.page.data.nameTI = new tabris.TextInput({
-            centerX: 32,
-            centerY: -96
+            centerX: 48,
+            centerY: -64,
+            width: 160
         });
         this.page.data.nameTI.set({
             text: info.name
@@ -92,8 +93,8 @@ module.exports = function () {
 
         // Create a profile label.
         this.page.data.profileTV = new tabris.TextView({
-            centerX: -32,
-            centerY: -64
+            centerX: -64,
+            centerY: 0
         });
         this.page.data.profileTV.set({
             text: "Profile: ",
@@ -103,8 +104,8 @@ module.exports = function () {
 
         // Create a profile preview.
         this.page.data.profileIV = new tabris.ImageView({
-            centerX: 32,
-            centerY: -32,
+            centerX: 0,
+            centerY: 0,
             width: 64,
             height: 64
         });

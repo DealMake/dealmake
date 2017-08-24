@@ -409,7 +409,7 @@ module.exports = function () {
     this.unsnapInput = function (input) {
         this.snappedInput = null;
         for (var i = 0; i < this.inputs.length; i++) {
-            inputs[i].transform = {
+            this.inputs[i].transform = {
                 translationY: 0
             };
             if (i < this.inputs.indexOf(input) || (i == this.inputs.indexOf(input) - 1 && Math.floor(i / 2) == i / 2)) {
