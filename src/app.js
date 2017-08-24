@@ -168,7 +168,7 @@ var App = function () {
                             });
                         } else {
 
-                            if (that.isVC && that.ventureCount == 0) {
+                            if (!that.isVC && that.ventureCount == 0) {
                                 new tabris.AlertDialog({
                                     title: "Add a Venture",
                                     message: "You haven't added any ventures. Would you like to add one?",
@@ -953,12 +953,21 @@ var App = function () {
 
         // Refreshing the status.
         var refreshStatus = function () {
+            
+            console.log("Refresh status called. About to call API.");
 
             this.apiCall("users/" + that.user + "/verification/status?token=" + that.token, "GET").then(function (res) {
+                console.log("API call successfull. res is");
+                console.log(res);
+                
                 if (res.status == 200) {
                     if (res.data.emailVerified && res.data.phoneVerified) {
                         clearInterval(that.accountComposite.data.checkVerificationInterval);
-                        if (that.isVC && that.ventureCount == 0) {
+                        
+                        console.log("Interval cleared.");
+                        if (!that.isVC && that.ventureCount == 0) {
+                            console.log("Creating alert");
+                            
                             new tabris.AlertDialog({
                                 title: "Add a Venture",
                                 message: "You haven't added any ventures. Would you like to add one?",
@@ -1018,6 +1027,8 @@ var App = function () {
                     }
                 }
             });
+            
+            console.log("Reached the end of the function.");
 
         };
         
