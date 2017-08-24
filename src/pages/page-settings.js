@@ -114,6 +114,12 @@ module.exports = function () {
                         case 0:
                             str = "Manage Account";
                             isContent = true;
+                            action = function () {
+                                // Open the account management UI.
+                                var page = new that.tab.app.PageAccount();
+                                page.initiateUI(that.tab);
+                                that.tab.navigationView.append(page.page);
+                            };
                             break;
                         case 1:
                             str = "Ventures";
