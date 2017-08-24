@@ -7,7 +7,7 @@ module.exports = function () {
     this.properties = {
         PAGE_NAME: "About",
         PAGE_ID: "about",
-        PAGE_BACKGROUND: "#000000"
+        PAGE_BACKGROUND: "#FFFFFF"
     };
 
     // The page itself.

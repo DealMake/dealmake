@@ -7,7 +7,7 @@ module.exports = function () {
     this.properties = {
         PAGE_NAME: "Edit VC Info",
         PAGE_ID: "editvc",
-        PAGE_BACKGROUND: "#000000"
+        PAGE_BACKGROUND: "#FFFFFF"
     };
 
     // The page itself.

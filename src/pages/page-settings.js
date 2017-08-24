@@ -49,7 +49,7 @@ module.exports = function () {
             left: 0,
             right: 0,
             refreshEnabled: false,
-            itemCount: 10 + 1,
+            itemCount: 7 + 1,
             createCell: function () {
 
                 // Create the cell composite.
@@ -172,18 +172,6 @@ module.exports = function () {
                             break;
                         case 7:
                             isContent = false;
-                            break;
-                        case 8:
-                            str = "Browse";
-                            isContent = true;
-                            break;
-                        case 9:
-                            str = "Messages";
-                            isContent = true;
-                            break;
-                        case 10:
-                            str = "Notifications";
-                            isContent = true;
                             break;
                     }
                     if (isContent) {
