@@ -178,24 +178,24 @@ var App = function () {
                                     }
                                 }).on({
                                     closeOk: function () {
-                                        that.enterApp();
+                                        that.enterApp().then(function () { // Create the venture edit page.
+                                            var page = new that.PageEditVenture();
+                                            page.initiateUI(that.tabs[that.lastTabSelected]);
+                                            page.setTarget(-1);
+                                            page.setTitle("New Venture");
+                                            page.setInfo({
+                                                name: "Venture",
+                                                tag: "My venture.",
+                                                back: "Some information about the venture.",
+                                                genre: 15,
+                                                logo: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAQAAAAAYLlVAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QAAKqNIzIAAAAJcEhZcwAADdcAAA3XAUIom3gAAAAHdElNRQfhCBEACS1dBP6AAAAEi0lEQVRo3sWZa2wUVRTHfwuVbltpXQq0aUKAtlQr2Kg8FKIxJGp9ECVGEh8JqQkmRpQKBkhUgmgIhqiRGL+oBDH0S0lEv2B8JEQxoiLEYmrptmm1ChTaWmrLLotljx96dpzZx+zO7Oz2TDaze8495/+/987ce85dmGSZmpV3Ec+yiDZksui3IAg7Jwu+gSiCEKJycgi0Inq9PRnw9Vw1CISoyD+BFgNeEN7MN/wCxhGEk/yFIFxidn4J7NOeP8xz+m13PuHn8y+C0IaPQs4gCGPMyh+B97XXawB4Xn+9kS/4OVxBENqZAoBfx2CUmfkh8J72+AlDs0E1u/IBX8VlBCFo2kf8nNUxKM89gXe0t00WbbNqc74vVBBCEHoosOiLOIcg/MOM3BLYrT19OsHyglpezyV8OWMIQh/TEmyxMRghkDsCO7WX65NaN6p1R67gA4wgCGfxJ7UX0Y8gXOS6zINmlpIVUM1ytrAUgO18l7TVOFEaAT+1TKOYMOH0oX0pLVXUGVc11xj6C8wnlMKnmF7LrjhMF93GZygdgTITZB3XpgDZarvvbeKtlLZhuk10BmPqUtbzIUc5b0kwkl8htun6n3pEN/F3BpGEYY6zl3ofX3CvTcAofxCkkyBBgvRlmICXU8sC/dTaLk2nfPQn5HMDJshuIhlB2skMCx3rbtELm41B6Wcttzl5hVxJgDs0jROusApgu0Fhb5oZ9kL8HFa0CKtjyq0GhQNZFmvppIgvFenyRO9j0mxQaDW9815LCUcUJcx98cZntNASPk2y1Xgh0zlqvM53J2vQZNQ6h1Os9tlIGcc0+hgrUzV6XNNt4WuKPYUP8JNGHuVOu4aPaMYrfMt0z+DLOalRR1iRrvGDmnQKxyjzBH4Wp4zld1kmDvdo3if87EGGV0m7RhticaZOdzGqTm1ZFlxVnNZIg9zsxHE5F9WxPYvzjzl0aZTz3OTUeQlD6hx0WW4E6NEI57jRTYAGLmiADa4INKn3Ga53O4QLNcR+V9671LvBrpH97jem905XBNr1bruw2xNYGBfKmfyqd9vHL5cETjPuDYEwPa4IROjyhkAHUVcEYpPgmoCPesDtBPxPoMJuNbUjMI8STwjYjoEdgewewbwQuJ+DHKIpZSLbqyuJ431gQj7WBCp5AbuCb4xEtoNHU7T6AUH40R2BEwjC8SSWRXyWUOudSMxzgQ9sO2ErUzQt+ShOP4/9poN60UPrWBoXn+/FThBrnBOoUdfNJt1s9hAxAR7hdmo4YCH0ObeaPFaqdrVzAg+p6wP6u5QdRp40MeSNpik5ZLJEOcgNapmpum3OCbykrnOBQjYyYILoZE3CrC7jK8vE7GMugJ6dtTon0KJZfAFP0WcK/Sfr4g4pzQP+vallhHep1FqwwzmBXxCEAX4zhRzkxbQ10yr1nLgu8buOiMNaayrhuNdslNcozcjXx2MEE17TW5wRqLM4R9jj8D+hAtZZJk5Y64xAo+F41XicnEohzaajr1edOVfrFHziLqE2pISXGUaIZl4VxWQpr7AkK/CYBHjSzUqYJ/kPXxhmngf75WIAAAAldEVYdGRhdGU6Y3JlYXRlADIwMTctMDgtMTdUMDA6MDk6NDUrMDI6MDDsMI0gAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDE3LTA4LTE3VDAwOjA5OjQ1KzAyOjAwnW01nAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAAASUVORK5CYII="
+                                            });
+                                            that.tabs[that.lastTabSelected].navigationView.append(page.page);
+                                        });
 
                                         console.log("Value of that.appEntered:");
                                         console.log(that.appEntered);
 
-                                        // Create the venture edit page.
-                                        var page = new that.PageEditVenture();
-                                        page.initiateUI(that.tabs[that.lastTabSelected]);
-                                        page.setTarget(-1);
-                                        page.setTitle("New Venture");
-                                        page.setInfo({
-                                            name: "Venture",
-                                            tag: "My venture.",
-                                            back: "Some information about the venture.",
-                                            genre: 15,
-                                            logo: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAQAAAAAYLlVAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QAAKqNIzIAAAAJcEhZcwAADdcAAA3XAUIom3gAAAAHdElNRQfhCBEACS1dBP6AAAAEi0lEQVRo3sWZa2wUVRTHfwuVbltpXQq0aUKAtlQr2Kg8FKIxJGp9ECVGEh8JqQkmRpQKBkhUgmgIhqiRGL+oBDH0S0lEv2B8JEQxoiLEYmrptmm1ChTaWmrLLotljx96dpzZx+zO7Oz2TDaze8495/+/987ce85dmGSZmpV3Ec+yiDZksui3IAg7Jwu+gSiCEKJycgi0Inq9PRnw9Vw1CISoyD+BFgNeEN7MN/wCxhGEk/yFIFxidn4J7NOeP8xz+m13PuHn8y+C0IaPQs4gCGPMyh+B97XXawB4Xn+9kS/4OVxBENqZAoBfx2CUmfkh8J72+AlDs0E1u/IBX8VlBCFo2kf8nNUxKM89gXe0t00WbbNqc74vVBBCEHoosOiLOIcg/MOM3BLYrT19OsHyglpezyV8OWMIQh/TEmyxMRghkDsCO7WX65NaN6p1R67gA4wgCGfxJ7UX0Y8gXOS6zINmlpIVUM1ytrAUgO18l7TVOFEaAT+1TKOYMOH0oX0pLVXUGVc11xj6C8wnlMKnmF7LrjhMF93GZygdgTITZB3XpgDZarvvbeKtlLZhuk10BmPqUtbzIUc5b0kwkl8htun6n3pEN/F3BpGEYY6zl3ofX3CvTcAofxCkkyBBgvRlmICXU8sC/dTaLk2nfPQn5HMDJshuIhlB2skMCx3rbtELm41B6Wcttzl5hVxJgDs0jROusApgu0Fhb5oZ9kL8HFa0CKtjyq0GhQNZFmvppIgvFenyRO9j0mxQaDW9815LCUcUJcx98cZntNASPk2y1Xgh0zlqvM53J2vQZNQ6h1Os9tlIGcc0+hgrUzV6XNNt4WuKPYUP8JNGHuVOu4aPaMYrfMt0z+DLOalRR1iRrvGDmnQKxyjzBH4Wp4zld1kmDvdo3if87EGGV0m7RhticaZOdzGqTm1ZFlxVnNZIg9zsxHE5F9WxPYvzjzl0aZTz3OTUeQlD6hx0WW4E6NEI57jRTYAGLmiADa4INKn3Ga53O4QLNcR+V9671LvBrpH97jem905XBNr1bruw2xNYGBfKmfyqd9vHL5cETjPuDYEwPa4IROjyhkAHUVcEYpPgmoCPesDtBPxPoMJuNbUjMI8STwjYjoEdgewewbwQuJ+DHKIpZSLbqyuJ431gQj7WBCp5AbuCb4xEtoNHU7T6AUH40R2BEwjC8SSWRXyWUOudSMxzgQ9sO2ErUzQt+ShOP4/9poN60UPrWBoXn+/FThBrnBOoUdfNJt1s9hAxAR7hdmo4YCH0ObeaPFaqdrVzAg+p6wP6u5QdRp40MeSNpik5ZLJEOcgNapmpum3OCbykrnOBQjYyYILoZE3CrC7jK8vE7GMugJ6dtTon0KJZfAFP0WcK/Sfr4g4pzQP+vallhHep1FqwwzmBXxCEAX4zhRzkxbQ10yr1nLgu8buOiMNaayrhuNdslNcozcjXx2MEE17TW5wRqLM4R9jj8D+hAtZZJk5Y64xAo+F41XicnEohzaajr1edOVfrFHziLqE2pISXGUaIZl4VxWQpr7AkK/CYBHjSzUqYJ/kPXxhmngf75WIAAAAldEVYdGRhdGU6Y3JlYXRlADIwMTctMDgtMTdUMDA6MDk6NDUrMDI6MDDsMI0gAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDE3LTA4LTE3VDAwOjA5OjQ1KzAyOjAwnW01nAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAAASUVORK5CYII="
-                                        });
-                                        that.tabs[that.lastTabSelected].navigationView.append(page.page);
                                     },
                                     closeCancel: function () {
                                         that.enterApp();
@@ -980,24 +980,23 @@ var App = function () {
                                 }
                             }).on({
                                 closeOk: function () {
-                                    that.enterApp();
+                                    that.enterApp().then(function () { // Create the venture edit page.
+                                        var page = new that.PageEditVenture();
+                                        page.initiateUI(that.tabs[that.lastTabSelected]);
+                                        page.setTarget(-1);
+                                        page.setTitle("New Venture");
+                                        page.setInfo({
+                                            name: "Venture",
+                                            tag: "My venture.",
+                                            back: "Some information about the venture.",
+                                            genre: 15,
+                                            logo: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAQAAAAAYLlVAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QAAKqNIzIAAAAJcEhZcwAADdcAAA3XAUIom3gAAAAHdElNRQfhCBEACS1dBP6AAAAEi0lEQVRo3sWZa2wUVRTHfwuVbltpXQq0aUKAtlQr2Kg8FKIxJGp9ECVGEh8JqQkmRpQKBkhUgmgIhqiRGL+oBDH0S0lEv2B8JEQxoiLEYmrptmm1ChTaWmrLLotljx96dpzZx+zO7Oz2TDaze8495/+/987ce85dmGSZmpV3Ec+yiDZksui3IAg7Jwu+gSiCEKJycgi0Inq9PRnw9Vw1CISoyD+BFgNeEN7MN/wCxhGEk/yFIFxidn4J7NOeP8xz+m13PuHn8y+C0IaPQs4gCGPMyh+B97XXawB4Xn+9kS/4OVxBENqZAoBfx2CUmfkh8J72+AlDs0E1u/IBX8VlBCFo2kf8nNUxKM89gXe0t00WbbNqc74vVBBCEHoosOiLOIcg/MOM3BLYrT19OsHyglpezyV8OWMIQh/TEmyxMRghkDsCO7WX65NaN6p1R67gA4wgCGfxJ7UX0Y8gXOS6zINmlpIVUM1ytrAUgO18l7TVOFEaAT+1TKOYMOH0oX0pLVXUGVc11xj6C8wnlMKnmF7LrjhMF93GZygdgTITZB3XpgDZarvvbeKtlLZhuk10BmPqUtbzIUc5b0kwkl8htun6n3pEN/F3BpGEYY6zl3ofX3CvTcAofxCkkyBBgvRlmICXU8sC/dTaLk2nfPQn5HMDJshuIhlB2skMCx3rbtELm41B6Wcttzl5hVxJgDs0jROusApgu0Fhb5oZ9kL8HFa0CKtjyq0GhQNZFmvppIgvFenyRO9j0mxQaDW9815LCUcUJcx98cZntNASPk2y1Xgh0zlqvM53J2vQZNQ6h1Os9tlIGcc0+hgrUzV6XNNt4WuKPYUP8JNGHuVOu4aPaMYrfMt0z+DLOalRR1iRrvGDmnQKxyjzBH4Wp4zld1kmDvdo3if87EGGV0m7RhticaZOdzGqTm1ZFlxVnNZIg9zsxHE5F9WxPYvzjzl0aZTz3OTUeQlD6hx0WW4E6NEI57jRTYAGLmiADa4INKn3Ga53O4QLNcR+V9671LvBrpH97jem905XBNr1bruw2xNYGBfKmfyqd9vHL5cETjPuDYEwPa4IROjyhkAHUVcEYpPgmoCPesDtBPxPoMJuNbUjMI8STwjYjoEdgewewbwQuJ+DHKIpZSLbqyuJ431gQj7WBCp5AbuCb4xEtoNHU7T6AUH40R2BEwjC8SSWRXyWUOudSMxzgQ9sO2ErUzQt+ShOP4/9poN60UPrWBoXn+/FThBrnBOoUdfNJt1s9hAxAR7hdmo4YCH0ObeaPFaqdrVzAg+p6wP6u5QdRp40MeSNpik5ZLJEOcgNapmpum3OCbykrnOBQjYyYILoZE3CrC7jK8vE7GMugJ6dtTon0KJZfAFP0WcK/Sfr4g4pzQP+vallhHep1FqwwzmBXxCEAX4zhRzkxbQ10yr1nLgu8buOiMNaayrhuNdslNcozcjXx2MEE17TW5wRqLM4R9jj8D+hAtZZJk5Y64xAo+F41XicnEohzaajr1edOVfrFHziLqE2pISXGUaIZl4VxWQpr7AkK/CYBHjSzUqYJ/kPXxhmngf75WIAAAAldEVYdGRhdGU6Y3JlYXRlADIwMTctMDgtMTdUMDA6MDk6NDUrMDI6MDDsMI0gAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDE3LTA4LTE3VDAwOjA5OjQ1KzAyOjAwnW01nAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAAASUVORK5CYII="
+                                        });
+                                        that.tabs[that.lastTabSelected].navigationView.append(page.page);
+                                    });
 
                                     console.log("Value of that.appEntered:");
                                     console.log(that.appEntered);
-
-                                    // Create the venture edit page.
-                                    var page = new that.PageEditVenture();
-                                    page.initiateUI(that.tabs[that.lastTabSelected]);
-                                    page.setTarget(-1);
-                                    page.setTitle("New Venture");
-                                    page.setInfo({
-                                        name: "Venture",
-                                        tag: "My venture.",
-                                        back: "Some information about the venture.",
-                                        genre: 15,
-                                        logo: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAQAAAAAYLlVAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QAAKqNIzIAAAAJcEhZcwAADdcAAA3XAUIom3gAAAAHdElNRQfhCBEACS1dBP6AAAAEi0lEQVRo3sWZa2wUVRTHfwuVbltpXQq0aUKAtlQr2Kg8FKIxJGp9ECVGEh8JqQkmRpQKBkhUgmgIhqiRGL+oBDH0S0lEv2B8JEQxoiLEYmrptmm1ChTaWmrLLotljx96dpzZx+zO7Oz2TDaze8495/+/987ce85dmGSZmpV3Ec+yiDZksui3IAg7Jwu+gSiCEKJycgi0Inq9PRnw9Vw1CISoyD+BFgNeEN7MN/wCxhGEk/yFIFxidn4J7NOeP8xz+m13PuHn8y+C0IaPQs4gCGPMyh+B97XXawB4Xn+9kS/4OVxBENqZAoBfx2CUmfkh8J72+AlDs0E1u/IBX8VlBCFo2kf8nNUxKM89gXe0t00WbbNqc74vVBBCEHoosOiLOIcg/MOM3BLYrT19OsHyglpezyV8OWMIQh/TEmyxMRghkDsCO7WX65NaN6p1R67gA4wgCGfxJ7UX0Y8gXOS6zINmlpIVUM1ytrAUgO18l7TVOFEaAT+1TKOYMOH0oX0pLVXUGVc11xj6C8wnlMKnmF7LrjhMF93GZygdgTITZB3XpgDZarvvbeKtlLZhuk10BmPqUtbzIUc5b0kwkl8htun6n3pEN/F3BpGEYY6zl3ofX3CvTcAofxCkkyBBgvRlmICXU8sC/dTaLk2nfPQn5HMDJshuIhlB2skMCx3rbtELm41B6Wcttzl5hVxJgDs0jROusApgu0Fhb5oZ9kL8HFa0CKtjyq0GhQNZFmvppIgvFenyRO9j0mxQaDW9815LCUcUJcx98cZntNASPk2y1Xgh0zlqvM53J2vQZNQ6h1Os9tlIGcc0+hgrUzV6XNNt4WuKPYUP8JNGHuVOu4aPaMYrfMt0z+DLOalRR1iRrvGDmnQKxyjzBH4Wp4zld1kmDvdo3if87EGGV0m7RhticaZOdzGqTm1ZFlxVnNZIg9zsxHE5F9WxPYvzjzl0aZTz3OTUeQlD6hx0WW4E6NEI57jRTYAGLmiADa4INKn3Ga53O4QLNcR+V9671LvBrpH97jem905XBNr1bruw2xNYGBfKmfyqd9vHL5cETjPuDYEwPa4IROjyhkAHUVcEYpPgmoCPesDtBPxPoMJuNbUjMI8STwjYjoEdgewewbwQuJ+DHKIpZSLbqyuJ431gQj7WBCp5AbuCb4xEtoNHU7T6AUH40R2BEwjC8SSWRXyWUOudSMxzgQ9sO2ErUzQt+ShOP4/9poN60UPrWBoXn+/FThBrnBOoUdfNJt1s9hAxAR7hdmo4YCH0ObeaPFaqdrVzAg+p6wP6u5QdRp40MeSNpik5ZLJEOcgNapmpum3OCbykrnOBQjYyYILoZE3CrC7jK8vE7GMugJ6dtTon0KJZfAFP0WcK/Sfr4g4pzQP+vallhHep1FqwwzmBXxCEAX4zhRzkxbQ10yr1nLgu8buOiMNaayrhuNdslNcozcjXx2MEE17TW5wRqLM4R9jj8D+hAtZZJk5Y64xAo+F41XicnEohzaajr1edOVfrFHziLqE2pISXGUaIZl4VxWQpr7AkK/CYBHjSzUqYJ/kPXxhmngf75WIAAAAldEVYdGRhdGU6Y3JlYXRlADIwMTctMDgtMTdUMDA6MDk6NDUrMDI6MDDsMI0gAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDE3LTA4LTE3VDAwOjA5OjQ1KzAyOjAwnW01nAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAAASUVORK5CYII="
-                                    });
-                                    that.tabs[that.lastTabSelected].navigationView.append(page.page);
                                 },
                                 closeCancel: function () {
                                     that.enterApp();
@@ -1183,85 +1182,89 @@ var App = function () {
 
         var that = this;
 
-        this.apiCall("users/" + that.user + "/email?token=" + that.token, "GET").then(function (res) {
+        return new Promise(function (resolve) {
+            that.apiCall("users/" + that.user + "/email?token=" + that.token, "GET").then(function (res) {
 
-            // Initialize one signal.
-            /*
-            navigator.OneSignal.promptForPushNotificationsWithUserResponse(function (accepted) {
-                if (accepted) {
-                    navigator.OneSignal.startInit("d1497c5f-3ef7-457c-b9cf-707070f3dbbf").handleNotificationOpened(notificationOpenedCallback).endInit();
-                    navigator.OneSignal.syncHashedEmail(res.data.email);
-                }
-            });
-            */
+                // Initialize one signal.
+                /*
+                navigator.OneSignal.promptForPushNotificationsWithUserResponse(function (accepted) {
+                    if (accepted) {
+                        navigator.OneSignal.startInit("d1497c5f-3ef7-457c-b9cf-707070f3dbbf").handleNotificationOpened(notificationOpenedCallback).endInit();
+                        navigator.OneSignal.syncHashedEmail(res.data.email);
+                    }
+                });
+                */
 
-            // The app has been entered.
-            that.appEntered = true;
+                // The app has been entered.
+                that.appEntered = true;
 
-            // Dispose of the account composite.
-            that.accountComposite.dispose();
+                // Dispose of the account composite.
+                that.accountComposite.dispose();
 
-            // Setup the map for the various tabs.
-            that.tabs = {};
+                // Setup the map for the various tabs.
+                that.tabs = {};
 
-            // The previous selection.
-            that.lastTabSelected = null;
+                // The previous selection.
+                that.lastTabSelected = null;
 
-            // Create the tab folder.
-            that.tabFolder = new tabris.TabFolder({
-                left: 0,
-                top: 0,
-                right: 0,
-                bottom: 0,
-                paging: false
-            }).appendTo(tabris.ui.contentView);
+                // Create the tab folder.
+                that.tabFolder = new tabris.TabFolder({
+                    left: 0,
+                    top: 0,
+                    right: 0,
+                    bottom: 0,
+                    paging: false
+                }).appendTo(tabris.ui.contentView);
 
-            // Import the code for the tabs
-            that.TabBrowse = require("./tabs/tab-browse.js");
-            that.TabMessages = require("./tabs/tab-messages.js");
-            that.TabNotifications = require("./tabs/tab-notifications.js");
-            that.TabSettings = require("./tabs/tab-settings.js");
+                // Import the code for the tabs
+                that.TabBrowse = require("./tabs/tab-browse.js");
+                that.TabMessages = require("./tabs/tab-messages.js");
+                that.TabNotifications = require("./tabs/tab-notifications.js");
+                that.TabSettings = require("./tabs/tab-settings.js");
 
-            // Import the code for the pages
-            that.PageBrowse = require("./pages/page-browse.js");
-            that.PageMessages = require("./pages/page-messages.js");
-            that.PageNotifications = require("./pages/page-notifications.js");
-            that.PageSettings = require("./pages/page-settings.js");
-            that.PageChat = require("./pages/page-chat.js");
-            that.PageWeb = require("./pages/page-webview.js");
-            that.PageImage = require("./pages/page-imageview.js");
-            that.PageVentures = require("./pages/page-ventures.js");
-            that.PageToS = require("./pages/page-tos.js");
-            that.PageCredits = require("./pages/page-credits.js");
-            that.PageAbout = require("./pages/page-about.js");
-            that.PageAccount = require("./pages/page-account.js");
-            that.PageEditVenture = require("./pages/page-editventure.js");
-            that.PageEditVC = require("./pages/page-editvc.js");
+                // Import the code for the pages
+                that.PageBrowse = require("./pages/page-browse.js");
+                that.PageMessages = require("./pages/page-messages.js");
+                that.PageNotifications = require("./pages/page-notifications.js");
+                that.PageSettings = require("./pages/page-settings.js");
+                that.PageChat = require("./pages/page-chat.js");
+                that.PageWeb = require("./pages/page-webview.js");
+                that.PageImage = require("./pages/page-imageview.js");
+                that.PageVentures = require("./pages/page-ventures.js");
+                that.PageToS = require("./pages/page-tos.js");
+                that.PageCredits = require("./pages/page-credits.js");
+                that.PageAbout = require("./pages/page-about.js");
+                that.PageAccount = require("./pages/page-account.js");
+                that.PageEditVenture = require("./pages/page-editventure.js");
+                that.PageEditVC = require("./pages/page-editvc.js");
 
-            // Create tab objects, add them to tabs, and initiate thier UIs.
-            var tab;
-            tab = new that.TabBrowse();
-            that.lastTabSelected = tab.properties.TAB_ID; // Make the browse tab the tab selected.
-            that.tabs[tab.properties.TAB_ID] = tab;
-            tab.initiateUI(that);
-            tab.load(); // Load the browse tab.
-            tab = new that.TabMessages();
-            that.tabs[tab.properties.TAB_ID] = tab;
-            tab.initiateUI(that);
-            tab = new that.TabNotifications();
-            that.tabs[tab.properties.TAB_ID] = tab;
-            tab.initiateUI(that);
-            tab = new that.TabSettings();
-            that.tabs[tab.properties.TAB_ID] = tab;
-            tab.initiateUI(that);
+                // Create tab objects, add them to tabs, and initiate thier UIs.
+                var tab;
+                tab = new that.TabBrowse();
+                that.lastTabSelected = tab.properties.TAB_ID; // Make the browse tab the tab selected.
+                that.tabs[tab.properties.TAB_ID] = tab;
+                tab.initiateUI(that);
+                tab.load(); // Load the browse tab.
+                tab = new that.TabMessages();
+                that.tabs[tab.properties.TAB_ID] = tab;
+                tab.initiateUI(that);
+                tab = new that.TabNotifications();
+                that.tabs[tab.properties.TAB_ID] = tab;
+                tab.initiateUI(that);
+                tab = new that.TabSettings();
+                that.tabs[tab.properties.TAB_ID] = tab;
+                tab.initiateUI(that);
 
-            // Load/unload tabs when the selected tab is changed.
-            that.tabFolder.on("selectionChanged", function (e) {
-                that.tabs[e.value.data.myTab.properties.TAB_ID].load();
-                if (that.lastTabSelected != null) {
-                    that.tabs[that.lastTabSelected].unload();
-                }
-                that.lastTabSelected = e.value.data.myTab.properties.TAB_ID;
+                // Load/unload tabs when the selected tab is changed.
+                that.tabFolder.on("selectionChanged", function (e) {
+                    that.tabs[e.value.data.myTab.properties.TAB_ID].load();
+                    if (that.lastTabSelected != null) {
+                        that.tabs[that.lastTabSelected].unload();
+                    }
+                    that.lastTabSelected = e.value.data.myTab.properties.TAB_ID;
+                });
+
+                resolve();
             });
         });
     };
