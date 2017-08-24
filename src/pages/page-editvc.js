@@ -146,7 +146,7 @@ module.exports = function () {
         this.page.data.saveB.on({
             select: function () {
                 if (that.page.data.nameTI.text != "") {
-                    that.page.tab.app.apiCall("users/" + that.page.tab.app.user + "/vc/update?token=" + that.page.tab.app.token, "POST", {
+                    that.tab.app.apiCall("users/" + that.tab.app.user + "/vc/update?token=" + that.tab.app.token, "POST", {
                         tag: that.page.data.tagTI.text,
                         back: that.page.data.backTI.image
                     }).then(function (res) {

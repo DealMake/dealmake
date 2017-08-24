@@ -7,7 +7,7 @@ module.exports = function () {
     this.properties = {
         PAGE_NAME: "Account",
         PAGE_ID: "account",
-        PAGE_BACKGROUND: "#000000"
+        PAGE_BACKGROUND: "#FFFFFF"
     };
 
     // The page itself.
@@ -118,7 +118,7 @@ module.exports = function () {
                         image: "data:image/jpg;base64," + img
                     });
                 }, function (message) {
-                    that.page.tab.app.handleError(new Error(message));
+                    that.tab.app.handleError(new Error(message));
                 }, {
                     quality: 50,
                     targetWidth: 64,
@@ -156,7 +156,7 @@ module.exports = function () {
         this.page.data.saveB.on({
             select: function () {
                 if (that.page.data.nameTI.text != "") {
-                    that.page.tab.app.apiCall("users/" + that.page.tab.app.user + "/update?token=" + that.page.tab.app.token, "POST", {
+                    that.tab.app.apiCall("users/" + that.tab.app.user + "/update?token=" + that.tab.app.token, "POST", {
                         name: that.page.data.nameTI.text,
                         profile: that.page.data.profileIV.image
                     }).then(function (res) {
