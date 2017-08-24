@@ -72,7 +72,7 @@ module.exports = function () {
 
         // Add the tag label.
         this.page.data.tagTV = new tabris.TextView({
-            centerX: -32,
+            centerX: -64,
             centerY: -64
         });
         this.page.data.tagTV.set({
@@ -83,7 +83,7 @@ module.exports = function () {
 
         // Add the tag box.
         this.page.data.tagTI = new tabris.TextInput({
-            centerX: 80,
+            centerX: 48,
             centerY: -64,
             width: 160,
             height: 64
@@ -97,7 +97,7 @@ module.exports = function () {
 
         // Add the back label.
         this.page.data.backTV = new tabris.TextView({
-            centerX: -32,
+            centerX: -64,
             centerY: 0
         });
         this.page.data.backTV.set({
@@ -108,7 +108,7 @@ module.exports = function () {
 
         // Add the back box.
         this.page.data.tagTI = new tabris.TextInput({
-            centerX: 80,
+            centerX: 48,
             centerY: 0,
             width: 160,
             height: 64
@@ -145,10 +145,10 @@ module.exports = function () {
         });
         this.page.data.saveB.on({
             select: function () {
-                if (that.page.data.nameTI.text != "") {
+                if (that.page.data.backTI.text != "" && that.page.data.tagTI.text != "") {
                     that.tab.app.apiCall("users/" + that.tab.app.user + "/vc/update?token=" + that.tab.app.token, "POST", {
                         tag: that.page.data.tagTI.text,
-                        back: that.page.data.backTI.image
+                        back: that.page.data.backTI.text
                     }).then(function (res) {
                         if (res.status == 200) {
                             that.page.dispose();
