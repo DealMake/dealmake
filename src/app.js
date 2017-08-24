@@ -180,6 +180,9 @@ var App = function () {
                                     closeOk: function () {
                                         that.enterApp();
 
+                                        console.log("Value of that:");
+                                        console.log(that);
+                                        
                                         // Create the venture edit page.
                                         var page = new that.PageEditVenture();
                                         page.initiateUI(that.tabs[that.lastTabSelected]);
@@ -979,6 +982,9 @@ var App = function () {
                                 closeOk: function () {
                                     that.enterApp();
 
+                                    console.log("Value of that:");
+                                    console.log(that);
+                                    
                                     // Create the venture edit page.
                                     var page = new that.PageEditVenture();
                                     page.initiateUI(that.tabs[that.lastTabSelected]);
@@ -1095,7 +1101,7 @@ var App = function () {
 
                 // Ask the server to resend the email.
                 that.accountComposite.data.isSomethingLoading = true;
-                this.apiCall("users/" + that.user + "/verification/email/resend?token=" + that.token, "POST").then(function (res) {
+                that.apiCall("users/" + that.user + "/verification/email/resend?token=" + that.token, "POST").then(function (res) {
                     that.accountComposite.data.emailResendTV.set({
                         text: res.data.message
                     });
@@ -1160,7 +1166,7 @@ var App = function () {
 
                 // Ask the server to resend the text.
                 that.accountComposite.data.isSomethingLoading = true;
-                this.apiCall("users/" + that.user + "/verification/phone/resend?token=" + that.token, "POST").then(function (res) {
+                that.apiCall("users/" + that.user + "/verification/phone/resend?token=" + that.token, "POST").then(function (res) {
                     that.accountComposite.data.phoneResendTV.set({
                         text: res.data.message
                     });
@@ -1174,6 +1180,8 @@ var App = function () {
     };
 
     this.enterApp = function () {
+        
+        var that = this;
 
         this.apiCall("users/" + that.user + "/email?token=" + that.token, "GET").then(function (res) {
 
