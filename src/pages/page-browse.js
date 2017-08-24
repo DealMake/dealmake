@@ -714,7 +714,7 @@ module.exports = function () {
 
     this.getMoreCards = function () {
         console.log("GOT MORE CARDS!");
-        this.tab.app.apiCall("users/" + this.tab.app.user + "/browse?token=" + this.tab.app.token + "&count=15&last=" + this.page.data.lastCardLoaded, "GET").then(function (res) {
+        this.tab.app.apiCall("users/" + this.tab.app.user + "/browse?token=" + this.tab.app.token + "&radius=1&count=15&last=" + this.page.data.lastCardLoaded, "GET").then(function (res) {
             console.log(res);
             if (res.status == 200) {
 

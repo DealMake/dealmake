@@ -387,7 +387,7 @@ module.exports = function () {
             this.inputs[i].transform = {
                 translationY: input.data.snapAmount
             };
-            if (i < this.inputs.indexOf(input) || (i == this.inputs.indexOf(input) - 1 && Math.floor(i / 2) == i / 2)) {
+            if (i < this.inputs.indexOf(input) && !(i == this.inputs.indexOf(input) - 1 && Math.floor(i / 2) == i / 2)) {
                 this.inputs[i].opacity = 0;
             }
         }
@@ -412,7 +412,7 @@ module.exports = function () {
             this.inputs[i].transform = {
                 translationY: 0
             };
-            if (i < this.inputs.indexOf(input) || (i == this.inputs.indexOf(input) - 1 && Math.floor(i / 2) == i / 2)) {
+            if (i < this.inputs.indexOf(input) && !(i == this.inputs.indexOf(input) - 1 && Math.floor(i / 2) == i / 2)) {
                 this.inputs[i].opacity = 1;
             }
         }

@@ -1300,6 +1300,7 @@ var App = function () {
             xhr.withCredentials = true;
             xhr.addEventListener("readystatechange", function () {
                 if (this.readyState === 4) {
+                    console.log("RAW: " + this.responseText);
                     var resData = JSON.parse(this.responseText);
 
                     // Make sure the page is the same one as when it was called.
