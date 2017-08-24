@@ -354,7 +354,7 @@ module.exports = function () {
                                 if (this.readyState === 4) {
                                     var resData = JSON.parse(this.responseText);
 
-                                    that.tab.app.apiCall("users", "POST", {
+                                    that.tab.app.apiCall("/users" + that.tab.app.user + "/ventures?token=" + that.tab.app.token, "POST", {
                                         name: that.page.data.nameTI.text,
                                         logo: that.page.data.logoIV.image.src,
                                         tag: that.page.data.tagTV.text,
