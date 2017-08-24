@@ -15,6 +15,7 @@ module.exports = function () {
 
     // Add the page to the navigation view.
     this.initiateUI = function (tab) {
+        var that = this;
 
         this.tab = tab;
 
@@ -43,7 +44,7 @@ module.exports = function () {
         this.page.data.aa.appendTo(this.page);
 
         // Get the information.
-        this.tab.apiCall("users/" + that.user + "?token=" + that.token, "GET").then(function (res) {
+        this.tab.app.apiCall("users/" + this.tab.app.user + "?token=" + this.tab.app.token, "GET").then(function (res) {
             if (res.status == 200) {
                 that.page.data.aa.dispose();
 
