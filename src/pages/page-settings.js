@@ -155,6 +155,12 @@ module.exports = function () {
                         case 4:
                             str = "About";
                             isContent = true;
+                            action = function () {
+                                // Open the about page.
+                                var page = new that.tab.app.PageAbout();
+                                page.initiateUI(that.tab);
+                                that.tab.navigationView.append(page.page);
+                            };
                             break;
                         case 5:
                             str = "Terms of Service";

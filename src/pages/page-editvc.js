@@ -107,18 +107,18 @@ module.exports = function () {
         this.page.data.backTV.appendTo(this.page);
 
         // Add the back box.
-        this.page.data.tagTI = new tabris.TextInput({
+        this.page.data.backTI = new tabris.TextInput({
             centerX: 48,
             centerY: 0,
             width: 160,
             height: 64
         });
-        this.page.data.tagTI.set({
+        this.page.data.backTI.set({
             message: "The back of your VC's card.",
             type: "multiline",
             text: info.back
         });
-        this.page.data.tagTI.appendTo(this.page);
+        this.page.data.backTI.appendTo(this.page);
 
         // Create the cancel button.
         this.page.data.cancelB = new tabris.Button({
