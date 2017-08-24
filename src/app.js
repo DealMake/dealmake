@@ -429,7 +429,7 @@ var App = function () {
                     centerX: 0,
                     centerY: 150,
                     width: 192,
-                    height: 16
+                    height: 18
                 });
                 this.accountComposite.data.statusTV.set({
                     text: "",
@@ -486,6 +486,22 @@ var App = function () {
                 break;
 
             case 1:
+                if (!that.accountComposite.data.savedAccountData.isVC) {
+                    // Add the status textview.
+                    this.accountComposite.data.statusTV = new tabris.TextView({
+                        centerX: 0,
+                        centerY: 180,
+                        width: 192,
+                        height: 18
+                    });
+                    this.accountComposite.data.statusTV.set({
+                        text: "",
+                        font: Math.floor(16 / 1.2) + "px",
+                        alignment: "center"
+                    });
+                    this.accountComposite.data.statusTV.appendTo(this.accountComposite.data.accountForm);
+                }
+
                 // Add the profile label.
                 this.accountComposite.data.profileTV = new tabris.TextView({
                     centerX: 0,
@@ -544,7 +560,7 @@ var App = function () {
                 // Add the back button.
                 this.accountComposite.data.backB = new tabris.Button({
                     centerX: 0,
-                    centerY: 192,
+                    centerY: 208,
                     width: 192,
                     height: 32
                 });
@@ -608,7 +624,7 @@ var App = function () {
                                         var resData = JSON.parse(this.responseText);
 
                                         console.log("About to perform the post");
-                                        
+
                                         that.apiCall("users", "POST", {
                                             email: that.accountComposite.data.savedAccountData.email,
                                             phone: that.accountComposite.data.savedAccountData.phone,
@@ -620,17 +636,17 @@ var App = function () {
                                             profile: that.accountComposite.data.savedAccountData.profile,
                                             place: resData.results[0].formatted_address
                                         }).then(function (res) {
-                                        console.log("Result of the attempted account creation:");
-                                        console.log(res);
-                                            
+                                            console.log("Result of the attempted account creation:");
+                                            console.log(res);
+
                                             if (res.status == 200) {
                                                 console.log("status of 200 on account creation");
-                                                
+
                                                 that.token = res.data.login.json.token;
                                                 that.user = res.data.login.json.user;
                                                 that.isVC = res.data.isVC;
                                                 that.ventureCount = res.data.login.ventureCount;
-                                                
+
                                                 console.log("about to animate something");
 
                                                 that.accountComposite.data.isSomethingAnimating = true;
@@ -665,7 +681,7 @@ var App = function () {
                                             }
                                             that.accountComposite.data.isSomethingLoading = false;
                                         });
-                                        
+
                                         console.log("Performed the post");
 
                                         that.accountComposite.data.statusTV.set({
@@ -791,7 +807,7 @@ var App = function () {
                                     var resData = JSON.parse(this.responseText);
 
                                     console.log("About to perform the post");
-                                    
+
                                     that.apiCall("users", "POST", {
                                         email: that.accountComposite.data.savedAccountData.email,
                                         phone: that.accountComposite.data.savedAccountData.phone,
@@ -807,15 +823,15 @@ var App = function () {
                                     }).then(function (res) {
                                         console.log("Result of the attempted account creation:");
                                         console.log(res);
-                                        
+
                                         if (res.status == 200) {
                                             console.log("status of 200 on account creation");
-                                            
+
                                             that.token = res.data.login.json.token;
                                             that.user = res.data.login.json.user;
                                             that.isVC = res.data.isVC;
                                             that.ventureCount = null;
-                                            
+
                                             console.log("about to animate something");
 
                                             that.accountComposite.data.isSomethingAnimating = true;
@@ -850,7 +866,7 @@ var App = function () {
                                         }
                                         that.accountComposite.data.isSomethingLoading = false;
                                     });
-                                    
+
                                     console.log("Performed the post");
 
                                     that.accountComposite.data.statusTV.set({
