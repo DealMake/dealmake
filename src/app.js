@@ -844,7 +844,10 @@ var App = function () {
                                                 repeat: 0,
                                                 reverse: false
                                             }).then(function () {
+                                                
+                                                console.log("about to build verification");
                                                 that.buildVerification();
+                                                console.log("verification built");
 
                                                 that.accountComposite.data.accountForm.animate({
                                                     opacity: 1
@@ -1017,6 +1020,8 @@ var App = function () {
             });
 
         };
+        
+        console.log("declared the refresh function");
 
         // Refresh the status on an interval.
         refreshStatus();
@@ -1049,6 +1054,8 @@ var App = function () {
         });
         this.accountComposite.data.emailStatusTV.appendTo(this.accountComposite.data.accountForm);
 
+        console.log("about to declare the resenders");
+        
         // Email resend button.
         this.accountComposite.data.emailResendB = new tabris.Button({
             centerX: 0,
@@ -1151,6 +1158,8 @@ var App = function () {
             }
         });
         this.accountComposite.data.phoneResendB.appendTo(this.accountComposite.data.accountForm);
+        
+        console.log("finished verification building");
     };
 
     this.enterApp = function () {
