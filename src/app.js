@@ -956,7 +956,7 @@ var App = function () {
             
             console.log("Refresh status called. About to call API.");
 
-            this.apiCall("users/" + that.user + "/verification/status?token=" + that.token, "GET").then(function (res) {
+            that.apiCall("users/" + that.user + "/verification/status?token=" + that.token, "GET").then(function (res) {
                 console.log("API call successfull. res is");
                 console.log(res);
                 
