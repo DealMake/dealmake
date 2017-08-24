@@ -607,6 +607,8 @@ var App = function () {
                                     if (this.readyState === 4) {
                                         var resData = JSON.parse(this.responseText);
 
+                                        console.log("About to perform the post");
+                                        
                                         that.apiCall("users", "POST", {
                                             email: that.accountComposite.data.savedAccountData.email,
                                             phone: that.accountComposite.data.savedAccountData.phone,
@@ -618,11 +620,18 @@ var App = function () {
                                             profile: that.accountComposite.data.savedAccountData.profile,
                                             place: resData.results[0].formatted_address
                                         }).then(function (res) {
+                                        console.log("Result of the attempted account creation:");
+                                        console.log(res);
+                                            
                                             if (res.status == 200) {
+                                                console.log("status of 200 on account creation");
+                                                
                                                 that.token = res.data.login.json.token;
                                                 that.user = res.data.login.json.user;
                                                 that.isVC = res.data.isVC;
                                                 that.ventureCount = res.data.login.ventureCount;
+                                                
+                                                console.log("about to animate something");
 
                                                 that.accountComposite.data.isSomethingAnimating = true;
                                                 that.accountComposite.data.accountForm.animate({
@@ -656,6 +665,8 @@ var App = function () {
                                             }
                                             that.accountComposite.data.isSomethingLoading = false;
                                         });
+                                        
+                                        console.log("Performed the post");
 
                                         that.accountComposite.data.statusTV.set({
                                             text: "Creating account...",
