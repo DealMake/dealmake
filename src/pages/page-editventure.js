@@ -336,8 +336,8 @@ module.exports = function () {
                         that.tab.app.apiCall("users/" + that.tab.app.user + "/ventures?token=" + that.tab.app.token, "POST", {
                             name: that.page.data.nameTI.text,
                             logo: that.page.data.logoIV.image.src,
-                            tag: that.page.data.tagTV.text,
-                            back: that.page.data.backTV.text,
+                            tag: that.page.data.tagTI.text,
+                            back: that.page.data.backTI.text,
                             genre: that.page.data.genreP.selectionIndex
                         }).then(function (res) {
                             if (res.status == 200) {
@@ -357,8 +357,8 @@ module.exports = function () {
                                     that.tab.app.apiCall("users/" + that.tab.app.user + "/ventures?token=" + that.tab.app.token, "POST", {
                                         name: that.page.data.nameTI.text,
                                         logo: that.page.data.logoIV.image.src,
-                                        tag: that.page.data.tagTV.text,
-                                        back: that.page.data.backTV.text,
+                                        tag: that.page.data.tagTI.text,
+                                        back: that.page.data.backTI.text,
                                         genre: that.page.data.genreP.selectionIndex,
                                         latitude: geo.coords.latitude,
                                         longitude: geo.coords.longitude,
@@ -400,9 +400,7 @@ module.exports = function () {
 
         // This is a really strange bug that I'm fixing.
         if (this.tab.TAB_ID == "browse") {
-            this.tab.navigationView.pages()[0].data.bwLogo.transform = {
-                translationX: 9999
-            };
+            this.tab.navigationView.pages()[0].data.bwLogo.opacity = 0;
         }
     };
 
@@ -425,9 +423,7 @@ module.exports = function () {
 
         // This is a really strange bug that I'm fixing.
         if (this.tab.TAB_ID == "browse") {
-            this.tab.navigationView.pages()[0].data.bwLogo.transform = {
-                translationX: 0
-            };
+            this.tab.navigationView.pages()[0].data.bwLogo.opacity = 1;
         }
     }
 

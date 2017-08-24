@@ -7,7 +7,8 @@ module.exports = function () {
     this.properties = {
         PAGE_NAME: "Credits",
         PAGE_ID: "credits",
-        PAGE_BACKGROUND: "#FFFFFF"
+        PAGE_BACKGROUND: "#FFFFFF",
+        TEXT_PADDING: 16
     };
 
     // The page itself.
@@ -34,6 +35,35 @@ module.exports = function () {
 
         // Set up a reference to this.
         this.page.data.myPage = this;
+
+        // The scrollview and texiew for the tos.
+        this.page.data.scrollView = new tabris.ScrollView({
+            top: 0,
+            bottom: 0,
+            left: 0,
+            right: 0
+        });
+        this.page.data.textView = new tabris.TextView({
+            top: that.properties.TEXT_PADDING,
+            bottom: that.properties.TEXT_PADDING,
+            left: that.properties.TEXT_PADDING,
+            right: that.properties.TEXT_PADDING
+        });
+        this.page.data.textView.set({
+            text: "<i>DealMake LLC</i>\n\n\n" +
+                "<b>Founder:</b>\n" +
+                "Michael Reiney\n\n" +
+                "<b>Founder & Counsel:</b>\n" +
+                "Margaret Reiney\n\n" +
+                "<b>Developer:</b>\n" +
+                "David Fine\n\n\n" +
+                "Icons from 'Multimedia Collection' designed by Gregor Cresnar from Flaticon.",
+            textColor: that.properties.TEXT_COLOR,
+            font: that.properties.TEXT_SIZE + "px",
+            markupEnabled: true
+        });
+        this.page.data.scrollView.append(this.page.data.textView);
+        this.page.append(this.page.data.scrollView);
     };
 
     // Called when the page is switched to.
@@ -49,7 +79,7 @@ module.exports = function () {
     /*
         Custom functions
     */
-    
-    
+
+
 
 };
