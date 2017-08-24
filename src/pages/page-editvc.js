@@ -76,7 +76,7 @@ module.exports = function () {
             centerY: -64
         });
         this.page.data.tagTV.set({
-            text: "Profile: ",
+            text: "Tag: ",
             font: Math.floor(22 / 1.3) + "px"
         });
         this.page.data.tagTV.appendTo(this.page);
@@ -98,10 +98,10 @@ module.exports = function () {
         // Add the back label.
         this.page.data.backTV = new tabris.TextView({
             centerX: -64,
-            centerY: 0
+            centerY: 16
         });
         this.page.data.backTV.set({
-            text: "Profile: ",
+            text: "Back: ",
             font: Math.floor(22 / 1.3) + "px"
         });
         this.page.data.backTV.appendTo(this.page);
@@ -109,7 +109,7 @@ module.exports = function () {
         // Add the back box.
         this.page.data.backTI = new tabris.TextInput({
             centerX: 48,
-            centerY: 0,
+            centerY: 16,
             width: 160,
             height: 64
         });

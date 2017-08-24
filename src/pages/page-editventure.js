@@ -58,29 +58,6 @@ module.exports = function () {
         // Inputs and whatnot.
         this.snappedInput = null;
         this.inputs = [];
-
-        // Whacky bug.
-        if (this.tab.TAB_ID == "browse") {
-            this.tab.navigationView.pages()[0].data.bwLogo.dispose();
-        };
-        this.page.on({
-            dispose: function () {
-                if (that.tab.TAB_ID == "browse") {
-                    var p = that.tab.navigationView.pages()[0];
-
-                    p.data.bwLogo = new tabris.ImageView({
-                        centerY: -160,
-                        centerX: 0,
-                        width: 102,
-                        height: 102
-                    });
-                    p.data.bwLogo.set({
-                        image: _i("resources/images/log-dealmakebw.png")
-                    });
-                    p.data.bwLogo.appendTo(p);
-                }
-            }
-        });
     };
 
     // Called when the page is switched to.

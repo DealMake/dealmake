@@ -83,6 +83,7 @@ module.exports = function () {
         this.page.data.browseBackground.appendTo(this.page);
 
         // Logo.
+        /*
         this.page.data.bwLogo = new tabris.ImageView({
             centerY: -160,
             centerX: 0,
@@ -93,6 +94,7 @@ module.exports = function () {
             image: _i("resources/images/log-dealmakebw.png")
         });
         this.page.data.bwLogo.appendTo(this.page);
+        */
 
         console.log("GH2");
 
