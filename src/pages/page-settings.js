@@ -175,6 +175,12 @@ module.exports = function () {
                         case 6:
                             str = "Credits";
                             isContent = true;
+                            action = function () {
+                                // Open the credits page.
+                                var page = new that.tab.app.PageCredits();
+                                page.initiateUI(that.tab);
+                                that.tab.navigationView.append(page.page);
+                            };
                             break;
                         case 7:
                             isContent = false;

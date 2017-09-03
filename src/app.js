@@ -137,6 +137,7 @@ var App = function () {
                         that.token = res.data.token;
                         that.user = res.data.user;
                         that.isVC = res.data.isVC;
+                        that.completedTutorial = res.data.completedTutorial;
                         that.ventureCount = res.data.ventureCount;
 
                         if (!res.data.emailVerified || !res.data.phoneVerified) {
@@ -648,6 +649,7 @@ var App = function () {
                                                 that.token = res.data.login.token;
                                                 that.user = res.data.login.user;
                                                 that.isVC = res.data.login.isVC;
+                                                that.completedTutorial = res.data.login.completedTutorial;
                                                 that.ventureCount = res.data.login.ventureCount;
 
                                                 console.log("about to animate something");
@@ -833,6 +835,7 @@ var App = function () {
                                             that.token = res.data.login.token;
                                             that.user = res.data.login.user;
                                             that.isVC = res.data.login.isVC;
+                                            that.completedTutorial = res.data.login.completedTutorial;
                                             that.ventureCount = null;
 
                                             console.log("about to animate something");
@@ -1153,7 +1156,7 @@ var App = function () {
                 that.accountComposite.data.phoneResendB.dispose();
                 that.accountComposite.data.phoneResendTV = new tabris.TextView({
                     centerX: 0,
-                    centerY: -40,
+                    centerY: 80,
                     width: 192,
                     height: 32
                 });
