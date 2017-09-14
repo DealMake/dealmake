@@ -43,9 +43,6 @@ var App = function () {
 
         // Nothing is animating.
         this.accountComposite.data.isSomethingAnimating = false;
-
-        // Build the sign in.
-        this.buildSignIn();
     };
 
     this.buildSignIn = function () {
@@ -105,10 +102,22 @@ var App = function () {
         });
         this.accountComposite.data.passwordTI.appendTo(this.accountComposite.data.accountForm);
 
+        // Add the remember me button.
+        this.accountComposite.data.rememberMeTB = new tabris.ToggleButton({
+            centerX: 0,
+            centerY: 16,
+            width: 192,
+            height: 24
+        });
+        this.accountComposite.data.rememberMeTB.set({
+            text: "Remember Me",
+            checked: false
+        });
+
         // Add the sign in button.
         this.accountComposite.data.signInB = new tabris.Button({
             centerX: 0,
-            centerY: 16,
+            centerY: /*40*/ 16,
             width: 192,
             height: 32
         });
@@ -139,6 +148,18 @@ var App = function () {
                         that.isVC = res.data.isVC;
                         that.completedTutorial = res.data.completedTutorial;
                         that.ventureCount = res.data.ventureCount;
+
+                        if (this.accountComposite.data.rememberMeTB.checked) {
+
+                            // Remember the token
+                            tabris.fs.writeFile(fs.filesDir + "/dmtoken", that.str2ab(that.user + " " + that.token));
+
+                        } else {
+
+                            // Remove the token file.
+                            tabris.fs.removeFile(fs.filesDir + "/dmtoken");
+
+                        }
 
                         if (!res.data.emailVerified || !res.data.phoneVerified) {
 
@@ -1362,7 +1383,130 @@ var App = function () {
         });
     };
 
+    // https://github.com/Herobone/food-app/blob/master/src/app.js (although I'm pretty sure I recognize this from stackoverflow somewhere)
+    this.ab2str = function (buf) {
+        return String.fromCharCode.apply(null, new Uint8Array(buf));
+    };
+
+    // https://github.com/Herobone/food-app/blob/master/src/app.js (although I'm pretty sure I recognize this from stackoverflow somewhere)
+    this.str2ab = function (str) {
+        var buf = new ArrayBuffer(str.length); // 2 bytes for each char
+        var bufView = new Uint8Array(buf);
+        for (var i = 0, strLen = str.length; i < strLen; i++) {
+            bufView[i] = str.charCodeAt(i);
+        }
+        return buf;
+    };
+
+    // Initiate some app things.
     this.init();
+
+    // Try and read the token file.
+    tabris.fs.readFile(fs.filesDir + "/dmtoken").then(function (data) {
+
+        // Parse the data.
+        var parts = that.ab2str(data).split(" ");
+
+        // Login.
+        that.accountComposite.data.isSomethingLoading = true;
+        that.apiCall("tokenlogin", "POST", {
+            user: parts[0],
+            token: parts[1]
+        }).then(function (res) {
+            if (res.status == 200) {
+
+                // If the login was successful, set the token, user, and VC.
+                that.token = res.data.token;
+                that.user = res.data.user;
+                that.isVC = res.data.isVC;
+                that.completedTutorial = res.data.completedTutorial;
+                that.ventureCount = res.data.ventureCount;
+
+                // Remember the token.
+
+                if (!res.data.emailVerified || !res.data.phoneVerified) {
+
+                    // If the user has not been verified, fade to that page.
+                    that.accountComposite.data.isSomethingAnimating = true;
+                    that.accountComposite.data.accountForm.animate({
+                        opacity: 0
+                    }, {
+                        delay: 0,
+                        duration: 500,
+                        easing: "linear",
+                        repeat: 0,
+                        reverse: false
+                    }).then(function () {
+                        that.buildVerification();
+
+                        that.accountComposite.data.accountForm.animate({
+                            opacity: 1
+                        }, {
+                            delay: 0,
+                            duration: 500,
+                            easing: "linear",
+                            repeat: 0,
+                            reverse: false
+                        }).then(function () {
+                            that.accountComposite.data.isSomethingAnimating = false;
+                        });
+                    });
+                } else {
+
+                    if (!that.isVC && that.ventureCount == 0) {
+                        new tabris.AlertDialog({
+                            title: "Add a Venture",
+                            message: "You haven't added any ventures. Would you like to add one?",
+                            buttons: {
+                                ok: "Add",
+                                cancel: "Continue",
+                            }
+                        }).on({
+                            closeOk: function () {
+                                that.enterApp().then(function () { // Create the venture edit page.
+                                    var page = new that.PageEditVenture();
+                                    page.initiateUI(that.tabs[that.lastTabSelected]);
+                                    page.setTarget(-1);
+                                    page.setTitle("New Venture");
+                                    page.setInfo({
+                                        name: "Venture",
+                                        tag: "My venture.",
+                                        back: "Some information about the venture.",
+                                        genre: 15,
+                                        logo: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAQAAAAAYLlVAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QAAKqNIzIAAAAJcEhZcwAADdcAAA3XAUIom3gAAAAHdElNRQfhCBEACS1dBP6AAAAEi0lEQVRo3sWZa2wUVRTHfwuVbltpXQq0aUKAtlQr2Kg8FKIxJGp9ECVGEh8JqQkmRpQKBkhUgmgIhqiRGL+oBDH0S0lEv2B8JEQxoiLEYmrptmm1ChTaWmrLLotljx96dpzZx+zO7Oz2TDaze8495/+/987ce85dmGSZmpV3Ec+yiDZksui3IAg7Jwu+gSiCEKJycgi0Inq9PRnw9Vw1CISoyD+BFgNeEN7MN/wCxhGEk/yFIFxidn4J7NOeP8xz+m13PuHn8y+C0IaPQs4gCGPMyh+B97XXawB4Xn+9kS/4OVxBENqZAoBfx2CUmfkh8J72+AlDs0E1u/IBX8VlBCFo2kf8nNUxKM89gXe0t00WbbNqc74vVBBCEHoosOiLOIcg/MOM3BLYrT19OsHyglpezyV8OWMIQh/TEmyxMRghkDsCO7WX65NaN6p1R67gA4wgCGfxJ7UX0Y8gXOS6zINmlpIVUM1ytrAUgO18l7TVOFEaAT+1TKOYMOH0oX0pLVXUGVc11xj6C8wnlMKnmF7LrjhMF93GZygdgTITZB3XpgDZarvvbeKtlLZhuk10BmPqUtbzIUc5b0kwkl8htun6n3pEN/F3BpGEYY6zl3ofX3CvTcAofxCkkyBBgvRlmICXU8sC/dTaLk2nfPQn5HMDJshuIhlB2skMCx3rbtELm41B6Wcttzl5hVxJgDs0jROusApgu0Fhb5oZ9kL8HFa0CKtjyq0GhQNZFmvppIgvFenyRO9j0mxQaDW9815LCUcUJcx98cZntNASPk2y1Xgh0zlqvM53J2vQZNQ6h1Os9tlIGcc0+hgrUzV6XNNt4WuKPYUP8JNGHuVOu4aPaMYrfMt0z+DLOalRR1iRrvGDmnQKxyjzBH4Wp4zld1kmDvdo3if87EGGV0m7RhticaZOdzGqTm1ZFlxVnNZIg9zsxHE5F9WxPYvzjzl0aZTz3OTUeQlD6hx0WW4E6NEI57jRTYAGLmiADa4INKn3Ga53O4QLNcR+V9671LvBrpH97jem905XBNr1bruw2xNYGBfKmfyqd9vHL5cETjPuDYEwPa4IROjyhkAHUVcEYpPgmoCPesDtBPxPoMJuNbUjMI8STwjYjoEdgewewbwQuJ+DHKIpZSLbqyuJ431gQj7WBCp5AbuCb4xEtoNHU7T6AUH40R2BEwjC8SSWRXyWUOudSMxzgQ9sO2ErUzQt+ShOP4/9poN60UPrWBoXn+/FThBrnBOoUdfNJt1s9hAxAR7hdmo4YCH0ObeaPFaqdrVzAg+p6wP6u5QdRp40MeSNpik5ZLJEOcgNapmpum3OCbykrnOBQjYyYILoZE3CrC7jK8vE7GMugJ6dtTon0KJZfAFP0WcK/Sfr4g4pzQP+vallhHep1FqwwzmBXxCEAX4zhRzkxbQ10yr1nLgu8buOiMNaayrhuNdslNcozcjXx2MEE17TW5wRqLM4R9jj8D+hAtZZJk5Y64xAo+F41XicnEohzaajr1edOVfrFHziLqE2pISXGUaIZl4VxWQpr7AkK/CYBHjSzUqYJ/kPXxhmngf75WIAAAAldEVYdGRhdGU6Y3JlYXRlADIwMTctMDgtMTdUMDA6MDk6NDUrMDI6MDDsMI0gAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDE3LTA4LTE3VDAwOjA5OjQ1KzAyOjAwnW01nAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAAASUVORK5CYII="
+                                    });
+                                    that.tabs[that.lastTabSelected].navigationView.append(page.page);
+                                });
+
+                                console.log("Value of that.appEntered:");
+                                console.log(that.appEntered);
+
+                            },
+                            closeCancel: function () {
+                                that.enterApp();
+                            }
+                        }).open();
+                    } else {
+                        // If the user has been verified, enter the app.
+                        that.enterApp();
+                    }
+                }
+            } else {
+                
+                // Remove the bad token file.
+                tabris.fs.removeFile(fs.filesDir + "/dmtoken");
+
+                // Build the sign in.
+                that.buildSignIn();
+            }
+        });
+
+    }).catch(function (err) {
+
+        // If there was an error, the file probably doesn't exist.
+        that.buildSignIn();
+
+    });
 };
 
 global.app = new App();
