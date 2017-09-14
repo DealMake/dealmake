@@ -1402,7 +1402,7 @@ var App = function () {
     this.init();
 
     // Try and read the token file.
-    tabris.fs.readFile(fs.filesDir + "/dmtoken").then(function (data) {
+    tabris.fs.readFile(tabris.fs.filesDir + "/dmtoken").then(function (data) {
 
         // Parse the data.
         var parts = that.ab2str(data).split(" ");
@@ -1423,7 +1423,7 @@ var App = function () {
                 that.ventureCount = res.data.ventureCount;
 
                 // Remember the token
-                tabris.fs.writeFile(fs.filesDir + "/dmtoken", that.str2ab(that.user + " " + that.token));
+                tabris.fs.writeFile(tabris.fs.filesDir + "/dmtoken", that.str2ab(that.user + " " + that.token));
 
                 if (!res.data.emailVerified || !res.data.phoneVerified) {
 
@@ -1495,7 +1495,7 @@ var App = function () {
             } else {
 
                 // Remove the bad token file.
-                tabris.fs.removeFile(fs.filesDir + "/dmtoken");
+                tabris.fs.removeFile(tabris.fs.filesDir + "/dmtoken");
 
                 // Build the sign in.
                 that.buildSignIn();
