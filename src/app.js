@@ -118,7 +118,7 @@ var App = function () {
         // Add the sign in button.
         this.accountComposite.data.signInB = new tabris.Button({
             centerX: 0,
-            centerY: /*40*/ 16,
+            centerY: 40,
             width: 192,
             height: 32
         });
