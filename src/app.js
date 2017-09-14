@@ -113,6 +113,7 @@ var App = function () {
             text: "Remember Me",
             checked: false
         });
+        this.accountComposite.data.rememberMeTB.appendTo(this.accountComposite.data.accountForm);
 
         // Add the sign in button.
         this.accountComposite.data.signInB = new tabris.Button({
