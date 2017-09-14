@@ -8,8 +8,8 @@
     "start": "tabris serve"
   },
   "dependencies": {
-    "googleplaces": "^0.6.1",
-    "tabris": "^2.0.0-rc2"
+    "googleplaces": "*",
+    "tabris": "*"
   },
   "devDependencies": {
     "eslint": "^4.1.1"
