@@ -153,7 +153,9 @@ var App = function () {
                         if (this.accountComposite.data.rememberMeTB.checked) {
 
                             // Remember the token
-                            tabris.fs.writeFile(fs.filesDir + "/dmtoken", that.str2ab(that.user + " " + that.token));
+                            tabris.fs.writeFile(fs.filesDir + "/dmtoken", that.str2ab(that.user + " " + that.token)).catch(function (err) {
+                                console.log(err);
+                            });
 
                         } else {
 
