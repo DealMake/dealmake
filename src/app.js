@@ -1422,7 +1422,8 @@ var App = function () {
                 that.completedTutorial = res.data.completedTutorial;
                 that.ventureCount = res.data.ventureCount;
 
-                // Remember the token.
+                // Remember the token
+                tabris.fs.writeFile(fs.filesDir + "/dmtoken", that.str2ab(that.user + " " + that.token));
 
                 if (!res.data.emailVerified || !res.data.phoneVerified) {
 
@@ -1492,7 +1493,7 @@ var App = function () {
                     }
                 }
             } else {
-                
+
                 // Remove the bad token file.
                 tabris.fs.removeFile(fs.filesDir + "/dmtoken");
 
