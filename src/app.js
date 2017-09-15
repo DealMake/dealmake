@@ -251,7 +251,7 @@ var App = function () {
         // Add the status textview.
         this.accountComposite.data.statusTV = new tabris.TextView({
             centerX: 0,
-            centerY: 56,
+            centerY: 88,
             width: 192,
             height: 16
         });
