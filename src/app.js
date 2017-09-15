@@ -118,7 +118,7 @@ var App = function () {
         // Add the sign in button.
         this.accountComposite.data.signInB = new tabris.Button({
             centerX: 0,
-            centerY: 40,
+            centerY: 56,
             width: 192,
             height: 32
         });
@@ -1417,6 +1417,9 @@ var App = function () {
             token: parts[1]
         }).then(function (res) {
             if (res.status == 200) {
+                
+                // Something isnt loading.
+                that.accountComposite.data.isSomethingLoading = false;
 
                 // If the login was successful, set the token, user, and VC.
                 that.token = res.data.token;
@@ -1509,6 +1512,8 @@ var App = function () {
 
         // If there was an error, the file probably doesn't exist.
         that.buildSignIn();
+        
+        console.log(tabris.fs.filesDir);
 
     });
 };
